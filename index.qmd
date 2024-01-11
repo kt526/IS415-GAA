@@ -1,11 +1,11 @@
 ---
-title: "IS415-GAA"
+title: "Preface"
+listing:
+  contents: Hands-on_Ex
+  type: default
+  fields: [image, title, reading-time]
 ---
 
-This is a Quarto website.
+Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+### Lesson Plan
