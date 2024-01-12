@@ -1,0 +1,292 @@
+---
+title: "Hands-on Exercise 2: Thematic Mapping and GeoVisualisation with R"
+execute:
+  warning: false
+date: "`r Sys.Date()`"
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this hands-on exercise, we will be using the following packages:
+
+-   [tmap](https://cran.r-project.org/web/packages/tmap/) for creating thematic maps such as choropleth and proportional symbol maps,
+
+-   [readr](https://readr.tidyverse.org/) for importing delimited text file,
+
+-   [tidyr](https://tidyr.tidyverse.org/) for tidying data,
+
+-   [dplyr](https://dplyr.tidyverse.org/) for wrangling data and
+
+-   [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse)
+```
+
+# 2.0 Data Acquisition
+
+There will be two datasets used in this exercise:
+
+-   Master Plan 2014 Subzone Boundary (Web) from [data.gov.sg](https://beta.data.gov.sg/)
+
+-   Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2011-2020 (respopagesextod2011to2020.csv) from [Department of Statistics, Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
+
+## 2.1 Extracting Geospatial and Aspatial Data Sets
+
+Following a structure similar to Hands-on Exercise 01, start by creating a new folder labeled "Hands-on_Ex02”. Within this folder, create a sub-folder named "data”. Inside the “data” sub-folder, create two additional sub-folders and rename them "geospatial" and "aspatial" respectively. Take note of this hierarchical structure as we will be using it to manage our datasets for the upcoming exercises.
+
+Unzip and place Master Plan 2014 Subzone Boundary (Web), Pre-Schools Location and Cycling Path zipped files into geospatial sub-folder.
+
+Place listing.csv into aspatial sub-folder.
+
+# 3.0 Geospatial Data Handling
+
+## 3.1 Importing Geospatial Data
+
+### 3.1.1 Importing polygon feature data in shapefile format
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+```
+
+## 3.2 Checking the Content of A Simple Feature Data Frame
+
+### 3.2.1 Working with st_geometry()
+
+```{r}
+st_geometry(mpsz)
+```
+
+### 3.2.2 Working with glimpse()
+
+```{r}
+glimpse(mpsz)
+```
+
+### 3.2.3 Working with head()
+
+```{r}
+head(mpsz)
+```
+
+# 4.0 Aspatial Data Handling
+
+## 4.1 Importing and Converting Attribute Data
+
+Next, we will import respopagsex2011to2020.csv file into RStudio using *read_csv()* function of **readr** package. Save the file into an R dataframe called popdata.
+
+```{r}
+popdata <- read_csv("data/aspatial/respopagesextod2011to2020.csv", show_col_types = FALSE)
+```
+
+## 4.2 Checking the Content of A Simple Feature Data Frame
+
+### 4.2.1 Working with glimpse()
+
+```{r}
+glimpse(popdata)
+```
+
+### 4.2.2 Working with head()
+
+```{r}
+head(popdata)
+```
+
+## 4.3 Data Preparation
+
+### 4.3.1 Data wrangling
+
+To create a thematic map, it is necessary for us to prepare a data table containing values for the year 2020. This table should encompass variables such as:
+
+-   PA
+
+-   SZ
+
+-   YOUNG
+
+-   ECONOMY ACTIVE
+
+-   AGED
+
+-   TOTAL
+
+-   DEPENDENCY
+
+```{r}
+popdata2020 <- popdata %>%
+  filter(Time == 2020) %>%
+  group_by(PA, SZ, AG) %>%
+  summarise(`POP` = sum(`Pop`)) %>%
+  ungroup()%>%
+  pivot_wider(names_from=AG, 
+              values_from=POP) %>%
+  mutate(YOUNG = rowSums(.[3:6])
+         +rowSums(.[12])) %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+
+rowSums(.[13:15]))%>%
+mutate(`AGED`=rowSums(.[16:21])) %>%
+mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+       `ECONOMY ACTIVE`, `AGED`, 
+       `TOTAL`, `DEPENDENCY`)
+```
+
+### 4.3.2 Combine attribute data with geospatial data
+
+Before proceeding with the georelational join, an additional step is necessary to standardize the case of values in the PA and SZ fields. This is essential because the PA and SZ fields contain a mix of upper- and lowercase characters. Conversely, the SUBZONE_N and PLN_AREA_N fields are consistently in uppercase.
+
+```{r}
+popdata2020 <- popdata2020 %>%
+  mutate_at(.vars = vars(PA, SZ), 
+          .funs = list(toupper)) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+```
+
+Following this, the dplyr function left_join() is employed to merge the geographical data and attribute table using the planning subzone name, denoted as SUBZONE_N and SZ, as the common identifier.
+
+```{r}
+mpsz_pop2020 <- left_join(mpsz, popdata2020,
+                          by = c("SUBZONE_N" = "SZ"))
+```
+
+```{r}
+write_rds(mpsz_pop2020, "data/rds/mpszpop2020.rds")
+```
+
+# 5.0 Geospatial Visualization – Choropleth Maps
+
+Choropleth mapping involves the symbolisation of enumeration units, such as countries, provinces, states, counties or census units, using area patterns or graduated colors. For example, a social scientist may need to use a choropleth map to portray the spatial distribution of aged population of Singapore by Master Plan 2014 Subzone Boundary.
+
+There are two approaches that can be used when these thematic maps using tmap, namely:
+
+-   Plotting a thematic map quickly by using qtm().
+
+-   Plotting highly customisable thematic map by using tmap elements.
+
+## 5.1 Quick Plotting Choropleth Maps using qtm()
+
+A straightforward and quick method for creating a choropleth map with tmap involves utilizing the qtm() function. It is succinct and offers a well-constructed default visualization that is suitable for many scenarios.
+
+To generate a static map, tmap_mode() can be employed with the "plot" option, while for an interactive mode, the "view" option should be selected. The fill argument is utilized to map the attribute, namely, DEPENDENCY.
+
+```{r}
+tmap_mode("plot")
+qtm(mpsz_pop2020, 
+    fill = "DEPENDENCY")
+```
+
+## 5.2 Customizing Choropleth Maps with tmap elements
+
+While qtm() is handy for quickly creating choropleth maps, it has a drawback—it makes it challenging to precisely control the appearance of individual map layers. To achieve a high-quality choropleth map with detailed aesthetics, it's advisable to leverage tmap's drawing elements, as demonstrated below.
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY", 
+          style = "quantile", 
+          palette = "Blues",
+          title = "Dependency ratio") +
+  tm_layout(main.title = "Distribution of Dependency Ratio by planning subzone",
+            main.title.position = "center",
+            main.title.size = 1.2,
+            legend.height = 0.45, 
+            legend.width = 0.35,
+            frame = TRUE) +
+  tm_borders(alpha = 0.5) +
+  tm_compass(type="8star", size = 2) +
+  tm_scale_bar() +
+  tm_grid(alpha =0.2) +
+  tm_credits("Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS", 
+             position = c("left", "bottom"))
+```
+
+### 5.2.1 Drawing a base map
+
+The fundamental component of tmap is tm_shape(), serving as the cornerstone for constructing maps. To initiate our map creation, we begin with the base map – the fundamental framework onto which we'll incorporate statistical details. To achieve this, we input the data mpsz_pop2020 into tm_shape() and then enhance it with one or more layer elements, such as tm_fill() and tm_polygons(). Specifically, we employ tm_polygons() to outline the planning subzone polygons.
+
+```{r}
+tm_shape(mpsz_pop2020) +
+  tm_polygons()
+```
+
+### 5.2.2 Drawing a Choropleth Map using tm_polygons()
+
+To create a choropleth map illustrating the geographical distribution of a chosen variable by planning subzone, simply assign the target variable (e.g., Dependency) to tm_polygons(). This straightforward approach allows us to achieve a visual representation similar to qtm().
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_polygons("DEPENDENCY")
+```
+
+### 5.2.3 Drawing a Choropleth Maps using tm_fill() and tm_border()
+
+In fact, tm_polygons() is a wrapper of tm_fill() and tm_border(). With tm_fill(), polygons are shaded using the default color scheme, while tm_borders() adds the shapefile borders to the choropleth map.
+
+If we just use tm_fill() on its own...
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY")
+```
+
+The shading on the planning subzones reflects their dependency values, but there are no boundaries. Let's address that:
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY") +
+  tm_borders(lwd = 0.1,  alpha = 1)
+```
+
+There's a noticeable difference from using just tm_polygons() – observe the thinner grey borders? This happens because we adjusted the settings for tm_borders. We tweaked parameters like alpha (transparency from 0 to 1), col (border color), lwd (line width), and lty (line type). The default alpha value is typically 1, col is the border color, lwd defaults to 1, and lty defaults to "solid".
+
+## 5.3 Data Classification methods
+
+Choropleth maps often use classification methods to group a bunch of data into different categories or classes. In tmap, there are ten methods you can use for this, like fixed, sd, equal, pretty (the default), quantile, kmeans, hclust, bclust, fisher, and jenks.
+
+To define a classification method, we can simply use the style argument in tm_fill() or tm_polygons().
+
+### 5.3.1 Built in classification methods
+
+Now, let's try using the jenks and equal classification methods with 5 classes!
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY",
+          n = 5,
+          style = "jenks") +
+  tm_borders(alpha = 0.5)
+```
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY",
+          n = 5,
+          style = "equal") +
+  tm_borders(alpha = 0.5)
+```
+
+### 5.3.2 Custom breaks
+
+For all the preset styles, the breaks between categories are calculated automatically. However, if you want to customize these breaks, you can explicitly set them using the breaks option in tm_fill().
+
+> *Note: for tmap, breaks include a minimum and maximum - so if you want n categories, you’ll need to specify n+1 elements in the breaks argument!*
+
+Before we get started, it is always a good practice to get some descriptive statistics on the variable before setting the break points.
+
+```{r}
+summary(mpsz_pop2020$DEPENDENCY)
+```
+
+With reference to the results above, we will set break point at 0.60, 0.70, 0.80, and 0.90. In addition, we also need to include a minimum and maximum, which we set at 0 and 100. Our *breaks* vector is thus c(0, 0.60, 0.70, 0.80, 0.90, 1.00).
+
+```{r}
+tm_shape(mpsz_pop2020)+
+  tm_fill("DEPENDENCY",
+          breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
+  tm_borders(alpha = 0.5)
+```
