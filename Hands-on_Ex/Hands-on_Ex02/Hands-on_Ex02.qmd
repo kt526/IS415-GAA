@@ -13,13 +13,13 @@ In this hands-on exercise, we will be using the following packages:
 
 -   [tmap](https://cran.r-project.org/web/packages/tmap/) for creating thematic maps such as choropleth and proportional symbol maps,
 
--   [readr](https://readr.tidyverse.org/) for importing delimited text file,
+-   [readr](https://readr.tidyverse.org/) for importing delimited text file,
 
--   [tidyr](https://tidyr.tidyverse.org/) for tidying data,
+-   [tidyr](https://tidyr.tidyverse.org/) for tidying data,
 
--   [dplyr](https://dplyr.tidyverse.org/) for wrangling data and
+-   [dplyr](https://dplyr.tidyverse.org/) for wrangling data and
 
--   [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data
+-   [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data
 
 ```{r}
 pacman::p_load(sf, tmap, tidyverse)
@@ -27,13 +27,11 @@ pacman::p_load(sf, tmap, tidyverse)
 
 # 2.0 Data Acquisition
 
-There will be two datasets used in this exercise:
+There will be 2 data sources used in this exercise:
 
--   Master Plan 2014 Subzone Boundary (Web) from [data.gov.sg](https://beta.data.gov.sg/)
+-   Master Plan 2014 Subzone Boundary (Web) from [data.gov.sg](https://beta.data.gov.sg/collections/1708/view)
 
 -   Singapore Residents by Planning Area / Subzone, Age Group, Sex and Type of Dwelling, June 2011-2020 (respopagesextod2011to2020.csv) from [Department of Statistics, Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data)
-
-> Note: Our aspatial data file does not contain any coordinates values, but it’s PA and SZ fields can be used as unique identifiers to geocode to `MP14_SUBZONE_WEB_PL` shapefile!
 
 ## 2.1 Extracting Geospatial and Aspatial Data Sets
 
@@ -43,9 +41,13 @@ Unzip the `MasterPlan2014SubzoneBoundaryWebSHP.zip` folder and place all files i
 
 Unzip the `respopagesextod2011to2020.zip` folder and place `respopagesextod2011to2020.csv` into `aspatial` sub-folder.
 
+> Note: Our aspatial data file does not contain any coordinates values, but it’s `PA` and `SZ` fields can be used as unique identifiers to geocode to `MP14_SUBZONE_WEB_PL` shapefile!
+
 # 3.0 Geospatial Data Handling
 
 ## 3.1 Importing Geospatial Data
+
+In the previous exercise, we have learnt to import geospatial data into RStudio by using *st_read()* of **sf** package. Let’s try it now!
 
 ### 3.1.1 Importing polygon feature data in shapefile format
 
@@ -56,19 +58,19 @@ mpsz <- st_read(dsn = "data/geospatial",
 
 ## 3.2 Checking the Content of A Simple Feature Data Frame
 
-### 3.2.1 Working with st_geometry()
+### 3.2.1 Working with *st_geometry()*
 
 ```{r}
 st_geometry(mpsz)
 ```
 
-### 3.2.2 Working with glimpse()
+### 3.2.2 Working with *glimpse()*
 
 ```{r}
 glimpse(mpsz)
 ```
 
-### 3.2.3 Working with head()
+### 3.2.3 Working with *head()*
 
 ```{r}
 head(mpsz)
@@ -78,7 +80,7 @@ head(mpsz)
 
 ## 4.1 Importing and Converting Attribute Data
 
-Next, we will import `respopagsex2011to2020.csv` file into RStudio using *read_csv()* function of **readr** package. Save the file into an R dataframe called popdata.
+Next, we will import `respopagsex2011to2020.csv` file into RStudio using *read_csv()* of **readr** package. Save the file into a R dataframe called `popdata`.
 
 ```{r}
 popdata <- read_csv("data/aspatial/respopagesextod2011to2020.csv", show_col_types = FALSE)
@@ -86,13 +88,13 @@ popdata <- read_csv("data/aspatial/respopagesextod2011to2020.csv", show_col_type
 
 ## 4.2 Checking the Content of A Simple Feature Data Frame
 
-### 4.2.1 Working with glimpse()
+### 4.2.1 Working with *glimpse()*
 
 ```{r}
 glimpse(popdata)
 ```
 
-### 4.2.2 Working with head()
+### 4.2.2 Working with *head()*
 
 ```{r}
 head(popdata)
@@ -146,7 +148,7 @@ popdata2020 <- popdata2020 %>%
   filter(`ECONOMY ACTIVE` > 0)
 ```
 
-Following this, the dplyr function left_join() is employed to merge the geographical data and attribute table using the planning subzone name, denoted as `SUBZONE_N` and `SZ`, as the common identifier.
+Following this, we will use *left_join()* from the **dplyr** package to merge the geographical data and attribute table using the planning subzone name, denoted as `SUBZONE_N` and `SZ` respectively, as the common identifier.
 
 ```{r}
 mpsz_pop2020 <- left_join(mpsz, popdata2020,
@@ -161,17 +163,17 @@ write_rds(mpsz_pop2020, "data/rds/mpszpop2020.rds")
 
 Choropleth mapping involves the symbolisation of enumeration units, such as countries, provinces, states, counties or census units, using area patterns or graduated colors. For example, a social scientist may need to use a choropleth map to portray the spatial distribution of aged population of Singapore by Master Plan 2014 Subzone Boundary.
 
-There are two approaches that can be used when these thematic maps using tmap, namely:
+There are two approaches that can be used when we are preparing these thematic maps:
 
--   Plotting a thematic map quickly by using qtm().
+-   Plotting a thematic map quickly by using *qtm()*.
 
--   Plotting highly customisable thematic map by using tmap elements.
+-   Plotting highly customisable thematic map by using **tmap** elements.
 
 ## 5.1 Quick Plotting Choropleth Maps using qtm()
 
-A straightforward and quick method for creating a choropleth map with tmap involves utilizing the qtm() function. It is succinct and offers a well-constructed default visualization that is suitable for many scenarios.
+A straightforward and quick method for creating a choropleth map with **tmap** pacakge involves utilizing the *qtm()*. It is succinct and offers a well-constructed default visualization that is suitable for many scenarios.
 
-To generate a static map, tmap_mode() can be employed with the "plot" option, while for an interactive mode, the "view" option should be selected. The fill argument is utilized to map the attribute, namely, `DEPENDENCY`.
+To generate a static map, *tmap_mode()* can be employed with the `plot` option, while for an interactive mode, the `view` option should be selected. The fill argument is utilized to map the attribute, namely, `DEPENDENCY`.
 
 ```{r}
 tmap_mode("plot")
@@ -181,7 +183,7 @@ qtm(mpsz_pop2020,
 
 ## 5.2 Customizing Choropleth Maps with tmap elements
 
-While qtm() is handy for quickly creating choropleth maps, it has a drawback—it makes it challenging to precisely control the appearance of individual map layers. To achieve a high-quality choropleth map with detailed aesthetics, it's advisable to leverage tmap's drawing elements, as demonstrated below.
+While *qtm()* is handy for quickly creating choropleth maps, it has a drawback—it makes it challenging to precisely control the appearance of individual map layers. To achieve a high-quality choropleth map with detailed aesthetics, it's advisable to leverage tmap's elements, as demonstrated below.
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -205,7 +207,7 @@ tm_shape(mpsz_pop2020)+
 
 ### 5.2.1 Drawing a base map
 
-The fundamental component of tmap is tm_shape(), serving as the cornerstone for constructing maps. To initiate our map creation, we begin with the base map – the fundamental framework onto which we'll incorporate statistical details. To achieve this, we input the data mpsz_pop2020 into tm_shape() and then enhance it with one or more layer elements, such as tm_fill() and tm_polygons(). Specifically, we employ tm_polygons() to outline the planning subzone polygons.
+The fundamental component of tmap is *tm_shape()*, serving as the cornerstone for constructing maps. To initiate our map creation, we begin with the base map – the fundamental framework onto which we'll incorporate statistical details. To achieve this, we input the data `mpsz_pop2020` into *tm_shape()* and then enhance it with one or more layer elements, such as *tm_fill()* and *tm_polygons()*. Specifically, we use *tm_polygons()* to outline the planning subzone polygons.
 
 ```{r}
 tm_shape(mpsz_pop2020) +
@@ -214,7 +216,7 @@ tm_shape(mpsz_pop2020) +
 
 ### 5.2.2 Drawing a Choropleth Map using tm_polygons()
 
-To create a choropleth map illustrating the geographical distribution of a chosen variable by planning subzone, simply assign the target variable (e.g., `DEPENDENCY`) to tm_polygons(). This straightforward approach allows us to achieve a visual representation similar to qtm().
+To create a choropleth map illustrating the geographical distribution of a chosen variable by planning subzone, simply assign the target variable (e.g., `DEPENDENCY`) to *tm_polygons()*. This straightforward approach allows us to achieve a visual representation similar to *qtm()*.
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -223,9 +225,9 @@ tm_shape(mpsz_pop2020)+
 
 ### 5.2.3 Drawing a Choropleth Maps using tm_fill() and tm_border()
 
-In fact, tm_polygons() is a wrapper of tm_fill() and tm_border(). With tm_fill(), polygons are shaded using the default color scheme, while tm_borders() adds the shapefile borders to the choropleth map.
+In fact, [*tm_polygons()*]{.underline} is a wrapper of *tm_fill()* and *tm_border()*. With *tm_fill()*, polygons are shaded using the default color scheme, while *tm_borders()* adds the shapefile borders to the choropleth map.
 
-If we just use tm_fill() on its own...
+If we just use *tm_fill()* on its own...
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -240,17 +242,17 @@ tm_shape(mpsz_pop2020)+
   tm_borders(lwd = 0.1,  alpha = 1)
 ```
 
-There's a noticeable difference from using just tm_polygons() – observe the thinner grey borders? This happens because we adjusted the settings for tm_borders. We tweaked parameters like alpha (transparency from 0 to 1), col (border color), lwd (line width), and lty (line type). The default alpha value is typically 1, col is the border color, lwd defaults to 1, and lty defaults to "solid".
+There's a noticeable difference from using just *tm_polygons()* – observe the thinner grey borders? This happens because we adjusted the settings for tm_borders. We tweaked parameters like alpha (transparency from 0 to 1), col (border color), lwd (line width), and lty (line type). The default alpha value is typically 1, col is the border color, lwd defaults to 1, and lty defaults to "solid".
 
 ## 5.3 Data Classification methods
 
-Choropleth maps often use classification methods to group a bunch of data into different categories or classes. In tmap, there are ten methods you can use for this, like fixed, sd, equal, pretty (the default), quantile, kmeans, hclust, bclust, fisher, and jenks.
+Choropleth maps often use classification methods to group a bunch of data into different categories or classes. In tmap, there are ten methods you can use for this, like `fixed`, `sd`, `equal`, `pretty` (the default), `quantile`, `kmeans`, `hclust`, `bclust`, `fisher`, and `jenks`.
 
-To define a classification method, we can simply use the style argument in tm_fill() or tm_polygons().
+To define a classification method, we can simply use the style argument in *tm_fill()* or *tm_polygons()*.
 
 ### 5.3.1 Built in classification methods
 
-Now, let's try using the jenks and equal classification methods with 5 classes!
+Now, let's try using the `jenks` and `equal` classification methods with **5 classes**!
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -291,9 +293,9 @@ tm_shape(mpsz_pop2020)+
 
 ## 5.4 Customizing colour scheme with RColorBrewer
 
-tmap enables the use of color ramps, which can be either user-defined or selected from a set of predefined ramps in the RColorBrewer package.
+tmap enables the use of color ramps, which can be either user-defined or selected from a set of predefined ramps in the **RColorBrewer** package.
 
-To modify the color, assign your chosen color to the palette parameter in tm_fill().
+To modify the color, assign your chosen color to the palette parameter in *tm_fill()*.
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -318,15 +320,11 @@ tm_shape(mpsz_pop2020)+
 
 ## 5.5 May layouts
 
-Map layout involves bringing together various map elements into a cohesive design.
-These elements include the objects being mapped, the title, scale bar, compass,
-margins, and aspect ratios, among others. The color settings and data
-classification methods we discussed earlier, related to the palette and
-breakpoints, contribute to shaping the overall look of the map.
+Map layout involves bringing together various map elements into a cohesive design. These elements include the objects being mapped, the title, scale bar, compass, margins, and aspect ratios, among others. The color settings and data classification methods we discussed earlier, related to the palette and breakpoints, contribute to shaping the overall look of the map.
 
 ### 5.5.1 Map legend
 
-In tmap, various legend options are available to modify the positioning, format, and appearance of the legend.
+In **tmap**, various legend options are available to modify the positioning, format, and appearance of the legend.
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -349,7 +347,7 @@ tm_shape(mpsz_pop2020)+
 
 ### 5.5.2 Map style
 
-To change a wide variety of layout settings, we can use the *tmap_style()* option:
+To change a wide variety of layout settings, we can use the *tmap_style()*:
 
 ```{r}
 tm_shape(mpsz_pop2020)+
@@ -394,17 +392,17 @@ tmap_style("white")
 
 At times, comparing maps is often more effective when they are displayed side by side, an arrangement commonly referred to as small multiple maps or facet maps. These arrangements involve organizing numerous maps side-by-side or occasionally stacked vertically. Small multiple maps are particularly useful for illustrating how spatial relationships evolve concerning another variable, such as time.
 
-In tmap, small multiple maps can be plotted in **three** ways:
+In tmap, small multiple maps can be plotted in **three** ways:
 
 -   by assigning multiple values to at least one of the asthetic arguments,
 
--   by defining a group-by variable in tm_facets(), and
+-   by defining a group-by variable in *tm_facets()*, and
 
--   by creating multiple stand-alone maps with tmap_arrange()
+-   by creating multiple stand-alone maps with *tmap_arrange()*
 
 ### 5.6.1 By assigning multiple values to at least one of the aesthetic arguments
 
-In this example, small multiple choropleth maps are created by defining ***ncols*** in **tm_fill()**
+In this example, small multiple choropleth maps are created by defining **ncols** in ***tm_fill()***
 
 ```{r}
 tm_shape(mpsz_pop2020)+
