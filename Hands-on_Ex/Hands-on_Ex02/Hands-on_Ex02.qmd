@@ -2,7 +2,8 @@
 title: "Hands-on Exercise 2: Thematic Mapping and GeoVisualisation with R"
 execute:
   warning: false
-date: "`r Sys.Date()`"
+date: 01/13/2024
+date-modified: last-modified
 ---
 
 # 1.0 Introduction
