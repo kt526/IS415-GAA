@@ -1,0 +1,23 @@
+---
+title: "In-class Exercise 2: R for Geospatial Data Science"
+execute:
+  warning: false
+date: 01/13/2024
+date-modified: last-modified
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this in-class exercise, we will be using the following packages:
+
+-   arrow
+
+-   lubridate
+
+-   tidyverse
+
+-   tmap
+
+-   sf
