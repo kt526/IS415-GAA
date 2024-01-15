@@ -193,13 +193,20 @@
     "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
     "title": "In-class Exercise 2: R for Geospatial Data Science",
     "section": "",
-    "text": "In this in-class exercise, we will be using the following packages:\n\narrow\nlubridate\ntidyverse\ntmap\nsf"
+    "text": "In this in-class exercise, we will be using the following packages:\n\narrow\nlubridate\ntidyverse\ntmap\nsf\n\n\npacman::p_load(arrow, lubridate, tidyverse, tmap, sf)"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#getting-started",
     "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#getting-started",
     "title": "In-class Exercise 2: R for Geospatial Data Science",
     "section": "",
-    "text": "In this in-class exercise, we will be using the following packages:\n\narrow\nlubridate\ntidyverse\ntmap\nsf"
+    "text": "In this in-class exercise, we will be using the following packages:\n\narrow\nlubridate\ntidyverse\ntmap\nsf\n\n\npacman::p_load(arrow, lubridate, tidyverse, tmap, sf)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#importing-parquet-data",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#importing-parquet-data",
+    "title": "In-class Exercise 2: R for Geospatial Data Science",
+    "section": "3.1 Importing parquet data",
+    "text": "3.1 Importing parquet data\n\ndf &lt;- read_parquet(\"data/GrabPosisi/part-00000-8bbff892-97d2-4011-9961-703e38972569.c000.snappy.parquet\")\n\nWrite a code chunk to convert the data type of pingtimestamp from character to datetime.\n\ndf$pingtimestamp &lt;- as_datetime(df$pingtimestamp)\n\nWrite a code chunk to save the reformatted df into a new rds called part0.rds. Save the output into a sub-folder called rds.\n\nwrite_rds(df, \"rds/part0.rds\")\n\nUsing the step you learned in previous lesson,\n\nExtract trips’ origin locations\nDerive three new columns for weekday, start_hr and day of the month\nName the output tibble data.frame origin_df\n\n\norigin_df &lt;- df %&gt;%\n  group_by(trj_id) %&gt;%\n  arrange(pingtimestamp) %&gt;%\n  filter(row_number()==1) %&gt;%\n  mutate(Weekday = wday(pingtimestamp,\n                        label=TRUE,\n                        abbr=TRUE),\n         start_hr = factor(hour(pingtimestamp)),\n         day = factor(mday(pingtimestamp)))\n\nExtracting trip ending locations\nWrite a code chunk to extract trips’ destination locations. Similarly, derive the weekday, end_hr and day of the month and name the output tibble data.frame destination_df.\n\ndestination_df &lt;- df %&gt;%\n  group_by(trj_id) %&gt;%\n  arrange(desc(pingtimestamp)) %&gt;%\n  filter(row_number()==1) %&gt;%\n  mutate(Weekday = wday(pingtimestamp,\n                        label=TRUE,\n                        abbr=TRUE),\n         end_hr = factor(hour(pingtimestamp)),\n         day = factor(mday(pingtimestamp)))\n\n\nNote: It is recommend to save the output in .rds format.\n\nwrite_rds(origin_df, \"data/rds/origin_df.rds\")\nwrite_rds(destination_df, \"data/rds/destination_df.rds\")\nTo read back our data from the rds folder\norigin_df &lt;- read_rds(\"data/rds/origin_df.rds\")\ndestination_df &lt;- read_rds(\"data/rds/destination_df.rds\")"
   }
 ]

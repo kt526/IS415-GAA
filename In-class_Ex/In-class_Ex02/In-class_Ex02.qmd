@@ -1,6 +1,8 @@
 ---
 title: "In-class Exercise 2: R for Geospatial Data Science"
 execute:
+  eval: true
+  echo: true
   warning: false
 date: 01/15/2024
 date-modified: last-modified
@@ -12,12 +14,104 @@ date-modified: last-modified
 
 In this in-class exercise, we will be using the following packages:
 
--   arrow
+-   [arrow](https://arrow.apache.org/docs/r/)
 
--   lubridate
+-   [lubridate](https://lubridate.tidyverse.org/)
 
 -   tidyverse
 
 -   tmap
 
 -   sf
+
+```{r}
+pacman::p_load(arrow, lubridate, tidyverse, tmap, sf)
+```
+
+# 2.0 Data Acquisition
+
+The data source we will be using in this exercise:
+
+-   Grab-Posisi from [Grab](https://engineering.grab.com/grab-posisi)
+
+# 3.0 Aspatial Data Handling
+
+## 3.1 Importing parquet data
+
+```{r}
+#| eval: false
+df <- read_parquet("data/GrabPosisi/part-00000-8bbff892-97d2-4011-9961-703e38972569.c000.snappy.parquet")
+```
+
+Write a code chunk to convert the data type of `pingtimestamp` from character to datetime.
+
+```{r}
+#| eval: false
+df$pingtimestamp <- as_datetime(df$pingtimestamp)
+```
+
+Write a code chunk to save the reformatted `df` into a new rds called `part0.rds`. Save the output into a sub-folder called `rds`.
+
+```{r}
+#| eval: false
+write_rds(df, "rds/part0.rds")
+```
+
+Using the step you learned in previous lesson,
+
+1.  Extract trips' **origin locations**
+
+2.  Derive three new columns for `weekday`, `start_hr` and `day` of the month
+
+3.  Name the output tibble data.frame `origin_df`
+
+```{r}
+#| eval: false
+origin_df <- df %>%
+  group_by(trj_id) %>%
+  arrange(pingtimestamp) %>%
+  filter(row_number()==1) %>%
+  mutate(Weekday = wday(pingtimestamp,
+                        label=TRUE,
+                        abbr=TRUE),
+         start_hr = factor(hour(pingtimestamp)),
+         day = factor(mday(pingtimestamp)))
+```
+
+Extracting trip ending locations
+
+Write a code chunk to extract trips' **destination locations**. Similarly, derive the `weekday`, `end_hr` and `day of the month` and name the output tibble data.frame `destination_df`.
+
+```{r}
+#| eval: false
+destination_df <- df %>%
+  group_by(trj_id) %>%
+  arrange(desc(pingtimestamp)) %>%
+  filter(row_number()==1) %>%
+  mutate(Weekday = wday(pingtimestamp,
+                        label=TRUE,
+                        abbr=TRUE),
+         end_hr = factor(hour(pingtimestamp)),
+         day = factor(mday(pingtimestamp)))
+```
+
+> *Note: It is recommend to save the output in .rds format.*
+
+```{r}
+#| echo: false
+#| eval: false
+write_rds(origin_df, "data/rds/origin_df.rds")
+write_rds(destination_df, "data/rds/destination_df.rds")
+```
+
+```         
+write_rds(origin_df, "data/rds/origin_df.rds")
+write_rds(destination_df, "data/rds/destination_df.rds")
+```
+
+To read back our data from the rds folder
+
+```         
+origin_df <- read_rds("data/rds/origin_df.rds")
+destination_df <- read_rds("data/rds/destination_df.rds")
+```
