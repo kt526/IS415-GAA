@@ -2,7 +2,7 @@
 title: "In-class Exercise 2: R for Geospatial Data Science"
 execute:
   warning: false
-date: 01/13/2024
+date: 01/15/2024
 date-modified: last-modified
 ---
 
