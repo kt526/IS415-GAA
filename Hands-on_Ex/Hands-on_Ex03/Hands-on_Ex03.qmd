@@ -12,9 +12,9 @@ date-modified: last-modified
 
 In this hands-on exercise, we will be using the following packages:
 
--   **maptools for manipulating geographic data**
+-   maptools for manipulating geographic data
 
-    **(*Note: We will use maptools to convert Spatial objects into ppp format of spatstat)***
+    (*Note: We will use maptools to convert Spatial objects into ppp format of spatstat)*
 
 -   raster for reading, writing, manipulating, analyzing and modelling of gridded spatial data
 
@@ -29,7 +29,11 @@ In this hands-on exercise, we will be using the following packages:
 -   [tmap](https://cran.r-project.org/web/packages/tmap/) for creating thematic maps such as choropleth and proportional symbol maps,
 
 ```{r}
-pacman::p_load(raster, sf, spatstat, tmap)
+install.packages("maptools", repos = "https://packagemanager.posit.co/cran/2023-10-13")
+```
+
+```{r}
+pacman::p_load(maptools, raster, sf, spatstat, tmap)
 ```
 
 # 2.0 Data Acquisition
