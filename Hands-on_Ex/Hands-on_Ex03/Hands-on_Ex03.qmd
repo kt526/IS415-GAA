@@ -49,11 +49,7 @@ We will be using 2 datasets in this exercise:
 
 Following a structure similar to [Hands-on Exercise 01](../Hands-on_Ex01/Hands-on_Ex01.html), start by creating a new folder labeled `Hands-on_Ex03`. Within this folder, create a sub-folder named `data`. Inside the `data` sub-folder, create one additional sub-folders and rename them `geospatial`.
 
-> *Tip: We can shorten MasterPlan2019SubzoneBoundaryNoSeaKML so it is easy to import the dataset.*
-
-Let's rename `MasterPlan2019SubzoneBoundaryNoSeaKML` to `MP19_SUBZONE_BoundaryNoSea`.
-
-Unzip `MasterPlan2014SubzoneBoundaryWebSHP.zip` and place all the unzipped files, `PreSchoolsLocation.geojson` and `MP19_SUBZONE_NoSea.kml` into the `geospatial` sub-folder.
+Unzip `MasterPlan2014SubzoneBoundaryWebSHP.zip` and place all the unzipped files, `PreSchoolsLocation.geojson` into the `geospatial` sub-folder.
 
 # 3.0 Geospatial Data Handling
 
