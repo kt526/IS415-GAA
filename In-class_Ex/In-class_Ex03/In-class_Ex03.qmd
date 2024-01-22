@@ -1,0 +1,84 @@
+---
+title: "In-class Exercise 3: Kernel Density Estimation"
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 01/15/2024
+date-modified: last-modified
+---
+
+```{r}
+pacman::p_load(maptools, raster, sf, spatstat, tmap, tidyverse)
+```
+
+```{r}
+childcare_sf <- st_read("data/geospatial/ChildCareServices.geojson") %>%
+  st_transform(crs=3414)
+```
+
+```{r}
+mpsz_sf <- st_read(dsn = "data/geospatial", 
+                layer = "MP14_SUBZONE_WEB_PL")
+```
+
+Differences between *st_combine()* and *st_union()*
+
+```{r}
+mpsz_sf %>%
+  st_combine() %>%
+  plot()
+```
+
+```{r}
+mpsz_sf %>%
+  st_union() %>%
+  plot()
+```
+
+```{r}
+sg_sf <- mpsz_sf %>%
+  st_union()
+```
+
+Creating ppp objects using sf method instead of spatstat (reduces all 3 steps)
+
+```{r}
+childcare_ppp <- as.ppp(childcare_sf)
+```
+
+```{r}
+summary(childcare_ppp)
+```
+
+In ppp, it is important for us to detect duplicates and remove them. Duplicates are usually found if we are using geo-referencing on postal codes.
+
+What we are doing in jitter is to seperate the points so that they do not overlap.
+
+Purpose of owin is to define / confine all the data points in the sturdy area.
+
+Creating owin using sf method
+
+```{r}
+sg_owin <- as.owin(sg_sf) # note that the input has to be a sf layer
+```
+
+Extracting study area using the sf layer
+
+```{r}
+pg <- mpsz_sf %>%
+  filter(PLN_AREA_N == "PUNGGOL")
+tm <- mpsz_sf %>%
+  filter(PLN_AREA_N == "TAMPINES")
+ck <- mpsz_sf %>%
+  filter(PLN_AREA_N == "CHOA CHU KANG")
+jw <- mpsz_sf %>%
+  filter(PLN_AREA_N == "JURONG WEST")
+```
+
+```{r fig.width=16, fig.height=10}
+plot(pg, main="PUNGGOL")
+plot(tm, main="TAMPINES")
+plot(ck, main="CHOA CHU KANG")
+plot(jw, main="JURONG WEST")
+```
