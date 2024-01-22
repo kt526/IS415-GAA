@@ -1,0 +1,89 @@
+---
+title: "In-class Exercise 3: kde"
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 01/22/2024
+date-modified: last-modified
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this in-class exercise, we will be using the following packages:
+
+```{r}
+pacman::p_load(sf, spNetwork, tmap, classInt, viridis, tidyverse)
+```
+
+# 2.0 Geospatial Data Handling
+
+## 2.1 Importing Geospatial Data
+
+```{r}
+network <- st_read(dsn="data/geospatial",
+                   layer="Punggol_St")
+
+childcare <- st_read(dsn="data/geospatial",
+                    layer="Punggol_CC")
+```
+
+## 2.2 Visualizing the Geospatial data
+
+```{r}
+tmap_mode("view")
+tm_shape(childcare) + 
+  tm_dots() + 
+  tm_shape(network) +
+  tm_lines()
+
+tmap_mode("plot")
+```
+
+> *Note: The sequence of plotting is based on the sequence of the code.*
+
+```{r}
+lixels <- lixelize_lines(network,
+                         750,
+                         mindist=375)
+```
+
+> *Note: Why 750? An empirical study was done to say people are willingly to walk 750m. 375 is to ensure that its equal distance.*
+
+What can we learned from the code chunk above:
+
+-   The length of lixel, *lx_length* is set to 750
+
+-   the minimum length of a lixel, *mindist* is set to 375
+
+Generating line center points
+
+```{r}
+samples <- lines_center(lixels)
+```
+
+> *Note: The points are located in the center based on the length*
+
+```{r}
+densities <- nkde(network,
+                  events=childcare,
+                  w=rep(1,nrow(childcare)),
+                  samples=samples,
+                  kernel_name = "quartic",
+                  bw = 300,
+                  div = "bw",
+                  method = "simple",
+                  digits=1,
+                  tol=1,
+                  grid_shape = c(1,1),
+                  max_depth = 8,
+                  agg = 5,
+                  sparse = TRUE,
+                  verbose=TRUE)
+```
+
+> *Note: More important methods are kernel_name and bw.*
+>
+> We aggregate events within a 5m radius for faster calculation
