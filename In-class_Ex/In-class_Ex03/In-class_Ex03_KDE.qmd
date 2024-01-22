@@ -67,6 +67,7 @@ samples <- lines_center(lixels)
 > *Note: The points are located in the center based on the length*
 
 ```{r}
+#| eval: false 
 densities <- nkde(network,
                   events=childcare,
                   w=rep(1,nrow(childcare)),
