@@ -362,5 +362,61 @@
     "title": "In-class Exercise 3: kde",
     "section": "2.2 Visualizing the Geospatial data",
     "text": "2.2 Visualizing the Geospatial data\n\ntmap_mode(\"view\")\ntm_shape(childcare) + \n  tm_dots() + \n  tm_shape(network) +\n  tm_lines()\n\n\n\n\n\ntmap_mode(\"plot\")\n\n\nNote: The sequence of plotting is based on the sequence of the code.\n\n\nlixels &lt;- lixelize_lines(network,\n                         750,\n                         mindist=375)\n\n\nNote: Why 750? An empirical study was done to say people are willingly to walk 750m. 375 is to ensure that its equal distance.\n\nWhat can we learned from the code chunk above:\n\nThe length of lixel, lx_length is set to 750\nthe minimum length of a lixel, mindist is set to 375\n\nGenerating line center points\n\nsamples &lt;- lines_center(lixels)\n\n\nNote: The points are located in the center based on the length\n\n\ndensities &lt;- nkde(network,\n                  events=childcare,\n                  w=rep(1,nrow(childcare)),\n                  samples=samples,\n                  kernel_name = \"quartic\",\n                  bw = 300,\n                  div = \"bw\",\n                  method = \"simple\",\n                  digits=1,\n                  tol=1,\n                  grid_shape = c(1,1),\n                  max_depth = 8,\n                  agg = 5,\n                  sparse = TRUE,\n                  verbose=TRUE)\n\n\nNote: More important methods are kernel_name and bw.\nWe aggregate events within a 5m radius for faster calculation"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore.\n\n\n\nGeospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore\n\n\n\n\nIn this hands-on exercise, we will be using the following packages:"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#overview---setting-the-scene",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#overview---setting-the-scene",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#objectives",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#objectives",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Geospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#getting-started",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex0.html#getting-started",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "In this hands-on exercise, we will be using the following packages:"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore.\n\n\n\nGeospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore\n\n\n\n\nIn this hands-on exercise, we will be using the following packages:"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview---setting-the-scene",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview---setting-the-scene",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#objectives",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#objectives",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "Geospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#getting-started",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#getting-started",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "",
+    "text": "In this hands-on exercise, we will be using the following packages:"
   }
 ]
