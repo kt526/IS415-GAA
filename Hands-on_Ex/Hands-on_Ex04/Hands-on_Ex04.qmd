@@ -1,5 +1,5 @@
 ---
-title: "Spatial Weights and Applications"
+title: "Hands-on Exercise 4: Spatial Weights and Applications"
 execute:
   warning: false
 date: 01/24/2024
