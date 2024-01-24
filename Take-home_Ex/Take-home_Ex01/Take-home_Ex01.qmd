@@ -20,7 +20,7 @@ In Singapore, one of the important source of data related to human mobility is f
 
 Geospatial analytics hold tremendous potential to address complex problems facing society.
 
-In this study, we will:
+In this study, we will be working on the following tasks:
 
 -   Apply appropriate spatial point patterns analysis methods
 
@@ -28,4 +28,44 @@ In this study, we will:
 
 ## 1.3 Getting Started
 
-In this hands-on exercise, we will be using the following packages:
+In this take-home exercise, we will be using the following packages:
+
+-   arrow
+
+-   [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data
+
+-   [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data
+
+```{r}
+pacman::p_load(arrow, lubridate, tidyverse, tmap, sf)
+```
+
+# 2.0 Data Acquisition
+
+There will be 3 data sets used in this exercise:
+
+| Data                                       | Format    | Description                                                 | Source                                                      |
+|-------------|-------------|-----------------------------------|-------------|
+| Grab Posisi                                | Parquet   | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
+| Road                                       | Shapefile | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
+| Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON   | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
+
+## 2.1 Extracting Geospatial and Aspatial Data Sets
+
+Start by creating a new folder labeled `Take-home_Ex01`. Within this folder, create a sub-folder named `data`. Inside the `data` sub-folder, create two additional sub-folders and rename them `geospatial` and `aspatial` respectively.
+
+Unzip the `malaysia-singapore-brunei-latest-free.shp.zip` folder and place all files, `MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson` into `geospatial` sub-folder.
+
+Place all files from `GrabPosisi` into `aspatial` sub-folder.
+
+::: callout-tip
+## Tip
+
+Did you observe that the file names from `GrabPosisi` and `MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson` are quite lengthy? Shortening them could make processing more convenient later on.
+:::
+
+# 3.0 Geospatial Data Wrangling
+
+## 3.1 Importing Geospatial Data
+
+In the previous exercise, we have learnt to import geospatial data into RStudio by using *st_read()* of **sf** package. Let’s try it now!

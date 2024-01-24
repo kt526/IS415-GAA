@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -153,6 +187,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">1.2 Objectives</a></li>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">1.3 Getting Started</a></li>
   </ul></li>
+  <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition">2.0 Data Acquisition</a>
+  <ul class="collapse">
+  <li><a href="#extracting-geospatial-and-aspatial-data-sets" id="toc-extracting-geospatial-and-aspatial-data-sets" class="nav-link" data-scroll-target="#extracting-geospatial-and-aspatial-data-sets">2.1 Extracting Geospatial and Aspatial Data Sets</a></li>
+  </ul></li>
+  <li><a href="#geospatial-data-wrangling" id="toc-geospatial-data-wrangling" class="nav-link" data-scroll-target="#geospatial-data-wrangling">3.0 Geospatial Data Wrangling</a>
+  <ul class="collapse">
+  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data">3.1 Importing Geospatial Data</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -179,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 23, 2024</p>
+      <p class="date-modified">January 24, 2024</p>
     </div>
   </div>
     
@@ -198,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="objectives" class="level2">
 <h2 class="anchored" data-anchor-id="objectives">1.2 Objectives</h2>
 <p>Geospatial analytics hold tremendous potential to address complex problems facing society.</p>
-<p>In this study, we will:</p>
+<p>In this study, we will be working on the following tasks:</p>
 <ul>
 <li><p>Apply appropriate spatial point patterns analysis methods</p></li>
 <li><p>Discover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore</p></li>
@@ -206,7 +248,75 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">1.3 Getting Started</h2>
-<p>In this hands-on exercise, we will be using the following packages:</p>
+<p>In this take-home exercise, we will be using the following packages:</p>
+<ul>
+<li><p>arrow</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/sf/">sf</a> for handling geospatial data</p></li>
+<li><p><a href="https://www.tidyverse.org/packages/">tidyverse</a> for performing data science tasks such as importing, wrangling and visualising data</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(arrow, lubridate, tidyverse, tmap, sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="data-acquisition" class="level1">
+<h1>2.0 Data Acquisition</h1>
+<p>There will be 3 data sets used in this exercise:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Format</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Grab Posisi</td>
+<td>Parquet</td>
+<td>Grab taxi location points either by origins or destinations</td>
+<td><a href="https://engineering.grab.com/grab-posisi">Grab</a></td>
+</tr>
+<tr class="even">
+<td>Road</td>
+<td>Shapefile</td>
+<td>Road layer within Singapore excluding outer islands</td>
+<td><a href="https://download.geofabrik.de/">Geofabrik download server</a></td>
+</tr>
+<tr class="odd">
+<td>Master Plan 2019 Subzone Boundary (No Sea)</td>
+<td>GeoJSON</td>
+<td>Singapore boundary layer excluding outer islands</td>
+<td><a href="https://beta.data.gov.sg/">Data.gov.sg</a></td>
+</tr>
+</tbody>
+</table>
+<section id="extracting-geospatial-and-aspatial-data-sets" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-geospatial-and-aspatial-data-sets">2.1 Extracting Geospatial and Aspatial Data Sets</h2>
+<p>Start by creating a new folder labeled <code>Take-home_Ex01</code>. Within this folder, create a sub-folder named <code>data</code>. Inside the <code>data</code> sub-folder, create two additional sub-folders and rename them <code>geospatial</code> and <code>aspatial</code> respectively.</p>
+<p>Unzip the <code>malaysia-singapore-brunei-latest-free.shp.zip</code> folder and place all files, <code>MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson</code> into <code>geospatial</code> sub-folder.</p>
+<p>Place all files from <code>GrabPosisi</code> into <code>aspatial</code> sub-folder.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Did you observe that the file names from <code>GrabPosisi</code> and <code>MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson</code> are quite lengthy? Shortening them could make processing more convenient later on.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="geospatial-data-wrangling" class="level1">
+<h1>3.0 Geospatial Data Wrangling</h1>
+<section id="importing-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-geospatial-data">3.1 Importing Geospatial Data</h2>
+<p>In the previous exercise, we have learnt to import geospatial data into RStudio by using <em>st_read()</em> of <strong>sf</strong> package. Let’s try it now!</p>
 
 
 </section>

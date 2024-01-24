@@ -396,7 +396,7 @@
     "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
     "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
     "section": "",
-    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore.\n\n\n\nGeospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore\n\n\n\n\nIn this hands-on exercise, we will be using the following packages:"
+    "text": "Human mobility, the movement of human beings in space and time, reflects the spatial-temporal characteristics of human behavior. With the advancement Information and Communication Technologies (ICT) especially smart phone, a large volume of data related to human mobility have been collected. By using appropriate GIS analysis methods, these data are potentially useful in supporting smart city planning and management.\nIn Singapore, one of the important source of data related to human mobility is from Land Transport Authority (LTA) DataMall. Two data sets related to human mobility are provided by the portal, they are: Passenger Volume by Origin Destination Train Stations and Passenger Volume by Origin Destination Bus Stops. One of the limitation of these data sets is that their location are biased to either bus stops or MRT/LRT stations. In 2020, another very interesting human mobility data set called Grab Posisi was released by GRAB, one of the largest shared taxi operator in South-east Asia. There are two data sets been released and one of them is for Singapore.\n\n\n\nGeospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will be working on the following tasks:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore\n\n\n\n\nIn this take-home exercise, we will be using the following packages:\n\narrow\nsf for handling geospatial data\ntidyverse for performing data science tasks such as importing, wrangling and visualising data\n\n\npacman::p_load(arrow, lubridate, tidyverse, tmap, sf)"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview---setting-the-scene",
@@ -410,13 +410,27 @@
     "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#objectives",
     "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
     "section": "",
-    "text": "Geospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore"
+    "text": "Geospatial analytics hold tremendous potential to address complex problems facing society.\nIn this study, we will be working on the following tasks:\n\nApply appropriate spatial point patterns analysis methods\nDiscover the geographical and spatial-temporal distribution of Grab hailing services locations in Singapore"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#getting-started",
     "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#getting-started",
     "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
     "section": "",
-    "text": "In this hands-on exercise, we will be using the following packages:"
+    "text": "In this take-home exercise, we will be using the following packages:\n\narrow\nsf for handling geospatial data\ntidyverse for performing data science tasks such as importing, wrangling and visualising data\n\n\npacman::p_load(arrow, lubridate, tidyverse, tmap, sf)"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#extracting-geospatial-and-aspatial-data-sets",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#extracting-geospatial-and-aspatial-data-sets",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "2.1 Extracting Geospatial and Aspatial Data Sets",
+    "text": "2.1 Extracting Geospatial and Aspatial Data Sets\nStart by creating a new folder labeled Take-home_Ex01. Within this folder, create a sub-folder named data. Inside the data sub-folder, create two additional sub-folders and rename them geospatial and aspatial respectively.\nUnzip the malaysia-singapore-brunei-latest-free.shp.zip folder and place all files, MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson into geospatial sub-folder.\nPlace all files from GrabPosisi into aspatial sub-folder.\n\n\n\n\n\n\nTip\n\n\n\nDid you observe that the file names from GrabPosisi and MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson are quite lengthy? Shortening them could make processing more convenient later on."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#importing-geospatial-data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#importing-geospatial-data",
+    "title": "Take-home Exercise 1: Application of Spatial Point Patterns Analysis to discover the geographical distribution of Grab hailing services in Singapore",
+    "section": "3.1 Importing Geospatial Data",
+    "text": "3.1 Importing Geospatial Data\nIn the previous exercise, we have learnt to import geospatial data into RStudio by using st_read() of sf package. Let’s try it now!"
   }
 ]
