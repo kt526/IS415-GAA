@@ -311,17 +311,14 @@ Bounding box:  xmin: 108.7831 ymin: 24.6342 xmax: 114.2544 ymax: 30.12812
 Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
-<p>The message above reveals that the geospatial objects are polygon features. There are a total of 88 polygron features and 7 fields in <code>hunan_sf</code>. <code>hunan_sf</code> is in <strong>WGS 84</strong> geographic coordinates systems. The bounding box provides the x extend and y extend of the data.</p>
-<blockquote class="blockquote">
-<p>The <code>hunan_sf</code> is in <strong>WGS 84</strong> geographic coordinates systems. We need to perform <strong>projection transformation</strong>!</p>
-</blockquote>
+<p>The message above reveals that the geospatial objects are polygon features. There are a total of 88 polygon features and 7 fields in <code>hunan_sf</code>. <code>hunan_sf</code> is in <strong>WGS 84</strong> geographic coordinates systems. The bounding box provides the x extend and y extend of the data.</p>
 </section>
 </section>
 <section id="importing-aspatial-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-aspatial-data">3.2 Importing Aspatial Data</h2>
 <section id="importing-aspatial-data-in-csv-format" class="level3">
 <h3 class="anchored" data-anchor-id="importing-aspatial-data-in-csv-format">3.2.1 Importing Aspatial Data in csv format</h3>
-<p>Since <code>Hunan_2012.csv</code> is in csv file format, we will use read_csv() of <strong>readr</strong> package to import it.</p>
+<p>Since <code>Hunan_2012.csv</code> is in csv file format, we will use <em>read_csv()</em> of <strong>readr</strong> package to import it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>hunan2012 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Hunan_2012.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -532,7 +529,7 @@ Warning
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-12">We mentioned previously that the default queen argument is set to <code>TRUE</code>. If we set the queen argument to <code>FALSE</code>, we will be computing the contiguity based neighbours using the <strong>rook</strong> criteria.</span>
+<span data-code-lines="1" data-code-cell="annotated-cell-12" data-code-annotation="1">We mentioned previously that the default queen argument is set to <code>TRUE</code>. If we set the queen argument to <code>FALSE</code>, we will be computing the contiguity based neighbours using the <strong>rook</strong> criteria.</span>
 </dd>
 </dl>
 </div>
@@ -2246,7 +2243,7 @@ B 88 7744 536 1072 14160</code></pre>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-56" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-lines="2" data-code-cell="annotated-cell-56">This line renames the field names of <code>w_sum_gdppc.re</code> object into <code>NAME_3</code> and <code>w_sum GDPPC</code> respectively</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-56" data-code-annotation="1">This line renames the field names of <code>w_sum_gdppc.re</code> object into <code>NAME_3</code> and <code>w_sum GDPPC</code> respectively</span>
 </dd>
 </dl>
 </div>
