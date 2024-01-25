@@ -445,6 +445,69 @@
     "href": "index.html",
     "title": "Preface",
     "section": "",
-    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "",
+    "text": "Network constrained Spatial Point Patterns Analysis (NetSPAA) is a collection of spatial point patterns analysis methods special developed for analysing spatial point event occurs on or alongside network. The spatial point event can be locations of traffic accident or childcare centre The network, on the other hand, can be a road network or river network.\n\n\nIn this hands-on exercise, we will be using the following packages:\n\nrgdal\nsp\nspNetwork\ntmap\n\nrgdal is retired and binary is removed from CRAN. However, we can download from Posit Public Package Manager snapshots.\n\ninstall.packages(\"rgdal\", repos = \"https://packagemanager.posit.co/cran/2023-10-13\")\n\n\npacman::p_load(sp, sf, rgdal, spNetwork, tmap)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#getting-started",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "",
+    "text": "In this hands-on exercise, we will be using the following packages:\n\nrgdal\nsp\nspNetwork\ntmap\n\nrgdal is retired and binary is removed from CRAN. However, we can download from Posit Public Package Manager snapshots.\n\ninstall.packages(\"rgdal\", repos = \"https://packagemanager.posit.co/cran/2023-10-13\")\n\n\npacman::p_load(sp, sf, rgdal, spNetwork, tmap)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#importing-geospatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#importing-geospatial-data",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "3.1 Importing Geospatial Data",
+    "text": "3.1 Importing Geospatial Data\nWe will read in the geospatial data sets using the st_read() of sf package and display the structure of the sf data frames using str() of utils package.\n\n3.1.1 Punggol_St\n\nReading file using st_read()Displaying file structure using str()\n\n\n\nnetwork &lt;- st_read(dsn=\"data/geospatial\",\n                   layer=\"Punggol_St\")\n\nReading layer `Punggol_St' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex03\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 2642 features and 2 fields\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: 34038.56 ymin: 40941.11 xmax: 38882.85 ymax: 44801.27\nProjected CRS: SVY21 / Singapore TM\n\n\n\n\n\nstr(network)\n\nClasses 'sf' and 'data.frame':  2642 obs. of  3 variables:\n $ LINK_ID : num  1.16e+08 1.16e+08 1.16e+08 1.16e+08 1.16e+08 ...\n $ ST_NAME : chr  \"PUNGGOL RD\" \"PONGGOL TWENTY-FOURTH AVE\" \"PONGGOL SEVENTEENTH AVE\" \"PONGGOL SEVENTEENTH AVE\" ...\n $ geometry:sfc_LINESTRING of length 2642; first list element:  'XY' num [1:2, 1:2] 36547 36559 44575 44614\n - attr(*, \"sf_column\")= chr \"geometry\"\n - attr(*, \"agr\")= Factor w/ 3 levels \"constant\",\"aggregate\",..: NA NA\n  ..- attr(*, \"names\")= chr [1:2] \"LINK_ID\" \"ST_NAME\"\n\n\n\n\n\n\n\n3.1.2 Punggol_CC\n\nReading file using st_read()Displaying file structure using str()\n\n\n\nchildcare &lt;- st_read(dsn=\"data/geospatial\",\n                   layer=\"Punggol_CC\")\n\nReading layer `Punggol_CC' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex03\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 61 features and 1 field\nGeometry type: POINT\nDimension:     XYZ\nBounding box:  xmin: 34423.98 ymin: 41503.6 xmax: 37619.47 ymax: 44685.77\nz_range:       zmin: 0 zmax: 0\nProjected CRS: SVY21 / Singapore TM\n\n\n\n\n\nstr(childcare)\n\nClasses 'sf' and 'data.frame':  61 obs. of  2 variables:\n $ Name    : chr  \"kml_10\" \"kml_99\" \"kml_100\" \"kml_101\" ...\n $ geometry:sfc_POINT of length 61; first list element:  'XYZ' num  36174 42550 0\n - attr(*, \"sf_column\")= chr \"geometry\"\n - attr(*, \"agr\")= Factor w/ 3 levels \"constant\",\"aggregate\",..: NA\n  ..- attr(*, \"names\")= chr \"Name\""
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#data-preparation",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#data-preparation",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "4.3 Data Preparation",
+    "text": "4.3 Data Preparation"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#network-constrained-g--and-k-function-analysis",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#network-constrained-g--and-k-function-analysis",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "5.5 Network Constrained G- and K-Function Analysis",
+    "text": "5.5 Network Constrained G- and K-Function Analysis\nIn this section, we are going to perform complete spatial randomness (CSR) test by using kfunctions() of spNetwork package.\nTo get started, let’s formulate our test hypothesis and state the confidence interval we are using:\n\nH0 = The observed spatial point events (i.e distribution of childcare centres) are uniformly distributed over a street network in Punggol Planning Area.\n\n\nkfun_childcare &lt;- kfunctions(network, \n                             childcare,\n                             start = 0, \n                             end = 1000, \n                             step = 50, \n                             width = 50, \n                             nsim = 50, \n                             resolution = 50,\n                             verbose = FALSE, \n                             conf_int = 0.05)\n\nThe output of kfunctions() is a list with the following values:\n\nplotkA, a ggplot2 object representing the values of the k-function\nplotgA, a ggplot2 object representing the values of the g-function\nvaluesA, a DataFrame with the values used to build the plots\n\nWe can visualise the ggplot2 object of k-function in the following manner:\n\nkfun_childcare$plotk\n\n\n\n\nThe blue line is the empirical network K-function of the childcare centres in Punggol planning area. The gray envelop represents the results of the 50 simulations in the interval 2.5% - 97.5%. Because the blue line between the distance of 250m-400m are below the gray area, we can infer that the childcare centres in Punggol planning area resemble regular pattern at the distance of 250m-400m."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#preparing-the-lixels-objects",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#preparing-the-lixels-objects",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "5.1. Preparing the lixels objects",
+    "text": "5.1. Preparing the lixels objects\nBefore computing NetKDE, the SpatialLines object need to be cut into lixels with a specified minimal distance. This task can be performed by using with lixelize_lines() of spNetwork\n\nlixels &lt;- lixelize_lines(network, \n                         700, \n                         mindist = 350)\n\nAfter cut, if the length of the final lixel is shorter than the minimum distance, then it is added to the previous lixel. If NULL, then mindist = maxdist/10. Also note that the segments that are already shorter than the minimum distance are not modified"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#generating-line-centre-points",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#generating-line-centre-points",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "5.2 Generating line centre points",
+    "text": "5.2 Generating line centre points\nNext, lines_center() of spNetwork will be used to generate a SpatialPointsDataFrame (i.e.samples) with line centre points.\n\nsamples &lt;- lines_center(lixels)\n\nThe points are located at center of the line based on the length of the line."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#performing-netkde",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#performing-netkde",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "5.3 Performing NetKDE",
+    "text": "5.3 Performing NetKDE\n\ndensities &lt;- nkde(network, \n                  events = childcare,\n                  w = rep(1,nrow(childcare)),\n                  samples = samples,\n                  kernel_name = \"quartic\",\n                  bw = 300, \n                  div= \"bw\", \n                  method = \"simple\", \n                  digits = 1, \n                  tol = 1,\n                  grid_shape = c(1,1), \n                  max_depth = 8,\n                  agg = 5, #we aggregate events within a 5m radius (faster calculation)\n                  sparse = TRUE,\n                  verbose = FALSE)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#visualizing-netkde",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html#visualizing-netkde",
+    "title": "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis",
+    "section": "5.4 Visualizing NetKDE",
+    "text": "5.4 Visualizing NetKDE\nBefore we can visualise the NetKDE values, we will need to insert the computed density values (i.e. densities) into samples and lixels objects as density field.\n\nsamples$density &lt;- densities\nlixels$density &lt;- densities\n\nSince SVY21 projection system is in meters, the computed density values are very small i.e 0.0000005. We need to rescale the density values from number of events per meters to number of events per kilometers.\n\n# rescaling to help the mapping\nsamples$density &lt;- samples$density*1000\nlixels$density &lt;- lixels$density*1000\n\nAnd finally, we can start plotting!\nWe will use functions from tmap package to prepare interactive and high cartographic quality map visualization.\n\ntmap_mode('view')\ntm_shape(lixels)+\n  tm_lines(col=\"density\")+\ntm_shape(childcare)+\n  tm_dots()\n\n\n\n\n\n\n\ntmap_mode('plot')"
   }
 ]
