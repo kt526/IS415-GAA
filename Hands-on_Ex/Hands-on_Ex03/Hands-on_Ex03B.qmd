@@ -2,7 +2,7 @@
 title: "Hands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis"
 execute:
   warning: false
-date: 01/24/2024
+date: 01/25/2024
 date-modified: last-modified
 code-annotations: hover
 ---
