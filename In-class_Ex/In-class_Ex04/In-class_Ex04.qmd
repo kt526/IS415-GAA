@@ -1,0 +1,61 @@
+---
+title: "In-class Exercise 4: Spatial weights and Applications"
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 01/29/2024
+date-modified: last-modified
+---
+
+Recapping on Hands-on Exercise 04
+
+Loading packages
+
+```{r}
+pacman::p_load(dplyr, sf, spdep, tmap, tidyverse, knitr, GWmodel)
+```
+
+```{r}
+hunan <- st_read(dsn="data/geospatial",
+                 layer="Hunan")
+```
+
+```{r}
+head(hunan)
+```
+
+```{r}
+hunan2012 <- read.csv("data/aspatial/Hunan_2012.csv")
+```
+
+Performing relational join on the two data frames
+
+```{r}
+hunan <- left_join(hunan, hunan2012) %>%
+  select(1:4, 7, 15)
+```
+
+> *Note: Realized that we did not explicitly state the unique id for left_join to join by? This is because we have a common column in both of the data frames (`county`).*
+
+**Working with Geographically weighted summary statistics**
+
+```{r}
+hunan_sp <- hunan %>%
+  as_Spatial()
+```
+
+```{r}
+gwstat <- gwss(data = hunan_sp,
+               vars = "GDPPC",
+               bw = 6, # number of neighbours I want
+               kernel = "bisquare",
+               adaptive = TRUE,
+               longlat = T)
+```
+
+> Note:
+>
+> -   If we are using `adaptive = TRUE`, bw will be based on the number of neighbours
+>
+> -   If we are using `adaptive = FALSE`, bw will be based on the fixed distance
