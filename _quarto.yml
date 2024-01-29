@@ -31,7 +31,7 @@ website:
             href: Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html
 format:
   html:
-    theme: journal
+    theme: minty
     css: styles.css
     toc: true
 

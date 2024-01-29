@@ -37,7 +37,7 @@ In this take-home exercise, we will be using the following packages:
 -   [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data
 
 ```{r}
-pacman::p_load(arrow, lubridate, tidyverse, tmap, sf)
+pacman::p_load(arrow, here, lubridate, tidyverse, tmap, sf)
 ```
 
 # 2.0 Data Acquisition
@@ -45,7 +45,7 @@ pacman::p_load(arrow, lubridate, tidyverse, tmap, sf)
 There will be 3 data sets used in this exercise:
 
 | Data                                       | Format    | Description                                                 | Source                                                      |
-|-------------|-------------|-----------------------------------|-------------|
+|------------------|------------------|-------------------|-------------------|
 | Grab Posisi                                | Parquet   | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
 | Road                                       | Shapefile | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
 | Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON   | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
@@ -66,6 +66,175 @@ Did you observe that the file names from `GrabPosisi` and `MasterPlan2019Subzone
 
 # 3.0 Geospatial Data Wrangling
 
-## 3.1 Importing Geospatial Data
+## 3.1 Data Aggregation: Importing and Combining Aspatial parquet files
 
-In the previous exercise, we have learnt to import geospatial data into RStudio by using *st_read()* of **sf** package. Let’s try it now!
+```{r}
+# Use list.files to get a list of filenames that match the pattern
+parquet_files <- list.files(path = "data/aspatial", pattern = "\\.parquet$", full.names = TRUE)
+
+grab_data <- data.frame()
+
+for (file_path in parquet_files) {
+  grab_data <- bind_rows(grab_data, read_parquet(file_path))
+}
+```
+
+## 3.2 Data Export: Writing DataFrame to RDS file
+
+```{r}
+write_rds(grab_data, "data/rds/grab_data.rds")
+```
+
+## 3.3 Data Import
+
+### 3.3.1 Importing Aspatial Data - Grab Posisi data in RDS format
+
+::: panel-tabset
+## Reading file using read_rds()
+
+```{r}
+grab_df <- read_rds("data/rds/grab_data.rds")
+```
+
+## Displaying file structure using str()
+
+```{r}
+str(grab_df)
+```
+:::
+
+What we can observe is that the grab data contains 30329685 observations and 9 variables. Notice that pingtimestamp is in the wrong format. It should be in date/time format and not integer. We will need to convert the data type in the next section (Data Preparation).
+
+### 3.3.2 Importing Geospatial Data - Road data in shapefile format
+
+We can import geospatial data into RStudio using *st_read()* of **sf** package. Let’s try it now!
+
+::: panel-tabset
+## Reading file using st_read()
+
+```{r}
+roads_sf <- st_read(dsn="data/geospatial",
+                   layer="gis_osm_roads_free_1")
+```
+
+## Displaying file structure using str()
+
+```{r}
+str(roads_sf)
+```
+:::
+
+### 3.3.3 Importing Geospatial Data - Master Plan 2019 Subzone Boundary (No Sea) in shapefile format
+
+::: panel-tabset
+## Reading file using st_read()
+
+```{r}
+mpsz_sf <- st_read(dsn = "data/geospatial", 
+                layer = "MPSZ-2019")
+```
+
+## Displaying file structure using str()
+
+```{r}
+str(mpsz_sf)
+```
+:::
+
+We can observe that both `roads_sf` and `mpsz_sf` are currently using the **WGS 84** geographic coordinate system.
+
+::: callout-note
+## Summary Points
+
+After looking at the file structure and contents of the 3 datasets, we need to perform the following preparations:
+
+-   `grab_df`
+
+    -   Converting data type
+
+    -   Extracting trip starting location
+
+-   `roads_sf` and `mpsz_sf`
+
+    -   Performing projection transformation
+
+    -   Extracting study area
+
+    -   Getting road layer within Singapore excluding outer islands
+:::
+
+## 3.4 Data Preparation
+
+### **grab_df**
+
+### 3.4.1 Converting data type for pingtimestamp
+
+We will convert the data type for pingtimestamp from integer into datetime using as_datetime() from lubridate package. Afterwards, we will check if the data type has been converted correctly using head().
+
+```{r}
+# Converting data type using as_datetime()
+grab_df$pingtimestamp <- as_datetime(grab_df$pingtimestamp)
+
+# Checking first n rows of data frame using head()
+# By default, the head() function returns the first 6 rows by default
+head(grab_df)
+```
+
+### 3.4.2 Extracting trip starting locations
+
+```{r}
+grab_origins <- grab_df %>% 
+  group_by(trj_id) %>% 
+  arrange(pingtimestamp) %>% 
+  filter(row_number()==1) %>%
+  mutate(weekday = wday(pingtimestamp,
+                        label=TRUE,
+                        abbr=TRUE),
+         start_hr = factor(hour(pingtimestamp)),
+         day = factor(mday(pingtimestamp)))
+```
+
+### 3.4.3 Performing projection transformation
+
+To perform projection transformation, we will *st_transform()*. Additionally, we will use *st_geometry()* to inspect the contents of `roads_sf` and `mpsz_sf` after the projection transformation.
+
+[roads_sf]{.underline}
+
+```{r}
+# Transforming coordinates using st_transform()
+roads_3414 <- st_transform(roads_sf,
+                           crs = 3414)
+
+# Getting geometry details using st_geometry()
+st_geometry(roads_3414)
+```
+
+[mpsz_sf]{.underline}
+
+```{r}
+# Transforming coordinates using st_transform()
+mpsz_3414 <- st_transform(mpsz_sf,
+                          crs = 3414)
+
+# Getting geometry details using st_geometry()
+st_geometry(mpsz_3414)
+```
+
+Now, we observe that both `roads_sf` and `mpsz_sf` are using the **SVY21** projected coordinates system.
+
+### 3.4.4 Extracting specific planning area - Downtown Core
+
+We will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.
+
+```{r}
+downtown <- mpsz_3414 %>%
+  filter(PLN_AREA_N == "DOWNTOWN CORE")
+```
+
+### 3.4.5 Getting road layer within Singapore excluding outer islands
+
+In order to get the road layer within Singapore (excluding outer islands), we can use *st_intersection()* from **sf** package to confine the analysis to Singapore's boundary (in specifics, confining to the Downtown core planning area).
+
+```{r}
+output <- st_intersection(roads_3414, downtown)
+```

@@ -153,6 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Hands-on Exercise 3A</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03B.html" rel="" target="">
+ <span class="dropdown-text">Hands-on Exercise 3B</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html" rel="" target="">
  <span class="dropdown-text">Hands-on Exercise 4</span></a>
   </li>  
@@ -197,7 +201,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#geospatial-data-wrangling" id="toc-geospatial-data-wrangling" class="nav-link" data-scroll-target="#geospatial-data-wrangling">3.0 Geospatial Data Wrangling</a>
   <ul class="collapse">
-  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data">3.1 Importing Geospatial Data</a></li>
+  <li><a href="#data-aggregation-importing-and-combining-aspatial-parquet-files" id="toc-data-aggregation-importing-and-combining-aspatial-parquet-files" class="nav-link" data-scroll-target="#data-aggregation-importing-and-combining-aspatial-parquet-files">3.1 Data Aggregation: Importing and Combining Aspatial parquet files</a></li>
+  <li><a href="#data-export-writing-dataframe-to-rds-file" id="toc-data-export-writing-dataframe-to-rds-file" class="nav-link" data-scroll-target="#data-export-writing-dataframe-to-rds-file">3.2 Data Export: Writing DataFrame to RDS file</a></li>
+  <li><a href="#data-import" id="toc-data-import" class="nav-link" data-scroll-target="#data-import">3.3 Data Import</a>
+  <ul class="collapse">
+  <li><a href="#importing-aspatial-data---grab-posisi-data-in-rds-format" id="toc-importing-aspatial-data---grab-posisi-data-in-rds-format" class="nav-link" data-scroll-target="#importing-aspatial-data---grab-posisi-data-in-rds-format">3.3.1 Importing Aspatial Data - Grab Posisi data in RDS format</a></li>
+  <li><a href="#importing-geospatial-data---road-data-in-shapefile-format" id="toc-importing-geospatial-data---road-data-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---road-data-in-shapefile-format">3.3.2 Importing Geospatial Data - Road data in shapefile format</a></li>
+  <li><a href="#importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format" id="toc-importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format">3.3.3 Importing Geospatial Data - Master Plan 2019 Subzone Boundary (No Sea) in shapefile format</a></li>
+  </ul></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">3.4 Data Preparation</a>
+  <ul class="collapse">
+  <li><a href="#grab_df" id="toc-grab_df" class="nav-link" data-scroll-target="#grab_df"><strong>grab_df</strong></a></li>
+  <li><a href="#converting-data-type-for-pingtimestamp" id="toc-converting-data-type-for-pingtimestamp" class="nav-link" data-scroll-target="#converting-data-type-for-pingtimestamp">3.4.1 Converting data type for pingtimestamp</a></li>
+  <li><a href="#extracting-trip-starting-locations" id="toc-extracting-trip-starting-locations" class="nav-link" data-scroll-target="#extracting-trip-starting-locations">3.4.2 Extracting trip starting locations</a></li>
+  <li><a href="#performing-projection-transformation" id="toc-performing-projection-transformation" class="nav-link" data-scroll-target="#performing-projection-transformation">3.4.3 Performing projection transformation</a></li>
+  <li><a href="#extracting-specific-planning-area---downtown-core" id="toc-extracting-specific-planning-area---downtown-core" class="nav-link" data-scroll-target="#extracting-specific-planning-area---downtown-core">3.4.4 Extracting specific planning area - Downtown Core</a></li>
+  <li><a href="#getting-road-layer-within-singapore-excluding-outer-islands" id="toc-getting-road-layer-within-singapore-excluding-outer-islands" class="nav-link" data-scroll-target="#getting-road-layer-within-singapore-excluding-outer-islands">3.4.5 Getting road layer within Singapore excluding outer islands</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -225,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 24, 2024</p>
+      <p class="date-modified">January 29, 2024</p>
     </div>
   </div>
     
@@ -259,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://www.tidyverse.org/packages/">tidyverse</a> for performing data science tasks such as importing, wrangling and visualising data</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(arrow, lubridate, tidyverse, tmap, sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(arrow, here, lubridate, tidyverse, tmap, sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -318,11 +338,281 @@ Tip
 </section>
 <section id="geospatial-data-wrangling" class="level1">
 <h1>3.0 Geospatial Data Wrangling</h1>
-<section id="importing-geospatial-data" class="level2">
-<h2 class="anchored" data-anchor-id="importing-geospatial-data">3.1 Importing Geospatial Data</h2>
-<p>In the previous exercise, we have learnt to import geospatial data into RStudio by using <em>st_read()</em> of <strong>sf</strong> package. Let’s try it now!</p>
+<section id="data-aggregation-importing-and-combining-aspatial-parquet-files" class="level2">
+<h2 class="anchored" data-anchor-id="data-aggregation-importing-and-combining-aspatial-parquet-files">3.1 Data Aggregation: Importing and Combining Aspatial parquet files</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use list.files to get a list of filenames that match the pattern</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>parquet_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/aspatial"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.parquet$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>grab_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (file_path <span class="cf">in</span> parquet_files) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  grab_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(grab_data, <span class="fu">read_parquet</span>(file_path))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-export-writing-dataframe-to-rds-file" class="level2">
+<h2 class="anchored" data-anchor-id="data-export-writing-dataframe-to-rds-file">3.2 Data Export: Writing DataFrame to RDS file</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(grab_data, <span class="st">"data/rds/grab_data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-import" class="level2">
+<h2 class="anchored" data-anchor-id="data-import">3.3 Data Import</h2>
+<section id="importing-aspatial-data---grab-posisi-data-in-rds-format" class="level3">
+<h3 class="anchored" data-anchor-id="importing-aspatial-data---grab-posisi-data-in-rds-format">3.3.1 Importing Aspatial Data - Grab Posisi data in RDS format</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Reading file using read_rds()</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Displaying file structure using str()</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grab_df <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/grab_data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(grab_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   30329685 obs. of  9 variables:
+ $ trj_id       : chr  "70014" "73573" "75567" "1410" ...
+ $ driving_mode : chr  "car" "car" "car" "car" ...
+ $ osname       : chr  "android" "android" "android" "android" ...
+ $ pingtimestamp: int  1554943236 1555582623 1555141026 1555731693 1555584497 1555395258 1554768955 1554783532 1554898418 1555593189 ...
+ $ rawlat       : num  1.34 1.32 1.33 1.26 1.28 ...
+ $ rawlng       : num  104 104 104 104 104 ...
+ $ speed        : num  18.9 17.7 14 13 14.8 ...
+ $ bearing      : int  248 44 34 181 93 73 82 321 324 31 ...
+ $ accuracy     : num  3.9 4 3.9 4 3.9 ...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>What we can observe is that the grab data contains 30329685 observations and 9 variables. Notice that pingtimestamp is in the wrong format. It should be in date/time format and not integer. We will need to convert the data type in the next section (Data Preparation).</p>
+</section>
+<section id="importing-geospatial-data---road-data-in-shapefile-format" class="level3">
+<h3 class="anchored" data-anchor-id="importing-geospatial-data---road-data-in-shapefile-format">3.3.2 Importing Geospatial Data - Road data in shapefile format</h3>
+<p>We can import geospatial data into RStudio using <em>st_read()</em> of <strong>sf</strong> package. Let’s try it now!</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Reading file using st_read()</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Displaying file structure using str()</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>roads_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn=</span><span class="st">"data/geospatial"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">layer=</span><span class="st">"gis_osm_roads_free_1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `gis_osm_roads_free_1' from data source 
+  `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex01\data\geospatial' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 1759836 features and 10 fields
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: 99.66041 ymin: 0.8021131 xmax: 119.2601 ymax: 7.514393
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(roads_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classes 'sf' and 'data.frame':  1759836 obs. of  11 variables:
+ $ osm_id  : chr  "4386520" "4578273" "4579495" "4579533" ...
+ $ code    : int  5113 5114 5122 5122 5122 5122 5141 5122 5122 5122 ...
+ $ fclass  : chr  "primary" "secondary" "residential" "residential" ...
+ $ name    : chr  "Orchard Road" "Jalan Bukit Bintang" "Jalan Nagasari" "Persiaran Raja Chulan" ...
+ $ ref     : chr  NA NA NA NA ...
+ $ oneway  : chr  "F" "F" "B" "B" ...
+ $ maxspeed: int  50 0 0 0 0 0 0 0 0 0 ...
+ $ layer   : num  0 0 0 0 0 0 -1 0 0 0 ...
+ $ bridge  : chr  "F" "F" "F" "F" ...
+ $ tunnel  : chr  "F" "F" "F" "F" ...
+ $ geometry:sfc_LINESTRING of length 1759836; first list element:  'XY' num [1:2, 1:2] 103.83 103.83 1.31 1.31
+ - attr(*, "sf_column")= chr "geometry"
+ - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA NA NA NA NA NA NA
+  ..- attr(*, "names")= chr [1:10] "osm_id" "code" "fclass" "name" ...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format" class="level3">
+<h3 class="anchored" data-anchor-id="importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format">3.3.3 Importing Geospatial Data - Master Plan 2019 Subzone Boundary (No Sea) in shapefile format</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Reading file using st_read()</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Displaying file structure using str()</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mpsz_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"MPSZ-2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `MPSZ-2019' from data source 
+  `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex01\data\geospatial' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 332 features and 6 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 103.6057 ymin: 1.158699 xmax: 104.0885 ymax: 1.470775
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mpsz_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classes 'sf' and 'data.frame':  332 obs. of  7 variables:
+ $ SUBZONE_N : chr  "MARINA EAST" "INSTITUTION HILL" "ROBERTSON QUAY" "JURONG ISLAND AND BUKOM" ...
+ $ SUBZONE_C : chr  "MESZ01" "RVSZ05" "SRSZ01" "WISZ01" ...
+ $ PLN_AREA_N: chr  "MARINA EAST" "RIVER VALLEY" "SINGAPORE RIVER" "WESTERN ISLANDS" ...
+ $ PLN_AREA_C: chr  "ME" "RV" "SR" "WI" ...
+ $ REGION_N  : chr  "CENTRAL REGION" "CENTRAL REGION" "CENTRAL REGION" "WEST REGION" ...
+ $ REGION_C  : chr  "CR" "CR" "CR" "WR" ...
+ $ geometry  :sfc_MULTIPOLYGON of length 332; first list element: List of 1
+  ..$ :List of 1
+  .. ..$ : num [1:300, 1:2] 104 104 104 104 104 ...
+  ..- attr(*, "class")= chr [1:3] "XY" "MULTIPOLYGON" "sfg"
+ - attr(*, "sf_column")= chr "geometry"
+ - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA NA NA
+  ..- attr(*, "names")= chr [1:6] "SUBZONE_N" "SUBZONE_C" "PLN_AREA_N" "PLN_AREA_C" ...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We can observe that both <code>roads_sf</code> and <code>mpsz_sf</code> are currently using the <strong>WGS 84</strong> geographic coordinate system.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary Points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After looking at the file structure and contents of the 3 datasets, we need to perform the following preparations:</p>
+<ul>
+<li><p><code>grab_df</code></p>
+<ul>
+<li><p>Converting data type</p></li>
+<li><p>Extracting trip starting location</p></li>
+</ul></li>
+<li><p><code>roads_sf</code> and <code>mpsz_sf</code></p>
+<ul>
+<li><p>Performing projection transformation</p></li>
+<li><p>Extracting study area</p></li>
+<li><p>Getting road layer within Singapore excluding outer islands</p></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">3.4 Data Preparation</h2>
+<section id="grab_df" class="level3">
+<h3 class="anchored" data-anchor-id="grab_df"><strong>grab_df</strong></h3>
+</section>
+<section id="converting-data-type-for-pingtimestamp" class="level3">
+<h3 class="anchored" data-anchor-id="converting-data-type-for-pingtimestamp">3.4.1 Converting data type for pingtimestamp</h3>
+<p>We will convert the data type for pingtimestamp from integer into datetime using as_datetime() from lubridate package. Afterwards, we will check if the data type has been converted correctly using head().</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting data type using as_datetime()</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>grab_df<span class="sc">$</span>pingtimestamp <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(grab_df<span class="sc">$</span>pingtimestamp)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking first n rows of data frame using head()</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, the head() function returns the first 6 rows by default</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grab_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  trj_id driving_mode  osname       pingtimestamp   rawlat   rawlng    speed
+1  70014          car android 2019-04-11 00:40:36 1.342326 103.8890 18.91000
+2  73573          car android 2019-04-18 10:17:03 1.321781 103.8564 17.71908
+3  75567          car android 2019-04-13 07:37:06 1.327088 103.8613 14.02155
+4   1410          car android 2019-04-20 03:41:33 1.262482 103.8238 13.02652
+5   4354          car android 2019-04-18 10:48:17 1.283799 103.8072 14.81294
+6  32630          car android 2019-04-16 06:14:18 1.300330 103.9062 23.23818
+  bearing accuracy
+1     248      3.9
+2      44      4.0
+3      34      3.9
+4     181      4.0
+5      93      3.9
+6      73      3.9</code></pre>
+</div>
+</div>
+</section>
+<section id="extracting-trip-starting-locations" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-trip-starting-locations">3.4.2 Extracting trip starting locations</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>grab_origins <span class="ot">&lt;-</span> grab_df <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trj_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pingtimestamp) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>()<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">wday</span>(pingtimestamp,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label=</span><span class="cn">TRUE</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">abbr=</span><span class="cn">TRUE</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">start_hr =</span> <span class="fu">factor</span>(<span class="fu">hour</span>(pingtimestamp)),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">factor</span>(<span class="fu">mday</span>(pingtimestamp)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="performing-projection-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="performing-projection-transformation">3.4.3 Performing projection transformation</h3>
+<p>To perform projection transformation, we will <em>st_transform()</em>. Additionally, we will use <em>st_geometry()</em> to inspect the contents of <code>roads_sf</code> and <code>mpsz_sf</code> after the projection transformation.</p>
+<p><u>roads_sf</u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>roads_3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(roads_sf,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">crs =</span> <span class="dv">3414</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(roads_3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 1759836 features 
+Geometry type: LINESTRING
+Dimension:     XY
+Bounding box:  xmin: -434085.6 ymin: -23036.54 xmax: 1759022 ymax: 741993.8
+Projected CRS: SVY21 / Singapore TM
+First 5 geometries:</code></pre>
+</div>
+</div>
+<p><u>mpsz_sf</u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mpsz_3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(mpsz_sf,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">crs =</span> <span class="dv">3414</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz_3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 332 features 
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33
+Projected CRS: SVY21 / Singapore TM
+First 5 geometries:</code></pre>
+</div>
+</div>
+<p>Now, we observe that both <code>roads_sf</code> and <code>mpsz_sf</code> are using the <strong>SVY21</strong> projected coordinates system.</p>
+</section>
+<section id="extracting-specific-planning-area---downtown-core" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-specific-planning-area---downtown-core">3.4.4 Extracting specific planning area - Downtown Core</h3>
+<p>We will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>downtown <span class="ot">&lt;-</span> mpsz_3414 <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PLN_AREA_N <span class="sc">==</span> <span class="st">"DOWNTOWN CORE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="getting-road-layer-within-singapore-excluding-outer-islands" class="level3">
+<h3 class="anchored" data-anchor-id="getting-road-layer-within-singapore-excluding-outer-islands">3.4.5 Getting road layer within Singapore excluding outer islands</h3>
+<p>In order to get the road layer within Singapore (excluding outer islands), we can use <em>st_intersection()</em> from <strong>sf</strong> package to confine the analysis to Singapore’s boundary (in specifics, confining to the Downtown core planning area).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(roads_3414, downtown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
+</section>
 </section>
 </section>
 
