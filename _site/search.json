@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Preface",
     "section": "",
-    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on_Ex05B\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03_KDE.html",
@@ -537,5 +537,40 @@
     "title": "IS415 Geospatial Analytics and Applications",
     "section": "",
     "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n        0 0     false"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html",
+    "title": "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation",
+    "section": "",
+    "text": "In this hands-on exercise, we will be using the following packages:\n\nsf\nspdep\ntidyverse\ntmap\n\n\npacman::p_load(sf, spdep, tidyverse, tmap)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#getting-started",
+    "title": "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation",
+    "section": "",
+    "text": "In this hands-on exercise, we will be using the following packages:\n\nsf\nspdep\ntidyverse\ntmap\n\n\npacman::p_load(sf, spdep, tidyverse, tmap)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#importing-geospatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#importing-geospatial-data",
+    "title": "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation",
+    "section": "3.1 Importing Geospatial Data",
+    "text": "3.1 Importing Geospatial Data\n\n3.1.1 Importing Geospatial Data in shapefile format\n\nhunan_sf &lt;- st_read(dsn = \"data/geospatial\",\n                    layer = \"Hunan\")\n\nReading layer `Hunan' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex05\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 88 features and 7 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 108.7831 ymin: 24.6342 xmax: 114.2544 ymax: 30.12812\nGeodetic CRS:  WGS 84\n\n\nThe message above reveals that the geospatial objects are polygon features. There are a total of 88 polygon features and 7 fields in hunan_sf. hunan_sf is in WGS 84 geographic coordinates systems. The bounding box provides the x extend and y extend of the data."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#importing-aspatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#importing-aspatial-data",
+    "title": "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation",
+    "section": "3.2 Importing Aspatial Data",
+    "text": "3.2 Importing Aspatial Data\n\n3.2.1 Importing Aspatial Data in csv format\nSince Hunan_2012.csv is in csv file format, we will use read_csv() of readr package to import it.\n\nhunan2012 &lt;- read_csv(\"data/aspatial/Hunan_2012.csv\")\n\nRows: 88 Columns: 29\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): County, City\ndbl (27): avg_wage, deposite, FAI, Gov_Rev, Gov_Exp, GDP, GDPPC, GIO, Loan, ...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#data-preparation",
+    "href": "Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html#data-preparation",
+    "title": "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation",
+    "section": "3.3 Data Preparation",
+    "text": "3.3 Data Preparation"
   }
 ]
