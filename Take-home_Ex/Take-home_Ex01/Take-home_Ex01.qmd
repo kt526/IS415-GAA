@@ -45,7 +45,7 @@ pacman::p_load(arrow, here, lubridate, tidyverse, tmap, sf)
 There will be 3 data sets used in this exercise:
 
 | Data                                       | Format    | Description                                                 | Source                                                      |
-|------------------|------------------|-------------------|-------------------|
+|--------------------------------------------|-----------|-------------------------------------------------------------|-------------------------------------------------------------|
 | Grab Posisi                                | Parquet   | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
 | Road                                       | Shapefile | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
 | Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON   | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
