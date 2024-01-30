@@ -1,5 +1,10 @@
 ---
 title: "Hands-on Exercise 5A: Global Measures of Spatial Autocorrelation"
+execute:
+  warning: false
+date: 01/30/2024
+date-modified: last-modified
+code-annotations: hover
 ---
 
 # 1.0 Introduction
@@ -68,19 +73,19 @@ hunan_joined <- left_join(hunan_sf, hunan2012)%>%
 >
 > *In our case, `County` is the common variable between `hunan_sf` and `hunan2012`.*
 
-# 4.0 Geospatial Visualization – **Visualising Regional Development Indicator**
+# 4.0 Geospatial Visualization – Visualising Regional Development Indicator
 
 Now, we are going to prepare a basemap and a choropleth map showing the distribution of `GDPPC` 2012 by using *qtm()* of **tmap** package.
 
 ```{r}
-equal <- tm_shape(hunan) +
+equal <- tm_shape(hunan_joined) +
   tm_fill("GDPPC",
           n = 5,
           style = "equal") +
   tm_borders(alpha = 0.5) +
   tm_layout(main.title = "Equal interval classification")
 
-quantile <- tm_shape(hunan) +
+quantile <- tm_shape(hunan_joined) +
   tm_fill("GDPPC",
           n = 5,
           style = "quantile") +
@@ -104,14 +109,14 @@ Before we can compute the global spatial autocorrelation statistics, we need to 
 The *poly2nb()* of **spdep** package is used to compute contiguity weight matrices for the study area.
 
 ```{r}
-wm_q <- poly2nb(hunan, 
+wm_q <- poly2nb(hunan_joined, 
                 queen=TRUE)
 summary(wm_q)
 ```
 
 The summary report above shows that there are 88 area units in Hunan. The most connected area unit has 11 neighbours. There are two area units with only one neighbours.
 
-## **5.2 Row-standardised weights matrix**
+## 5.2 Row-standardised weights matrix
 
 Next, we need to assign weights to each neighboring polygon. In our case, each neighboring polygon will be assigned equal weight (style=“W”).
 
@@ -122,14 +127,14 @@ rswm_q <- nb2listw(wm_q,
 rswm_q
 ```
 
-## **5.3 Moran’s I**
+## 5.3 Moran’s I
 
 ### 5.3.1 Performing Moran's I statistics testing
 
 In this section, we will learn how to perform Moran’s I statistics testing by using *moran.test()* of **spdep** package.
 
 ```{r}
-moran.test(hunan$GDPPC, 
+moran.test(hunan_joined$GDPPC, 
            listw=rswm_q, 
            zero.policy = TRUE, 
            na.action=na.omit)
@@ -143,7 +148,7 @@ Next, we will perform permutation test for Moran's I statistic using *moran.mc()
 
 ```{r}
 set.seed(1234)
-bperm= moran.mc(hunan$GDPPC, 
+bperm= moran.mc(hunan_joined$GDPPC, 
                 listw=rswm_q, 
                 nsim=999, 
                 zero.policy = TRUE, 
@@ -182,29 +187,29 @@ abline(v=0,
 
 > **Challenge: Instead of using Base Graph to plot the values, plot the values by using ggplot2 package.**
 
-## **5.4 Geary’s C**
+## 5.4 Geary’s C
 
 ### 5.4.1 Performing Geary's C statistical testing
 
 In this section, we will learn how to perform Moran’s I statistics testing by using *geary.test()* of **spdep** package.
 
 ```{r}
-geary.test(hunan$GDPPC, listw=rswm_q)
+geary.test(hunan_joined$GDPPC, listw=rswm_q)
 ```
 
-### 5.4.2 Computing Monte Carlo **Geary’s C**
+### 5.4.2 Computing Monte Carlo Geary’s C
 
 Next, we will perform permutation test for Geary's C statistic using *geary.mc()* of **spdep** package. A total of 1000 simulation will be performed.
 
 ```{r}
 set.seed(1234)
-bperm=geary.mc(hunan$GDPPC, 
+bperm=geary.mc(hunan_joined$GDPPC, 
                listw=rswm_q, 
                nsim=999)
 bperm
 ```
 
-### 5.4.3 Visualising Monte Carlo **Geary’s C**
+### 5.4.3 Visualising Monte Carlo Geary’s C
 
 Next, we will plot a histogram to reveal the distribution of the simulated values
 
@@ -225,11 +230,11 @@ hist(bperm$res, freq=TRUE, breaks=20, xlab="Simulated Geary c")
 abline(v=1, col="red") 
 ```
 
-# **6.0 Spatial Correlogram**
+# 6.0 Spatial Correlogram
 
 Spatial correlograms are great to examine patterns of spatial autocorrelation in your data or model residuals. They show how correlated are pairs of spatial observations when you increase the distance (lag) between them - they are plots of some index of autocorrelation (Moran’s I or Geary’s c) against distance.Although correlograms are not as fundamental as variograms (a keystone concept of geostatistics), they are very useful as an exploratory and descriptive tool. For this purpose they actually provide richer information than variograms.
 
-## 6.1 **Compute Moran’s I correlogram**
+## 6.1 Compute Moran’s I correlogram
 
 We will use *sp.correlogram()* of **spdep** package is used to compute a 6-lag spatial correlogram of GDPPC. The global spatial autocorrelation used in Moran’s I. The *plot()* of base Graph is then used to plot the output.
 
@@ -237,7 +242,7 @@ We will use *sp.correlogram()* of **spdep** package is used to compute a 6-lag s
 
 ```{r}
 MI_corr <- sp.correlogram(wm_q, 
-                          hunan$GDPPC, 
+                          hunan_joined$GDPPC, 
                           order=6, 
                           method="I", 
                           style="W")
@@ -252,7 +257,7 @@ print(MI_corr)
 
 > **Question: What statistical observation can you draw from the plot above?**
 
-## 6.2 **Compute Geary’s C correlogram and plot**
+## 6.2 Compute Geary’s C correlogram and plot
 
 Similar to how we compute Morgan's I, we will use the same *sp.correlogram()* of **spdep** package is used to compute a 6-lag spatial correlogram of GDPPC. However, this time round, we will use the global spatial autocorrelation used in Geary's C.
 
@@ -260,7 +265,7 @@ Similar to how we compute Morgan's I, we will use the same *sp.correlogram()* of
 
 ```{r}
 GC_corr <- sp.correlogram(wm_q, 
-                          hunan$GDPPC, 
+                          hunan_joined$GDPPC, 
                           order=6, 
                           method="C", 
                           style="W")
