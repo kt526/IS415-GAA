@@ -39,7 +39,7 @@ In this take-home exercise, we will be using the following packages:
 -   [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data
 
 ```{r}
-pacman::p_load(arrow, here, lubridate, maptools, tidyverse, tmap, sf, spatstat)
+pacman::p_load(arrow, here, lubridate, maptools, tidyverse, tmap, sf, sp, spatstat, spNetwork)
 ```
 
 # 2.0 Data Acquisition
@@ -191,8 +191,8 @@ grab_origins_sf <- grab_df %>%
   mutate(weekday = wday(pingtimestamp,
                         label=TRUE,
                         abbr=TRUE),
-         start_hr = factor(hour(pingtimestamp)),
-         day = factor(mday(pingtimestamp))) %>%
+         start_hr = hour(pingtimestamp),
+         day = mday(pingtimestamp)) %>%
   st_as_sf(coords = c("rawlng", "rawlat"),                         # <3>
            crs = 4326) %>%
   st_transform(crs = 3414)                                         # <4>
@@ -272,8 +272,8 @@ plot(sg_downtown_sf["PLN_AREA_N"], main = "DOWNTOWN CORE")
 ```
 
 ```{r}
-sg_sf <- mpsz_sf %>%
-  st_union()
+#sg_sf <- mpsz_sf %>%
+#  st_union()
 ```
 
 ### 3.4.5 Creating owin object - Downtown Core
@@ -310,16 +310,15 @@ In order to get the road layer within Singapore (excluding outer islands), we ca
 
 ```{r}
 sg_downtown_road_sf <- st_intersection(roads_sf, sg_downtown_sf)
+sg_downtown_road_sf <- st_cast(sg_downtown_road_sf, "LINESTRING")
 ```
 
 ### **3.4.9 Visualizing the Geospatial data**
 
 ```{r}
-#tmap_mode('view')
-#tm_shape(sg_downtown_grab_sf) + 
-#  tm_dots() + 
-#  tm_shape(sg_downtown_road_sf) +
-#  tm_lines()
+tmap_mode('view')
+tm_shape(sg_downtown_grab_sf) + 
+  tm_dots()
 ```
 
 ```{r}
@@ -334,10 +333,8 @@ tmap_mode('plot')
 kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp,
                               sigma=bw.diggle,
                               edge=TRUE,
-                              kernel="gaussian") 
-```
+                              kernel="gaussian")
 
-```{r}
 plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
 ```
 
@@ -352,4 +349,128 @@ kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp.km,
                               kernel="gaussian")
 
 plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
+```
+
+### Working with different automatic bandwidth methods and kernels
+
+```{r}
+par(mfrow=c(2,4))
+# Using bw.diggle() bw
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.diggle, 
+             edge=TRUE, 
+             kernel="gaussian"), 
+     main="Gaussian")
+
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.diggle, 
+             edge=TRUE, 
+             kernel="epanechnikov"), 
+     main="Epanechnikov")
+
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.diggle, 
+             edge=TRUE, 
+             kernel="quartic"), 
+     main="Quartic")
+
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.diggle, 
+             edge=TRUE, 
+             kernel="disc"), 
+     main="Disc")
+
+# Using bw.ppl() bw
+par(mfrow=c(2,2))
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.ppl, 
+             edge=TRUE, 
+             kernel="gaussian"), 
+     main="Gaussian")
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.ppl, 
+             edge=TRUE, 
+             kernel="epanechnikov"), 
+     main="Epanechnikov")
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.ppl, 
+             edge=TRUE, 
+             kernel="quartic"), 
+     main="Quartic")
+plot(density(grab_origins_dt_ppp.km, 
+             sigma=bw.ppl, 
+             edge=TRUE, 
+             kernel="disc"), 
+     main="Disc")
+```
+
+## 4.2 Network Kernel Density Estimation (NKDE)
+
+### **4.2.1 Visualizing the Geospatial data**
+
+```{r}
+tmap_mode('view')
+tm_shape(sg_downtown_grab_sf) + 
+  tm_dots() + 
+  tm_shape(sg_downtown_road_sf) +
+  tm_lines()
+```
+
+```{r}
+tmap_mode('plot')
+```
+
+### **4.2.2 Preparing the lixel objects**
+
+```{r}
+lixels <- lixelize_lines(sg_downtown_road_sf, 
+                         700, 
+                         mindist = 350)
+```
+
+### **4.2.3 Generating line centre points**
+
+```{r}
+samples <- lines_center(lixels)
+```
+
+### **4.2.4 Performing NetKDE**
+
+```{r}
+densities <- nkde(sg_downtown_road_sf, 
+                  events = sg_downtown_grab_sf,
+                  w = rep(1,nrow(sg_downtown_grab_sf)),
+                  samples = samples,
+                  kernel_name = "quartic",
+                  bw = 300, 
+                  div= "bw", 
+                  method = "simple", 
+                  digits = 1, 
+                  tol = 1,
+                  grid_shape = c(1,1), 
+                  max_depth = 8,
+                  agg = 5, #we aggregate events within a 5m radius (faster calculation)
+                  sparse = TRUE,
+                  verbose = FALSE)
+```
+
+```{r}
+samples$density <- densities
+lixels$density <- densities
+
+# rescaling to help the mapping
+samples$density <- samples$density*1000
+lixels$density <- lixels$density*1000
+```
+
+```{r}
+tmap_mode('view')
+tm_shape(lixels)+
+  tm_lines(col="density") +
+  tm_shape(sg_downtown_grab_sf) +
+  tm_dots()
+```
+
+```{r}
+tmap_mode('plot')
 ```
