@@ -164,6 +164,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html" rel="" target="">
  <span class="dropdown-text">Hands-on Exercise 4</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05A.html" rel="" target="">
+ <span class="dropdown-text">Hands-on Exercise 5A</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05B.html" rel="" target="">
+ <span class="dropdown-text">Hands-on Exercise 5B</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -192,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1.0 Introduction</a>
   <ul class="collapse">
   <li><a href="#overview---setting-the-scene" id="toc-overview---setting-the-scene" class="nav-link" data-scroll-target="#overview---setting-the-scene">1.1. Overview - Setting the Scene</a></li>
@@ -207,21 +215,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#data-aggregation-importing-and-combining-aspatial-parquet-files" id="toc-data-aggregation-importing-and-combining-aspatial-parquet-files" class="nav-link" data-scroll-target="#data-aggregation-importing-and-combining-aspatial-parquet-files">3.1 Data Aggregation: Importing and Combining Aspatial parquet files</a></li>
   <li><a href="#data-export-writing-dataframe-to-rds-file" id="toc-data-export-writing-dataframe-to-rds-file" class="nav-link" data-scroll-target="#data-export-writing-dataframe-to-rds-file">3.2 Data Export: Writing DataFrame to RDS file</a></li>
-  <li><a href="#data-import" id="toc-data-import" class="nav-link" data-scroll-target="#data-import">3.3 Data Import</a>
-  <ul class="collapse">
-  <li><a href="#importing-aspatial-data---grab-posisi-data-in-rds-format" id="toc-importing-aspatial-data---grab-posisi-data-in-rds-format" class="nav-link" data-scroll-target="#importing-aspatial-data---grab-posisi-data-in-rds-format">3.3.1 Importing Aspatial Data - Grab Posisi data in RDS format</a></li>
-  <li><a href="#importing-geospatial-data---road-data-in-shapefile-format" id="toc-importing-geospatial-data---road-data-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---road-data-in-shapefile-format">3.3.2 Importing Geospatial Data - Road data in shapefile format</a></li>
-  <li><a href="#importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format" id="toc-importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---master-plan-2019-subzone-boundary-no-sea-in-shapefile-format">3.3.3 Importing Geospatial Data - Master Plan 2019 Subzone Boundary (No Sea) in shapefile format</a></li>
+  <li><a href="#data-import" id="toc-data-import" class="nav-link" data-scroll-target="#data-import">3.3 Data Import</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">3.4 Data Preparation</a></li>
   </ul></li>
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">3.4 Data Preparation</a>
+  <li><a href="#st-order-spatial-point-pattern-analysis-sppa" id="toc-st-order-spatial-point-pattern-analysis-sppa" class="nav-link" data-scroll-target="#st-order-spatial-point-pattern-analysis-sppa">4.0 1<sup>st</sup> Order Spatial Point Pattern Analysis (SPPA)</a>
   <ul class="collapse">
-  <li><a href="#grab_df" id="toc-grab_df" class="nav-link" data-scroll-target="#grab_df"><strong>grab_df</strong></a></li>
-  <li><a href="#converting-data-type-for-pingtimestamp" id="toc-converting-data-type-for-pingtimestamp" class="nav-link" data-scroll-target="#converting-data-type-for-pingtimestamp">3.4.1 Converting data type for pingtimestamp</a></li>
-  <li><a href="#extracting-trip-starting-locations" id="toc-extracting-trip-starting-locations" class="nav-link" data-scroll-target="#extracting-trip-starting-locations">3.4.2 Extracting trip starting locations</a></li>
-  <li><a href="#performing-projection-transformation" id="toc-performing-projection-transformation" class="nav-link" data-scroll-target="#performing-projection-transformation">3.4.3 Performing projection transformation</a></li>
-  <li><a href="#extracting-specific-planning-area---downtown-core" id="toc-extracting-specific-planning-area---downtown-core" class="nav-link" data-scroll-target="#extracting-specific-planning-area---downtown-core">3.4.4 Extracting specific planning area - Downtown Core</a></li>
-  <li><a href="#getting-road-layer-within-singapore-excluding-outer-islands" id="toc-getting-road-layer-within-singapore-excluding-outer-islands" class="nav-link" data-scroll-target="#getting-road-layer-within-singapore-excluding-outer-islands">3.4.5 Getting road layer within Singapore excluding outer islands</a></li>
-  </ul></li>
+  <li><a href="#kernel-density-estimation-kde" id="toc-kernel-density-estimation-kde" class="nav-link" data-scroll-target="#kernel-density-estimation-kde">4.1 Kernel Density Estimation (KDE)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -249,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 30, 2024</p>
+      <p class="date-modified">February 2, 2024</p>
     </div>
   </div>
     
@@ -283,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://www.tidyverse.org/packages/">tidyverse</a> for performing data science tasks such as importing, wrangling and visualising data</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(arrow, here, lubridate, tidyverse, tmap, sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(arrow, here, lubridate, maptools, tidyverse, tmap, sf, spatstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -336,6 +335,7 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>Did you observe that the file names from <code>GrabPosisi</code> and <code>MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson</code> are quite lengthy? Shortening them could make processing more convenient later on.</p>
+<p>Alternatively, we can <em>list.files()</em> to get a list of filenames that contains <code>.parquet</code> extension.</p>
 </div>
 </div>
 </section>
@@ -502,6 +502,7 @@ Summary Points
 <ul>
 <li><p>Converting data type</p></li>
 <li><p>Extracting trip starting location</p></li>
+<li><p>Converting aspatial data into geospatial data</p></li>
 </ul></li>
 <li><p><code>roads_sf</code> and <code>mpsz_sf</code></p>
 <ul>
@@ -516,19 +517,51 @@ Summary Points
 </section>
 <section id="data-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation">3.4 Data Preparation</h2>
-<section id="grab_df" class="level3">
-<h3 class="anchored" data-anchor-id="grab_df"><strong>grab_df</strong></h3>
-</section>
-<section id="converting-data-type-for-pingtimestamp" class="level3">
-<h3 class="anchored" data-anchor-id="converting-data-type-for-pingtimestamp">3.4.1 Converting data type for pingtimestamp</h3>
-<p>We will convert the data type for pingtimestamp from integer into datetime using as_datetime() from lubridate package. Afterwards, we will check if the data type has been converted correctly using head().</p>
+<p><u>grab_df</u></p>
+<section id="preparing-and-converting-grab_df-into-grab_sf-sf-tibble-data.framedata" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-and-converting-grab_df-into-grab_sf-sf-tibble-data.framedata">3.4.1 Preparing and Converting <code>grab_df</code> into <code>grab_sf</code> (sf tibble data.framedata)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting data type using as_datetime()</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>grab_df<span class="sc">$</span>pingtimestamp <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(grab_df<span class="sc">$</span>pingtimestamp)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking first n rows of data frame using head()</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, the head() function returns the first 6 rows by default</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grab_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting data type using as_datetime()</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>grab_df<span class="sc">$</span>pingtimestamp <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(grab_df<span class="sc">$</span>pingtimestamp)</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking first n rows of data frame using head()</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(grab_df)</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>grab_origins_sf <span class="ot">&lt;-</span> grab_df <span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trj_id) <span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pingtimestamp) <span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>()<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">wday</span>(pingtimestamp,</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label=</span><span class="cn">TRUE</span>,</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">abbr=</span><span class="cn">TRUE</span>),</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">start_hr =</span> <span class="fu">factor</span>(<span class="fu">hour</span>(pingtimestamp)),</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">factor</span>(<span class="fu">mday</span>(pingtimestamp))) <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-16" class="code-annotation-target"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"rawlng"</span>, <span class="st">"rawlat"</span>),</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-18" class="code-annotation-target"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">3414</span>)</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(grab_origins_sf)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-4" data-code-annotation="1">Converting data type for <code>pingtimestamp</code> from integer into datetime using <em>as_datetime()</em> from <strong>lubridate</strong> package</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-4" data-code-annotation="2">By default, the <em>head()</em> returns the first <strong>6</strong> rows</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="16" data-code-cell="annotated-cell-4" data-code-annotation="3">Converting <code>grab_df</code> into sf tibble data.frame using <em>st_as_sf() and its location information</em></span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="18" data-code-cell="annotated-cell-4" data-code-annotation="4">Transforming coordinates using <em>st_transform()</em></span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  trj_id driving_mode  osname       pingtimestamp   rawlat   rawlng    speed
 1  70014          car android 2019-04-11 00:40:36 1.342326 103.8890 18.91000
@@ -543,22 +576,48 @@ Summary Points
 3      34      3.9
 4     181      4.0
 5      93      3.9
-6      73      3.9</code></pre>
+6      73      3.9
+Geometry set for 28000 features 
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: 3628.243 ymin: 25198.14 xmax: 49845.23 ymax: 49689.64
+Projected CRS: SVY21 / Singapore TM
+First 5 geometries:</code></pre>
 </div>
 </div>
 </section>
-<section id="extracting-trip-starting-locations" class="level3">
-<h3 class="anchored" data-anchor-id="extracting-trip-starting-locations">3.4.2 Extracting trip starting locations</h3>
+<section id="creating-ppp-objects" class="level3">
+<h3 class="anchored" data-anchor-id="creating-ppp-objects">3.4.2 Creating ppp objects</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>grab_origins <span class="ot">&lt;-</span> grab_df <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trj_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pingtimestamp) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">row_number</span>()<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">wday</span>(pingtimestamp,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label=</span><span class="cn">TRUE</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">abbr=</span><span class="cn">TRUE</span>),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">start_hr =</span> <span class="fu">factor</span>(<span class="fu">hour</span>(pingtimestamp)),</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">factor</span>(<span class="fu">mday</span>(pingtimestamp)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>grab_origins_ppp <span class="ot">&lt;-</span> grab_origins_sf <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as</span>(<span class="st">'Spatial'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as</span>(<span class="st">'SpatialPoints'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as</span>(<span class="st">'ppp'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(grab_origins_ppp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Planar point pattern:  28000 points
+Average intensity 2.473666e-05 points per square unit
+
+Coordinates are given to 3 decimal places
+i.e. rounded to the nearest multiple of 0.001 units
+
+Window: rectangle = [3628.24, 49845.23] x [25198.14, 49689.64] units
+                    (46220 x 24490 units)
+Window area = 1131920000 square units</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking for duplicated points</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(grab_origins_ppp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grab_origins_ppp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="performing-projection-transformation" class="level3">
@@ -566,12 +625,12 @@ Summary Points
 <p>To perform projection transformation, we will <em>st_transform()</em>. Additionally, we will use <em>st_geometry()</em> to inspect the contents of <code>roads_sf</code> and <code>mpsz_sf</code> after the projection transformation.</p>
 <p><u>roads_sf</u></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>roads_3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(roads_sf,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">crs =</span> <span class="dv">3414</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(roads_3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>roads_sf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(roads_sf,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">crs =</span> <span class="dv">3414</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(roads_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 1759836 features 
 Geometry type: LINESTRING
@@ -583,12 +642,12 @@ First 5 geometries:</code></pre>
 </div>
 <p><u>mpsz_sf</u></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mpsz_3414 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(mpsz_sf,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">crs =</span> <span class="dv">3414</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz_3414)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming coordinates using st_transform()</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mpsz_sf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(mpsz_sf,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">crs =</span> <span class="dv">3414</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting geometry details using st_geometry()</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(mpsz_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Geometry set for 332 features 
 Geometry type: MULTIPOLYGON
@@ -602,21 +661,124 @@ First 5 geometries:</code></pre>
 </section>
 <section id="extracting-specific-planning-area---downtown-core" class="level3">
 <h3 class="anchored" data-anchor-id="extracting-specific-planning-area---downtown-core">3.4.4 Extracting specific planning area - Downtown Core</h3>
-<p>We will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.</p>
+<p>Due to the intensive computational power required to conduct analysis on the whole of Singapore, we will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>downtown <span class="ot">&lt;-</span> mpsz_3414 <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PLN_AREA_N <span class="sc">==</span> <span class="st">"DOWNTOWN CORE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sg_downtown_sf <span class="ot">&lt;-</span> mpsz_sf <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PLN_AREA_N <span class="sc">==</span> <span class="st">"DOWNTOWN CORE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sg_downtown_sf[<span class="st">"PLN_AREA_N"</span>], <span class="at">main =</span> <span class="st">"DOWNTOWN CORE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sg_sf <span class="ot">&lt;-</span> mpsz_sf <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_union</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-owin-object---downtown-core" class="level3">
+<h3 class="anchored" data-anchor-id="creating-owin-object---downtown-core">3.4.5 Creating owin object - Downtown Core</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>downtown_owin <span class="ot">&lt;-</span> <span class="fu">as.owin</span>(sg_downtown_sf)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(downtown_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Window: polygonal boundary
+single connected closed polygon with 637 vertices
+enclosing rectangle: [28896.26, 31980.09] x [27914.19, 31855.48] units
+                     (3084 x 3941 units)
+Window area = 5083640 square units
+Fraction of frame area: 0.418</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(downtown_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="combining-grab-data-points-with-study-area---downtown-core" class="level3">
+<h3 class="anchored" data-anchor-id="combining-grab-data-points-with-study-area---downtown-core">3.4.6 Combining grab data points with study area - Downtown Core</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(downtown_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Window: polygonal boundary
+single connected closed polygon with 637 vertices
+enclosing rectangle: [28896.26, 31980.09] x [27914.19, 31855.48] units
+                     (3084 x 3941 units)
+Window area = 5083640 square units
+Fraction of frame area: 0.418</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>grab_origins_dt_ppp <span class="ot">&lt;-</span> grab_origins_ppp[downtown_owin]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grab_origins_dt_ppp, <span class="at">main=</span><span class="st">"DOWNTOWN CORE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="getting-grab-points-within-downtown-core" class="level3">
+<h3 class="anchored" data-anchor-id="getting-grab-points-within-downtown-core">3.4.7 Getting grab points within Downtown Core</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sg_downtown_grab_sf <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(grab_origins_sf, sg_downtown_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="getting-road-layer-within-singapore-excluding-outer-islands" class="level3">
-<h3 class="anchored" data-anchor-id="getting-road-layer-within-singapore-excluding-outer-islands">3.4.5 Getting road layer within Singapore excluding outer islands</h3>
+<h3 class="anchored" data-anchor-id="getting-road-layer-within-singapore-excluding-outer-islands">3.4.8 Getting road layer within Singapore excluding outer islands</h3>
 <p>In order to get the road layer within Singapore (excluding outer islands), we can use <em>st_intersection()</em> from <strong>sf</strong> package to confine the analysis to Singapore’s boundary (in specifics, confining to the Downtown core planning area).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(roads_3414, downtown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sg_downtown_road_sf <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(roads_sf, sg_downtown_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualizing-the-geospatial-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-the-geospatial-data"><strong>3.4.9 Visualizing the Geospatial data</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tmap_mode('view')</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tm_shape(sg_downtown_grab_sf) + </span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  tm_dots() + </span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  tm_shape(sg_downtown_road_sf) +</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  tm_lines()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'plot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="st-order-spatial-point-pattern-analysis-sppa" class="level1">
+<h1>4.0 1<sup>st</sup> Order Spatial Point Pattern Analysis (SPPA)</h1>
+<section id="kernel-density-estimation-kde" class="level2">
+<h2 class="anchored" data-anchor-id="kernel-density-estimation-kde">4.1 Kernel Density Estimation (KDE)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>kde_grab_origins_dt_bw <span class="ot">&lt;-</span> <span class="fu">density</span>(grab_origins_dt_ppp,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sigma=</span>bw.diggle,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">edge=</span><span class="cn">TRUE</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">kernel=</span><span class="st">"gaussian"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kde_grab_origins_dt_bw, <span class="at">main =</span> <span class="st">"KDE Grab Origins for Downtown Core"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>grab_origins_dt_ppp.km <span class="ot">&lt;-</span> <span class="fu">rescale</span>(grab_origins_dt_ppp, <span class="dv">1000</span>, <span class="st">"km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>kde_grab_origins_dt_bw <span class="ot">&lt;-</span> <span class="fu">density</span>(grab_origins_dt_ppp.km,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sigma=</span>bw.diggle,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">edge=</span><span class="cn">TRUE</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">kernel=</span><span class="st">"gaussian"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kde_grab_origins_dt_bw, <span class="at">main =</span> <span class="st">"KDE Grab Origins for Downtown Core"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 
 
-</section>
 </section>
 </section>
 
@@ -795,25 +957,90 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
           }
-        });
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;

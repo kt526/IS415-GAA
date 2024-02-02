@@ -6,6 +6,8 @@ execute:
   warning: false
 date: 01/23/2024
 date-modified: last-modified
+toc-depth: 2
+code-annotations: hover
 ---
 
 # 1.0 Introduction
@@ -37,7 +39,7 @@ In this take-home exercise, we will be using the following packages:
 -   [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data
 
 ```{r}
-pacman::p_load(arrow, here, lubridate, tidyverse, tmap, sf)
+pacman::p_load(arrow, here, lubridate, maptools, tidyverse, tmap, sf, spatstat)
 ```
 
 # 2.0 Data Acquisition
@@ -45,7 +47,7 @@ pacman::p_load(arrow, here, lubridate, tidyverse, tmap, sf)
 There will be 3 data sets used in this exercise:
 
 | Data                                       | Format    | Description                                                 | Source                                                      |
-|--------------------------------------------|-----------|-------------------------------------------------------------|-------------------------------------------------------------|
+|---------------|---------------|---------------------|---------------------|
 | Grab Posisi                                | Parquet   | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
 | Road                                       | Shapefile | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
 | Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON   | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
@@ -62,6 +64,8 @@ Place all files from `GrabPosisi` into `aspatial` sub-folder.
 ## Tip
 
 Did you observe that the file names from `GrabPosisi` and `MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson` are quite lengthy? Shortening them could make processing more convenient later on.
+
+Alternatively, we can *list.files()* to get a list of filenames that contains `.parquet` extension.
 :::
 
 # 3.0 Geospatial Data Wrangling
@@ -69,6 +73,7 @@ Did you observe that the file names from `GrabPosisi` and `MasterPlan2019Subzone
 ## 3.1 Data Aggregation: Importing and Combining Aspatial parquet files
 
 ```{r}
+#| eval: false
 # Use list.files to get a list of filenames that match the pattern
 parquet_files <- list.files(path = "data/aspatial", pattern = "\\.parquet$", full.names = TRUE)
 
@@ -82,6 +87,7 @@ for (file_path in parquet_files) {
 ## 3.2 Data Export: Writing DataFrame to RDS file
 
 ```{r}
+#| eval: false
 write_rds(grab_data, "data/rds/grab_data.rds")
 ```
 
@@ -154,6 +160,8 @@ After looking at the file structure and contents of the 3 datasets, we need to p
 
     -   Extracting trip starting location
 
+    -   Converting aspatial data into geospatial data
+
 -   `roads_sf` and `mpsz_sf`
 
     -   Performing projection transformation
@@ -165,25 +173,18 @@ After looking at the file structure and contents of the 3 datasets, we need to p
 
 ## 3.4 Data Preparation
 
-### **grab_df**
+[grab_df]{.underline}
 
-### 3.4.1 Converting data type for pingtimestamp
-
-We will convert the data type for pingtimestamp from integer into datetime using as_datetime() from lubridate package. Afterwards, we will check if the data type has been converted correctly using head().
+### 3.4.1 Preparing and Converting `grab_df` into `grab_sf` (sf tibble data.framedata)
 
 ```{r}
 # Converting data type using as_datetime()
-grab_df$pingtimestamp <- as_datetime(grab_df$pingtimestamp)
+grab_df$pingtimestamp <- as_datetime(grab_df$pingtimestamp)        # <1>
 
 # Checking first n rows of data frame using head()
-# By default, the head() function returns the first 6 rows by default
-head(grab_df)
-```
+head(grab_df)                                                      # <2>  
 
-### 3.4.2 Extracting trip starting locations
-
-```{r}
-grab_origins <- grab_df %>% 
+grab_origins_sf <- grab_df %>% 
   group_by(trj_id) %>% 
   arrange(pingtimestamp) %>% 
   filter(row_number()==1) %>%
@@ -191,7 +192,42 @@ grab_origins <- grab_df %>%
                         label=TRUE,
                         abbr=TRUE),
          start_hr = factor(hour(pingtimestamp)),
-         day = factor(mday(pingtimestamp)))
+         day = factor(mday(pingtimestamp))) %>%
+  st_as_sf(coords = c("rawlng", "rawlat"),                         # <3>
+           crs = 4326) %>%
+  st_transform(crs = 3414)                                         # <4>
+
+# Getting geometry details using st_geometry()
+st_geometry(grab_origins_sf)
+```
+
+1.  Converting data type for `pingtimestamp` from integer into datetime using *as_datetime()* from **lubridate** package
+
+2.  By default, the *head()* returns the first **6** rows
+
+3.  Converting `grab_df` into sf tibble data.frame using *st_as_sf() and its location information*
+
+    Note: Converting aspatial data into geospatial data
+
+4.  Transforming coordinates using *st_transform()*
+
+### 3.4.2 Creating ppp objects
+
+```{r}
+grab_origins_ppp <- grab_origins_sf %>%
+  as('Spatial') %>%
+  as('SpatialPoints') %>%
+  as('ppp')
+summary(grab_origins_ppp)
+```
+
+```{r}
+# Checking for duplicated points
+any(duplicated(grab_origins_ppp))
+```
+
+```{r}
+plot(grab_origins_ppp)
 ```
 
 ### 3.4.3 Performing projection transformation
@@ -202,39 +238,118 @@ To perform projection transformation, we will *st_transform()*. Additionally, we
 
 ```{r}
 # Transforming coordinates using st_transform()
-roads_3414 <- st_transform(roads_sf,
+roads_sf <- st_transform(roads_sf,
                            crs = 3414)
 
 # Getting geometry details using st_geometry()
-st_geometry(roads_3414)
+st_geometry(roads_sf)
 ```
 
 [mpsz_sf]{.underline}
 
 ```{r}
 # Transforming coordinates using st_transform()
-mpsz_3414 <- st_transform(mpsz_sf,
+mpsz_sf <- st_transform(mpsz_sf,
                           crs = 3414)
 
 # Getting geometry details using st_geometry()
-st_geometry(mpsz_3414)
+st_geometry(mpsz_sf)
 ```
 
 Now, we observe that both `roads_sf` and `mpsz_sf` are using the **SVY21** projected coordinates system.
 
 ### 3.4.4 Extracting specific planning area - Downtown Core
 
-We will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.
+Due to the intensive computational power required to conduct analysis on the whole of Singapore, we will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.
 
 ```{r}
-downtown <- mpsz_3414 %>%
+sg_downtown_sf <- mpsz_sf %>%
   filter(PLN_AREA_N == "DOWNTOWN CORE")
 ```
 
-### 3.4.5 Getting road layer within Singapore excluding outer islands
+```{r}
+plot(sg_downtown_sf["PLN_AREA_N"], main = "DOWNTOWN CORE")
+```
+
+```{r}
+sg_sf <- mpsz_sf %>%
+  st_union()
+```
+
+### 3.4.5 Creating owin object - Downtown Core
+
+```{r}
+downtown_owin <- as.owin(sg_downtown_sf)
+summary(downtown_owin)
+```
+
+```{r}
+plot(downtown_owin)
+```
+
+### 3.4.6 Combining grab data points with study area - Downtown Core
+
+```{r}
+summary(downtown_owin)
+```
+
+```{r}
+grab_origins_dt_ppp <- grab_origins_ppp[downtown_owin]
+plot(grab_origins_dt_ppp, main="DOWNTOWN CORE")
+```
+
+### 3.4.7 Getting grab points within Downtown Core
+
+```{r}
+sg_downtown_grab_sf <- st_intersection(grab_origins_sf, sg_downtown_sf)
+```
+
+### 3.4.8 Getting road layer within Singapore excluding outer islands
 
 In order to get the road layer within Singapore (excluding outer islands), we can use *st_intersection()* from **sf** package to confine the analysis to Singapore's boundary (in specifics, confining to the Downtown core planning area).
 
 ```{r}
-output <- st_intersection(roads_3414, downtown)
+sg_downtown_road_sf <- st_intersection(roads_sf, sg_downtown_sf)
+```
+
+### **3.4.9 Visualizing the Geospatial data**
+
+```{r}
+#tmap_mode('view')
+#tm_shape(sg_downtown_grab_sf) + 
+#  tm_dots() + 
+#  tm_shape(sg_downtown_road_sf) +
+#  tm_lines()
+```
+
+```{r}
+tmap_mode('plot')
+```
+
+# 4.0 1^st^ Order Spatial Point Pattern Analysis (SPPA)
+
+## 4.1 Kernel Density Estimation (KDE)
+
+```{r}
+kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp,
+                              sigma=bw.diggle,
+                              edge=TRUE,
+                              kernel="gaussian") 
+```
+
+```{r}
+plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
+```
+
+```{r}
+grab_origins_dt_ppp.km <- rescale(grab_origins_dt_ppp, 1000, "km")
+```
+
+```{r}
+kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp.km,
+                              sigma=bw.diggle,
+                              edge=TRUE,
+                              kernel="gaussian")
+
+plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
 ```
