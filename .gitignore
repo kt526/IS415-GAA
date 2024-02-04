@@ -2,6 +2,7 @@
 .Rhistory
 .Rdata
 .RdataTmp
+.RdataTmp1
 .httr-oauth
 .DS_Store
 .quarto

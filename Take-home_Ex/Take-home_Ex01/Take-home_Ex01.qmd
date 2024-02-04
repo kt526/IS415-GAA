@@ -32,38 +32,64 @@ In this study, we will be working on the following tasks:
 
 In this take-home exercise, we will be using the following packages:
 
--   arrow
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Package Name | Description                                                                                                                                                  |
++==============+==============================================================================================================================================================+
+| arrow        | [arrow](https://arrow.apache.org/docs/r/) for reading in parquet files                                                                                       |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| lubridate    | [lubridate](https://lubridate.tidyverse.org/) for working with datetimes                                                                                     |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| maptools     | [maptools](https://rdrr.io/rforge/maptools/) for manipulating geospatial data                                                                                |
+|              |                                                                                                                                                              |
+|              | Note: Package `maptools` has been removed from CRAN repository. We would need to install from their archived repository.                                     |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tidyverse    | [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data                         |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tmap         | [tmap](https://r-tmap.github.io/tmap/) for creating thematic maps                                                                                            |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| raster       | raster for writing, manipulating, analyzing and modeling gridded spatial data                                                                                |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| sf           | [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data                                                                               |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| sp           | [sp](https://cran.r-project.org/web/packages/sp/sp.pdf) for managing SpatialPointsDataFrame, SpatialLinesDataFrame and performing projection transformation  |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| spatstat     | [spatstat](https://spatstat.org/resources/spatstatQuickref.pdf) for performing point pattern analysis and deriving the kernel density estimation (KDE) layer |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| spNetwork    | [spNetwork](https://cran.r-project.org/web/packages/spNetwork/spNetwork.pdf) for performing spatial analysis on network                                      |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
--   [sf](https://cran.r-project.org/web/packages/sf/) for handling geospatial data
-
--   [tidyverse](https://www.tidyverse.org/packages/) for performing data science tasks such as importing, wrangling and visualising data
+Let's load in the packages using *p_load()* of **pacman** package.
 
 ```{r}
-pacman::p_load(arrow, here, lubridate, maptools, tidyverse, tmap, sf, sp, spatstat, spNetwork)
+pacman::p_load(arrow, lubridate, maptools, tidyverse, tmap, raster, reshape2, sf, sp, spatstat, spNetwork)
 ```
 
 # 2.0 Data Acquisition
 
-There will be 3 data sets used in this exercise:
+We will be using 3 data sets in this exercise:
 
-| Data                                       | Format    | Description                                                 | Source                                                      |
-|---------------|---------------|---------------------|---------------------|
-| Grab Posisi                                | Parquet   | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
-| Road                                       | Shapefile | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
-| Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON   | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
++--------------------------------------------+-------------+-------------------------------------------------------------+-------------------------------------------------------------+
+| Data                                       | Format      | Description                                                 | Source                                                      |
++============================================+=============+=============================================================+=============================================================+
+| Grab Posisi                                | Parquet     | Grab taxi location points either by origins or destinations | [Grab](https://engineering.grab.com/grab-posisi)            |
++--------------------------------------------+-------------+-------------------------------------------------------------+-------------------------------------------------------------+
+| Road                                       | Shapefile   | Road layer within Singapore excluding outer islands         | [Geofabrik download server](https://download.geofabrik.de/) |
++--------------------------------------------+-------------+-------------------------------------------------------------+-------------------------------------------------------------+
+| Master Plan 2019 Subzone Boundary (No Sea) | GeoJSON     | Singapore boundary layer excluding outer islands            | [Data.gov.sg](https://beta.data.gov.sg/)                    |
++--------------------------------------------+-------------+-------------------------------------------------------------+-------------------------------------------------------------+
 
 ## 2.1 Extracting Geospatial and Aspatial Data Sets
 
 Start by creating a new folder labeled `Take-home_Ex01`. Within this folder, create a sub-folder named `data`. Inside the `data` sub-folder, create two additional sub-folders and rename them `geospatial` and `aspatial` respectively.
 
-Unzip the `malaysia-singapore-brunei-latest-free.shp.zip` folder and place all files, `MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson` into `geospatial` sub-folder.
+Unzip the `malaysia-singapore-brunei-latest-free.shp.zip` and `MPSZ-2019.zip` folders and place all files into `geospatial` sub-folder.
 
 Place all files from `GrabPosisi` into `aspatial` sub-folder.
 
 ::: callout-tip
 ## Tip
 
-Did you observe that the file names from `GrabPosisi` and `MasterPlan2019SubzoneBoundaryNoSeaGEOJSON.geojson` are quite lengthy? Shortening them could make processing more convenient later on.
+Did you observe that the file names from `GrabPosisi` are quite lengthy? Shortening them could make processing more convenient later on.
 
 Alternatively, we can *list.files()* to get a list of filenames that contains `.parquet` extension.
 :::
@@ -109,7 +135,7 @@ str(grab_df)
 ```
 :::
 
-What we can observe is that the grab data contains 30329685 observations and 9 variables. Notice that pingtimestamp is in the wrong format. It should be in date/time format and not integer. We will need to convert the data type in the next section (Data Preparation).
+What we can observe is that the grab data contains **30329685 observations** and **9 variables**. Notice that `pingtimestamp` is in the wrong format. It should be in date/time format and not integer. We will need to convert the data type in the next section (Data Preparation).
 
 ### 3.3.2 Importing Geospatial Data - Road data in shapefile format
 
@@ -162,11 +188,15 @@ After looking at the file structure and contents of the 3 datasets, we need to p
 
     -   Converting aspatial data into geospatial data
 
+    -   Getting grab data points within Downtown Core
+
 -   `roads_sf` and `mpsz_sf`
 
-    -   Performing projection transformation
+    -   Performing projection transformations
 
     -   Extracting study area
+
+    -   Creating owin object
 
     -   Getting road layer within Singapore excluding outer islands
 :::
@@ -221,6 +251,8 @@ grab_origins_ppp <- grab_origins_sf %>%
 summary(grab_origins_ppp)
 ```
 
+The presence of duplicates can affect the spatial point pattern analysis. Let us check if our `grab_origins_ppp` contains any duplicated points.
+
 ```{r}
 # Checking for duplicated points
 any(duplicated(grab_origins_ppp))
@@ -232,7 +264,7 @@ plot(grab_origins_ppp)
 
 ### 3.4.3 Performing projection transformation
 
-To perform projection transformation, we will *st_transform()*. Additionally, we will use *st_geometry()* to inspect the contents of `roads_sf` and `mpsz_sf` after the projection transformation.
+To perform projection transformation, we will use *st_transform()*. Additionally, we will also use *st_geometry()* to inspect the contents of `roads_sf` and `mpsz_sf` after the projection transformation.
 
 [roads_sf]{.underline}
 
@@ -260,45 +292,54 @@ Now, we observe that both `roads_sf` and `mpsz_sf` are using the **SVY21** proje
 
 ### 3.4.4 Extracting specific planning area - Downtown Core
 
-Due to the intensive computational power required to conduct analysis on the whole of Singapore, we will be focusing on the Downtown Core planning area for this analysis as we want to investigate the spatial data point analysis in the Central Business District areas.
+Given the high computational demands associated with analyzing the entire region of Singapore, our focus will be specifically on the **Downtown Core planning area**. This targeted approach aims to explore spatial data points within the Central Business District areas.
 
 ```{r}
+# extract Downtown core planning area
 sg_downtown_sf <- mpsz_sf %>%
   filter(PLN_AREA_N == "DOWNTOWN CORE")
+
+# plot the mpsz with downtown core
+tmap_mode("plot")
+tm_shape(mpsz_sf) +
+  tm_polygons() +
+  tmap_options(check.and.fix = TRUE) +
+tm_shape(sg_downtown_sf) +
+  tm_fill(col = "pink") +
+  tm_layout(main.title = "Map of Singapore by planning subzone",
+            main.title.position = "center",
+            main.title.size = 1.2)
+  tm_view(set.zoom.limits = c(11, 16))
 ```
 
-```{r}
-plot(sg_downtown_sf["PLN_AREA_N"], main = "DOWNTOWN CORE")
-```
+And here's how the zoom in version of Downtown core planning area would look like
 
 ```{r}
-#sg_sf <- mpsz_sf %>%
-#  st_union()
+plot(sg_downtown_sf["SUBZONE_N"], main = "DOWNTOWN CORE", col = "pink")
 ```
 
 ### 3.4.5 Creating owin object - Downtown Core
 
+We are creating an `owin` object to confine the analysis to Downtown Core planning area. After creating this object, we use the *summary()* to get a quick overview of its key features.
+
 ```{r}
 downtown_owin <- as.owin(sg_downtown_sf)
 summary(downtown_owin)
-```
-
-```{r}
 plot(downtown_owin)
 ```
 
 ### 3.4.6 Combining grab data points with study area - Downtown Core
 
 ```{r}
-summary(downtown_owin)
-```
-
-```{r}
 grab_origins_dt_ppp <- grab_origins_ppp[downtown_owin]
 plot(grab_origins_dt_ppp, main="DOWNTOWN CORE")
 ```
 
-### 3.4.7 Getting grab points within Downtown Core
+### 3.4.7 Getting grab data points within Downtown Core
+
+In order to obtain the grab data points within Singapore (excluding outer islands), we can use *st_intersection()* from **sf** package.
+
+To obtain grab data points within the Downtown Core, we can apply *st_intersection()* from the **sf** package to ensure exclusion of other planning areas and outer islands in the analysis.
 
 ```{r}
 sg_downtown_grab_sf <- st_intersection(grab_origins_sf, sg_downtown_sf)
@@ -306,43 +347,38 @@ sg_downtown_grab_sf <- st_intersection(grab_origins_sf, sg_downtown_sf)
 
 ### 3.4.8 Getting road layer within Singapore excluding outer islands
 
-In order to get the road layer within Singapore (excluding outer islands), we can use *st_intersection()* from **sf** package to confine the analysis to Singapore's boundary (in specifics, confining to the Downtown core planning area).
+Similarly, to get the road layer within Downtown Core (excluding other planning areas and outer islands), *st_intersection()* from the **sf** package will be used.
 
 ```{r}
 sg_downtown_road_sf <- st_intersection(roads_sf, sg_downtown_sf)
 sg_downtown_road_sf <- st_cast(sg_downtown_road_sf, "LINESTRING")
 ```
 
-### **3.4.9 Visualizing the Geospatial data**
-
-```{r}
-tmap_mode('view')
-tm_shape(sg_downtown_grab_sf) + 
-  tm_dots()
-```
-
-```{r}
-tmap_mode('plot')
-```
-
 # 4.0 1^st^ Order Spatial Point Pattern Analysis (SPPA)
+
+Now, we will be performing 1^st^ order spatial point pattern analysis (SPPA) using **spatstat** package.
 
 ## 4.1 Kernel Density Estimation (KDE)
 
+We will employ Kernel Density Estimation (KDE) to visualize the spatial distribution patterns of the initial trajectory locations of Grab hailing services. This analysis aims to identify regions exhibiting a high concentration of these starting trajectory locations. KDE is a statistical method that allows us to create a smooth representation of the data, helping us uncover areas with dense clusters of Grab hailing service origins.
+
+We will calculate the KDE using the `bw.diggle` bandwidth parameter and the default smoothing kernel - `gaussian`. As the default unit of measurement for **SVY 21** is in meters, the resulting density values will be expressed in terms of points per square meter. To facilitate a more comprehensible interpretation, we will employ the *rescale()* to convert the measurement unit from meters to kilometers. This conversion ensures that the density values represent the number of points per square kilometer, providing a more intuitive understanding of the spatial patterns in the data.
+
 ```{r}
+par(mfrow=c(2,2))
+
+# KDE with default values
 kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp,
                               sigma=bw.diggle,
                               edge=TRUE,
                               kernel="gaussian")
 
 plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
-```
 
-```{r}
+# Rescalling KDE values
 grab_origins_dt_ppp.km <- rescale(grab_origins_dt_ppp, 1000, "km")
-```
 
-```{r}
+# KDE with rescaled values
 kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp.km,
                               sigma=bw.diggle,
                               edge=TRUE,
@@ -351,96 +387,181 @@ kde_grab_origins_dt_bw <- density(grab_origins_dt_ppp.km,
 plot(kde_grab_origins_dt_bw, main = "KDE Grab Origins for Downtown Core")
 ```
 
-### Working with different automatic bandwidth methods and kernels
+Upon comparing the two plots above, the differences in the legends become apparent. It is important to highlight that the resulting plots look the same, with the only differences being reflected in the data values specified in the legends.
+
+### 4.1.1 Working with different automatic bandwidth methods
 
 ```{r}
-par(mfrow=c(2,4))
-# Using bw.diggle() bw
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.diggle, 
-             edge=TRUE, 
-             kernel="gaussian"), 
-     main="Gaussian")
+par(mfrow=c(1,4))
+# Choosing automatic bandwidth
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.CvL,
+             edge=TRUE,
+             kernel="gaussian"),
+     main="Using bw.Cv")
 
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.diggle, 
-             edge=TRUE, 
-             kernel="epanechnikov"), 
-     main="Epanechnikov")
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.scott,
+             edge=TRUE,
+             kernel="gaussian"),
+     main="Using bw.scott")
 
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.diggle, 
-             edge=TRUE, 
-             kernel="quartic"), 
-     main="Quartic")
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.diggle,
+             edge=TRUE,
+             kernel="gaussian"),
+     main="Using bw.diggle")
 
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.diggle, 
-             edge=TRUE, 
-             kernel="disc"), 
-     main="Disc")
-
-# Using bw.ppl() bw
-par(mfrow=c(2,2))
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.ppl, 
-             edge=TRUE, 
-             kernel="gaussian"), 
-     main="Gaussian")
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.ppl, 
-             edge=TRUE, 
-             kernel="epanechnikov"), 
-     main="Epanechnikov")
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.ppl, 
-             edge=TRUE, 
-             kernel="quartic"), 
-     main="Quartic")
-plot(density(grab_origins_dt_ppp.km, 
-             sigma=bw.ppl, 
-             edge=TRUE, 
-             kernel="disc"), 
-     main="Disc")
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="gaussian"),
+     main="Using bw.ppl")
 ```
 
-## 4.2 Network Kernel Density Estimation (NKDE)
+### 4.1.1 Working with different kernels
 
-### **4.2.1 Visualizing the Geospatial data**
+```{r}
+par(mfrow=c(1,4))
+# Choosing kernels
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Using gaussian")
+
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="epanechnikov"),
+             main="Using epanechnikov")
+
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="quartic"),
+             main="Using quartic")
+
+plot(density(grab_origins_dt_ppp.km,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="disc"),
+             main="Using Disc")
+```
+
+Since we did not observe any significant differences across the kernels, we will use the default Gaussian kernel. Thus, we will be using `Gaussian` kernel with `bw.ppl()` as our final KDE plot.
+
+```{r}
+  kde_grab_origins_dt_bw_ppl <- density(grab_origins_dt_ppp.km, 
+                                      sigma=bw.ppl, 
+                                      edge=TRUE,
+                                      kernel="gaussian")
+
+plot(kde_grab_origins_dt_bw_ppl)
+```
+
+### 4.1.2 Display KDE Maps on OpenStreetMap
+
+#### **4.1.2.1 Convert to raster for tmap display**
+
+```{r}
+gridded_kde_grab_origins_dt_bw_ppl <- as.SpatialGridDataFrame.im(kde_grab_origins_dt_bw_ppl)
+raster_kde_grab_origins_dt_bw_ppl <- raster(gridded_kde_grab_origins_dt_bw_ppl)
+```
+
+```{r}
+spplot(gridded_kde_grab_origins_dt_bw_ppl)
+```
+
+Let us take a look at the properties of `raster_kde_grab_origins_dt_bw_ppl` RasterLayer.
+
+```{r}
+raster_kde_grab_origins_dt_bw_ppl
+```
+
+Notice that the `crs` property is **NA**.
+
+#### **4.1.2.2** Assigning projection systems
+
+```{r}
+projection(raster_kde_grab_origins_dt_bw_ppl) <- CRS("+init=EPSG:3414 +units=km")
+raster_kde_grab_origins_dt_bw_ppl
+```
+
+Notice that the `crs` property is **completed**.
+
+#### **4.1.2.3 Display on tmap OpenStreetMap**
 
 ```{r}
 tmap_mode('view')
-tm_shape(sg_downtown_grab_sf) + 
-  tm_dots() + 
-  tm_shape(sg_downtown_road_sf) +
-  tm_lines()
-```
 
-```{r}
+tm_basemap('OpenStreetMap') +
+  tm_shape(raster_kde_grab_origins_dt_bw_ppl) + 
+  tm_raster("v") +
+  tm_layout(legend.position = c("right", "bottom"), frame = FALSE) + 
+  tm_shape(sg_downtown_sf) + 
+  tm_borders() +
+  tm_text("SUBZONE_N", size = 0.65)
+
 tmap_mode('plot')
 ```
 
-### **4.2.2 Preparing the lixel objects**
+**Interpretations of Spatial Analysis from KDE plots** 🔎**:**
+
+-   The specific subzones that have relatively higher concentration are `Cecil`, `Raffles Place` and `Bugis`. They are denoted by the darker green color.
+
+-   Subzones like `Philip` and `Maxwell` have relatively lower concentration. They are denoted by lighter yellow color.
+
+-   From KDE plots, we can only infer if a particular area / subzone area is highly or lessly concentrated but not specific road segments.
+
+Despite experimenting with various Kernel Density Estimation (KDE) methods and parameters, the interpretability of the generated plots remain constrained by a fundamental limitation of KDE, that is, the inability to comprehensively account for the intricate structure of road networks. The complexity of urban road layouts is not effectively captured by traditional KDE approaches, leading to a less precise representation of spatial patterns. As a consequence, the visualizations may not offer a nuanced understanding of the spatial dynamics, particularly in urban environments with intricate road networks.
+
+## 4.2 Network Kernel Density Estimation (NKDE)
+
+As a response to the limitation of KDE, we turn to NKDE. Network KDE considers the constraints and pathways defined by the road network, addressing the shortcomings of KDE by offering a more nuanced and accurate depiction of the concentrated areas for Grab hailing service origins within urban landscapes.
+
+### **4.2.1 Visualizing the Geospatial data**
+
+Let us visualize the geospatial data first.
 
 ```{r}
+tmap_mode('view')
+tm_shape(sg_downtown_sf) +
+  tm_fill(col = "SUBZONE_N", alpha = 0.5) + 
+  tm_shape(sg_downtown_road_sf) +
+  tm_lines() + 
+  tm_shape(sg_downtown_grab_sf) + 
+  tm_dots()
+
+tmap_mode('plot')
+```
+
+We can see that both grab data points and the road networks are confined to the Downtown core planning area. However, it is hard for us to tell which specific road segments are highly concentrated.
+
+### **4.2.2 Preparing the lixel objects and Generating line center points**
+
+Let us prepare the lixel objects and generate the line center points first before we perform NetKDE. We will set the length of a lixel (*lx_length)* to 700 meters, and the minimum length of a lixel (*mindist)* to 350 meters.
+
+```{r}
+# splitting the lines as lixels
 lixels <- lixelize_lines(sg_downtown_road_sf, 
                          700, 
                          mindist = 350)
+
+# extracting the center of lixels as sampling points
+sample_pts <- lines_center(lixels)
 ```
 
-### **4.2.3 Generating line centre points**
+### **4.2.3 Performing NetKDE**
+
+To identify hot spots of grab origins, we will be performing a simple NKDE with a quartic kernel and bandwidth of 300 meters.
 
 ```{r}
-samples <- lines_center(lixels)
-```
-
-### **4.2.4 Performing NetKDE**
-
-```{r}
-densities <- nkde(sg_downtown_road_sf, 
+# densities for the simple NKDE
+nkde_simple <- nkde(sg_downtown_road_sf, 
                   events = sg_downtown_grab_sf,
                   w = rep(1,nrow(sg_downtown_grab_sf)),
-                  samples = samples,
+                  samples = sample_pts,
                   kernel_name = "quartic",
                   bw = 300, 
                   div= "bw", 
@@ -449,28 +570,37 @@ densities <- nkde(sg_downtown_road_sf,
                   tol = 1,
                   grid_shape = c(1,1), 
                   max_depth = 8,
-                  agg = 5, #we aggregate events within a 5m radius (faster calculation)
+                  agg = 5,
                   sparse = TRUE,
                   verbose = FALSE)
 ```
 
+To obtain more readable results, we can multiply the obtained densities by 1000 to get the estimated numbers of grab data points per kilometer.
+
 ```{r}
-samples$density <- densities
-lixels$density <- densities
+# adding the densities as new columns to the sampling
+sample_pts$density <- nkde_simple
+lixels$density <- nkde_simple
 
 # rescaling to help the mapping
-samples$density <- samples$density*1000
+sample_pts$density <- sample_pts$density*1000
 lixels$density <- lixels$density*1000
 ```
 
+Finally, let us visualize the network kernel density estimate values.
+
 ```{r}
 tmap_mode('view')
-tm_shape(lixels)+
+tm_shape(sg_downtown_sf) +
+  tm_fill(col = "SUBZONE_N", alpha = 0.5) + 
+  tm_shape(lixels) +
   tm_lines(col="density") +
   tm_shape(sg_downtown_grab_sf) +
   tm_dots()
-```
 
-```{r}
 tmap_mode('plot')
 ```
+
+**Interpretations of Spatial Analysis from NKDE plots** 🔎**:**
+
+-   Road segments that are darker in color have relatively higher density of grab pickups than road segments that are lighter in color
