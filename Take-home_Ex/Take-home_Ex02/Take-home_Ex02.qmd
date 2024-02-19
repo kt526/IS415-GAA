@@ -1,0 +1,36 @@
+---
+title: "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan"
+execute:
+  eval: true
+  echo: true
+  warning: false
+toc-depth: 2
+code-annotations: hover
+---
+
+# 1.0 Introduction
+
+## 1.1. Overview - Setting the Scene
+
+[Dengue Hemorrhagic Fever](https://www.cdc.gov/dengue/resources/denguedhf-information-for-health-care-practitioners_2009.pdf) (in short dengue fever) is one of the most widespread mosquito-borne diseases in the most tropical and subtropical regions. It is an acute disease caused by dengue virus infection which is transmitted by female Aedes aegypti and Aedes albopictus mosquitoes. In 2015, Taiwan had recorded the most severe dengue fever outbreak with more than 43,000 dengue cases and 228 deaths. Since then, the annual reported dengue fever cases were maintained at the level of not more than 200 cases. However, in 2023, Taiwan recorded 26703 dengue fever cases.
+
+## 1.2 Objectives
+
+In this study, we are interested to discover:
+
+-   if the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.
+
+-   If the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas.
+
+## 1.3 Getting Started
+
+In this take-home exercise, we will be using the following packages.
+
+# 2.0 Data Acquisition
+
+We will be using **2 data sets** in this exercise:
+
+| Data                | Format         | Description                                                    | Source                                                                                               |
+|-----------------|-----------------|--------------------|--------------------|
+| TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
+| Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
