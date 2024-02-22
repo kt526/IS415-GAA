@@ -26,11 +26,32 @@ In this study, we are interested to discover:
 
 In this take-home exercise, we will be using the following packages.
 
+```{r}
+pacman::p_load(tidyverse, tmap, sf, sp)
+```
+
 # 2.0 Data Acquisition
 
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-----------------|-----------------|--------------------|--------------------|
+|------------------|------------------|-------------------|-------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
+
+Create a new folder labelled `Take-home_Ex02` and place all the files into this folder.
+
+# 3.0 Importing Geospatial and Aspatial Data
+
+## 3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format
+
+```{r}
+tainan_sf <- st_read(dsn = "data/geospatial", 
+                layer = "TAINAN_VILLAGE")
+```
+
+## 3.2 Importing Aspatial data - Dengue_Daily.csv
+
+```{r}
+dengue <- read_csv("data/aspatial/Dengue_Daily.csv")
+```
