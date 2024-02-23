@@ -294,6 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>3.0 Importing Geospatial and Aspatial Data</h1>
 <section id="importing-geospatial-data---taiwan_village_2020-in-shapefile-format" class="level2">
 <h2 class="anchored" data-anchor-id="importing-geospatial-data---taiwan_village_2020-in-shapefile-format">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format</h2>
+<p>The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the simple features or layers from file or database and returns an sf object.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tainan_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"TAINAN_VILLAGE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -311,6 +312,7 @@ Geodetic CRS:  TWD97</code></pre>
 </section>
 <section id="importing-aspatial-data---dengue_daily.csv" class="level2">
 <h2 class="anchored" data-anchor-id="importing-aspatial-data---dengue_daily.csv">3.2 Importing Aspatial data - Dengue_Daily.csv</h2>
+<p>The Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dengue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Dengue_Daily.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

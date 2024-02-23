@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|------------------|------------------|-------------------|-------------------|
+|-------------|-------------|-----------------|------------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -45,12 +45,16 @@ Create a new folder labelled `Take-home_Ex02` and place all the files into this 
 
 ## 3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format
 
+The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the simple features or layers from file or database and returns an sf object.
+
 ```{r}
 tainan_sf <- st_read(dsn = "data/geospatial", 
                 layer = "TAINAN_VILLAGE")
 ```
 
 ## 3.2 Importing Aspatial data - Dengue_Daily.csv
+
+The Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.
 
 ```{r}
 dengue <- read_csv("data/aspatial/Dengue_Daily.csv")

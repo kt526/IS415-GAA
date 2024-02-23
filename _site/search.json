@@ -753,13 +753,13 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-geospatial-data---taiwan_village_2020-in-shapefile-format",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format",
-    "text": "3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format\n\ntainan_sf &lt;- st_read(dsn = \"data/geospatial\", \n                layer = \"TAINAN_VILLAGE\")\n\nReading layer `TAINAN_VILLAGE' from data source \n  `C:\\kt526\\IS415-GAA\\Take-home_Ex\\Take-home_Ex02\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 649 features and 10 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 120.0269 ymin: 22.88751 xmax: 120.6563 ymax: 23.41374\nGeodetic CRS:  TWD97"
+    "text": "3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format\nThe TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the simple features or layers from file or database and returns an sf object.\n\ntainan_sf &lt;- st_read(dsn = \"data/geospatial\", \n                layer = \"TAINAN_VILLAGE\")\n\nReading layer `TAINAN_VILLAGE' from data source \n  `C:\\kt526\\IS415-GAA\\Take-home_Ex\\Take-home_Ex02\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 649 features and 10 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 120.0269 ymin: 22.88751 xmax: 120.6563 ymax: 23.41374\nGeodetic CRS:  TWD97"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-aspatial-data---dengue_daily.csv",
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-aspatial-data---dengue_daily.csv",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "3.2 Importing Aspatial data - Dengue_Daily.csv",
-    "text": "3.2 Importing Aspatial data - Dengue_Daily.csv\n\ndengue &lt;- read_csv(\"data/aspatial/Dengue_Daily.csv\")"
+    "text": "3.2 Importing Aspatial data - Dengue_Daily.csv\nThe Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.\n\ndengue &lt;- read_csv(\"data/aspatial/Dengue_Daily.csv\")"
   }
 ]
