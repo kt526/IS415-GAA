@@ -216,6 +216,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#importing-geospatial-data---taiwan_village_2020-in-shapefile-format" id="toc-importing-geospatial-data---taiwan_village_2020-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---taiwan_village_2020-in-shapefile-format">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format</a></li>
   <li><a href="#importing-aspatial-data---dengue_daily.csv" id="toc-importing-aspatial-data---dengue_daily.csv" class="nav-link" data-scroll-target="#importing-aspatial-data---dengue_daily.csv">3.2 Importing Aspatial data - Dengue_Daily.csv</a></li>
   </ul></li>
+  <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">4.0 Data Wrangling</a>
+  <ul class="collapse">
+  <li><a href="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</a></li>
+  <li><a href="#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" id="toc-extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" class="nav-link" data-scroll-target="#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023">4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023</a></li>
+  <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -316,6 +322,22 @@ Geodetic CRS:  TWD97</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dengue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Dengue_Daily.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+</section>
+<section id="data-wrangling" class="level1">
+<h1>4.0 Data Wrangling</h1>
+<section id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'D01'</span>, <span class="st">'D02'</span>, <span class="st">'D04'</span>, <span class="st">'D06'</span>, <span class="st">'D07'</span>, <span class="st">'D08'</span>, <span class="st">'D32'</span>, <span class="st">'D39'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf<span class="ot">&lt;-</span> tainan_sf <span class="sc">%&gt;%</span> <span class="fu">filter</span>(TOWNID <span class="sc">%in%</span> counties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023">4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023</h2>
+</section>
+<section id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</h2>
 
 
 </section>

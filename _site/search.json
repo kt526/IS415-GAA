@@ -761,5 +761,26 @@
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "3.2 Importing Aspatial data - Dengue_Daily.csv",
     "text": "3.2 Importing Aspatial data - Dengue_Daily.csv\nThe Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.\n\ndengue &lt;- read_csv(\"data/aspatial/Dengue_Daily.csv\")"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan",
+    "text": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan\n\ncounties &lt;- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')\ntainan_counties_sf&lt;- tainan_sf %&gt;% filter(TOWNID %in% counties)"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023",
+    "text": "4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan",
+    "text": "4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan"
   }
 ]

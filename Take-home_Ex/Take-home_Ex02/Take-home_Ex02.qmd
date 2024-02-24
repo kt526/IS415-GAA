@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-------------|-------------|-----------------|------------------------------|
+|---------------|---------------|---------------|--------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -58,4 +58,25 @@ The Dengue_Daily dataset is available in CSV format and was obtained from the Ta
 
 ```{r}
 dengue <- read_csv("data/aspatial/Dengue_Daily.csv")
+```
+
+# 4.0 Data Wrangling
+
+## 4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan
+
+```{r}
+counties <- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')
+tainan_counties_sf<- tainan_sf %>% filter(TOWNID %in% counties)
+```
+
+## 4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023
+
+```{r}
+
+```
+
+## 4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan
+
+```{r}
+
 ```
