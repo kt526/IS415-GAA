@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|---------------|---------------|---------------|--------------------------|
+|-------------|-------------|-----------------|------------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -50,6 +50,10 @@ The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To
 ```{r}
 tainan_sf <- st_read(dsn = "data/geospatial", 
                 layer = "TAINAN_VILLAGE")
+```
+
+```{r}
+st_crs(tainan_sf)
 ```
 
 ## 3.2 Importing Aspatial data - Dengue_Daily.csv
