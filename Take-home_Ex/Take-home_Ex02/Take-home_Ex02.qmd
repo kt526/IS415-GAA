@@ -18,7 +18,7 @@ code-annotations: hover
 
 In this study, we are interested to discover:
 
--   if the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.
+-   If the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.
 
 -   If the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas.
 
@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-------------|-------------|-----------------|------------------------------|
+|----------------|----------------|----------------|------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -43,44 +43,81 @@ Create a new folder labelled `Take-home_Ex02` and place all the files into this 
 
 # 3.0 Importing Geospatial and Aspatial Data
 
-## 3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format
+## 3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020
 
-The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the simple features or layers from file or database and returns an sf object.
+The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the shapefile containing the administrative boundaries of Tainan City and returns an sf object named `tainan_sf`.
 
 ```{r}
 tainan_sf <- st_read(dsn = "data/geospatial", 
                 layer = "TAINAN_VILLAGE")
 ```
 
-```{r}
-st_crs(tainan_sf)
-```
+## 3.2 Importing Aspatial data - Dengue_Daily
 
-## 3.2 Importing Aspatial data - Dengue_Daily.csv
-
-The Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.
+The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv cdataset and store the object in a tibble data frame named `dengue`.
 
 ```{r}
 dengue <- read_csv("data/aspatial/Dengue_Daily.csv")
+head(dengue)
 ```
 
 # 4.0 Data Wrangling
 
 ## 4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan
 
+**Task: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties**
+
+In this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically **D01, D02, D04, D06, D07, D08, D32, and D39**. To prepare a study area layer focusing on these specific counties, we can do the following:
+
 ```{r}
 counties <- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')
 tainan_counties_sf<- tainan_sf %>% filter(TOWNID %in% counties)
 ```
 
-## 4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023
+::: callout-note
+## Notes
+
+The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (`tainan_sf`) based on the `TOWNID` column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named `tainan_counties_sf`, will serve as our study area layer for further analysis or visualization tasks.
+:::
+
+## 4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan
+
+**Tasks:**
+
+1.  **Extracting dengue fever cases within epidemiology week 31-50, 2023**
+2.  **Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties**
 
 ```{r}
-
+dengue_2023 <- dengue %>%
+  select(發病日,
+         最小統計區中心點X,
+         最小統計區中心點Y) %>%
+  mutate(EPIWEEK = epiweek(發病日)) %>%
+  filter(year(dengue$發病日) == 2023)
 ```
 
-## 4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan
+Visualizing the distribution of dengue fever cases across the epidemiology weeks
 
 ```{r}
-
+ggplot(dengue_2023, aes(x = EPIWEEK)) +
+  geom_histogram(binwidth = 1, color = "grey") +
+  labs(x = "EPIWEEK", y = "count") +
+  ggtitle("Distribution of Dengue Cases in 2023 by Epidemiology weeks") +
+  theme_minimal()
 ```
+
+More than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.
+
+```{r}
+dengue_2023_epiweeks_31_50 <- dengue_2023 %>%
+  filter(between(EPIWEEK, 31, 50))
+
+unique(dengue_2023_epiweeks_31_50$EPIWEEK)
+```
+
+## 4.3 Checking the coordinate system
+
+```{r} st_crs(tainan_sf)}
+```
+
+## 4.4 Converting aspatial data (converting to sf tibble data.frame)

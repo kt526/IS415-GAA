@@ -718,7 +718,7 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "",
-    "text": "Dengue Hemorrhagic Fever (in short dengue fever) is one of the most widespread mosquito-borne diseases in the most tropical and subtropical regions. It is an acute disease caused by dengue virus infection which is transmitted by female Aedes aegypti and Aedes albopictus mosquitoes. In 2015, Taiwan had recorded the most severe dengue fever outbreak with more than 43,000 dengue cases and 228 deaths. Since then, the annual reported dengue fever cases were maintained at the level of not more than 200 cases. However, in 2023, Taiwan recorded 26703 dengue fever cases.\n\n\n\nIn this study, we are interested to discover:\n\nif the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.\nIf the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas.\n\n\n\n\nIn this take-home exercise, we will be using the following packages.\n\npacman::p_load(tidyverse, tmap, sf, sp)"
+    "text": "Dengue Hemorrhagic Fever (in short dengue fever) is one of the most widespread mosquito-borne diseases in the most tropical and subtropical regions. It is an acute disease caused by dengue virus infection which is transmitted by female Aedes aegypti and Aedes albopictus mosquitoes. In 2015, Taiwan had recorded the most severe dengue fever outbreak with more than 43,000 dengue cases and 228 deaths. Since then, the annual reported dengue fever cases were maintained at the level of not more than 200 cases. However, in 2023, Taiwan recorded 26703 dengue fever cases.\n\n\n\nIn this study, we are interested to discover:\n\nIf the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.\nIf the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas.\n\n\n\n\nIn this take-home exercise, we will be using the following packages.\n\npacman::p_load(tidyverse, tmap, sf, sp)"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#overview---setting-the-scene",
@@ -732,7 +732,7 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#objectives",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "",
-    "text": "In this study, we are interested to discover:\n\nif the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.\nIf the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas."
+    "text": "In this study, we are interested to discover:\n\nIf the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.\nIf the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#getting-started",
@@ -767,7 +767,7 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan",
-    "text": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan\n\ncounties &lt;- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')\ntainan_counties_sf&lt;- tainan_sf %&gt;% filter(TOWNID %in% counties)"
+    "text": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan\nTask: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties\nIn this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically D01, D02, D04, D06, D07, D08, D32, and D39. To prepare a study area layer focusing on these specific counties, we can do the following:\n\ncounties &lt;- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')\ntainan_counties_sf&lt;- tainan_sf %&gt;% filter(TOWNID %in% counties)\n\n\n\n\n\n\n\nNotes\n\n\n\nThe c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (tainan_sf) based on the TOWNID column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named tainan_counties_sf, will serve as our study area layer for further analysis or visualization tasks."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023",
@@ -780,7 +780,42 @@
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan",
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan",
+    "text": "4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan\nTasks:\n\nExtracting dengue fever cases within epidemiology week 31-50, 2023\nConfining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties\n\n\ndengue_2023 &lt;- dengue %&gt;%\n  select(發病日,\n         最小統計區中心點X,\n         最小統計區中心點Y) %&gt;%\n  mutate(EPIWEEK = epiweek(發病日)) %&gt;%\n  filter(year(dengue$發病日) == 2023)\n\nVisualizing the distribution of dengue fever cases across the epidemiology weeks\n\nggplot(dengue_2023, aes(x = EPIWEEK)) +\n  geom_histogram(binwidth = 1, color = \"grey\") +\n  labs(x = \"EPIWEEK\", y = \"count\") +\n  ggtitle(\"Distribution of Dengue Cases in 2023 by Epidemiology weeks\") +\n  theme_minimal()\n\n\n\n\nMore than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.\n\ndengue_2023_epiweeks_31_50 &lt;- dengue_2023 %&gt;%\n  filter(between(EPIWEEK, 31, 50))\n\nunique(dengue_2023_epiweeks_31_50$EPIWEEK)\n\n [1] 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-geospatial-data---taiwan_village_2020",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-geospatial-data---taiwan_village_2020",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020",
+    "text": "3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020\nThe TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the shapefile containing the administrative boundaries of Tainan City and returns an sf object named tainan_sf.\n\ntainan_sf &lt;- st_read(dsn = \"data/geospatial\", \n                layer = \"TAINAN_VILLAGE\")\n\nReading layer `TAINAN_VILLAGE' from data source \n  `C:\\kt526\\IS415-GAA\\Take-home_Ex\\Take-home_Ex02\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 649 features and 10 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 120.0269 ymin: 22.88751 xmax: 120.6563 ymax: 23.41374\nGeodetic CRS:  TWD97"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-aspatial-data---dengue_daily",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#importing-aspatial-data---dengue_daily",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "3.2 Importing Aspatial data - Dengue_Daily",
+    "text": "3.2 Importing Aspatial data - Dengue_Daily\nThe Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv cdataset and store the object in a tibble data frame named dengue.\n\ndengue &lt;- read_csv(\"data/aspatial/Dengue_Daily.csv\")\nhead(dengue)\n\n# A tibble: 6 × 26\n  發病日     個案研判日 通報日     性別  年齡層 居住縣市 居住鄉鎮 居住村里\n  &lt;date&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   \n1 1998-01-02 None       1998-01-07 男    40-44  屏東縣   屏東市   None    \n2 1998-01-03 None       1998-01-14 男    30-34  屏東縣   東港鎮   None    \n3 1998-01-13 None       1998-02-18 男    55-59  宜蘭縣   宜蘭市   None    \n4 1998-01-15 None       1998-01-23 男    35-39  高雄市   苓雅區   None    \n5 1998-01-20 None       1998-02-04 男    55-59  宜蘭縣   五結鄉   None    \n6 1998-01-22 None       1998-02-19 男    20-24  桃園市   蘆竹區   None    \n# ℹ 18 more variables: 最小統計區 &lt;chr&gt;, 最小統計區中心點X &lt;chr&gt;,\n#   最小統計區中心點Y &lt;chr&gt;, 一級統計區 &lt;chr&gt;, 二級統計區 &lt;chr&gt;,\n#   感染縣市 &lt;chr&gt;, 感染鄉鎮 &lt;chr&gt;, 感染村里 &lt;chr&gt;, 是否境外移入 &lt;chr&gt;,\n#   感染國家 &lt;chr&gt;, 確定病例數 &lt;dbl&gt;, 居住村里代碼 &lt;chr&gt;, 感染村里代碼 &lt;chr&gt;,\n#   血清型 &lt;chr&gt;, 內政部居住縣市代碼 &lt;chr&gt;, 內政部居住鄉鎮代碼 &lt;chr&gt;,\n#   內政部感染縣市代碼 &lt;chr&gt;, 內政部感染鄉鎮代碼 &lt;chr&gt;"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan-1",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan-1",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan",
     "text": "4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#checking-the-coordinate-system",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#checking-the-coordinate-system",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.3 Checking the coordinate system",
+    "text": "4.3 Checking the coordinate system"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#converting-aspatial-data-converting-to-sf-tibble-data.frame",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#converting-aspatial-data-converting-to-sf-tibble-data.frame",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "4.4 Converting aspatial data (converting to sf tibble data.frame)",
+    "text": "4.4 Converting aspatial data (converting to sf tibble data.frame)"
   }
 ]

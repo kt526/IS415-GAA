@@ -213,14 +213,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition">2.0 Data Acquisition</a></li>
   <li><a href="#importing-geospatial-and-aspatial-data" id="toc-importing-geospatial-and-aspatial-data" class="nav-link" data-scroll-target="#importing-geospatial-and-aspatial-data">3.0 Importing Geospatial and Aspatial Data</a>
   <ul class="collapse">
-  <li><a href="#importing-geospatial-data---taiwan_village_2020-in-shapefile-format" id="toc-importing-geospatial-data---taiwan_village_2020-in-shapefile-format" class="nav-link" data-scroll-target="#importing-geospatial-data---taiwan_village_2020-in-shapefile-format">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format</a></li>
-  <li><a href="#importing-aspatial-data---dengue_daily.csv" id="toc-importing-aspatial-data---dengue_daily.csv" class="nav-link" data-scroll-target="#importing-aspatial-data---dengue_daily.csv">3.2 Importing Aspatial data - Dengue_Daily.csv</a></li>
+  <li><a href="#importing-geospatial-data---taiwan_village_2020" id="toc-importing-geospatial-data---taiwan_village_2020" class="nav-link" data-scroll-target="#importing-geospatial-data---taiwan_village_2020">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020</a></li>
+  <li><a href="#importing-aspatial-data---dengue_daily" id="toc-importing-aspatial-data---dengue_daily" class="nav-link" data-scroll-target="#importing-aspatial-data---dengue_daily">3.2 Importing Aspatial data - Dengue_Daily</a></li>
   </ul></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">4.0 Data Wrangling</a>
   <ul class="collapse">
   <li><a href="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</a></li>
-  <li><a href="#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" id="toc-extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" class="nav-link" data-scroll-target="#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023">4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023</a></li>
-  <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
+  <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
+  <li><a href="#checking-the-coordinate-system" id="toc-checking-the-coordinate-system" class="nav-link" data-scroll-target="#checking-the-coordinate-system">4.3 Checking the coordinate system</a></li>
+  <li><a href="#converting-aspatial-data-converting-to-sf-tibble-data.frame" id="toc-converting-aspatial-data-converting-to-sf-tibble-data.frame" class="nav-link" data-scroll-target="#converting-aspatial-data-converting-to-sf-tibble-data.frame">4.4 Converting aspatial data (converting to sf tibble data.frame)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -255,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="objectives">1.2 Objectives</h2>
 <p>In this study, we are interested to discover:</p>
 <ul>
-<li><p>if the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.</p></li>
+<li><p>If the distribution of dengue fever outbreak at Tainan City, Taiwan are independent from space and space and time.</p></li>
 <li><p>If the outbreak is indeed spatial and spatio-temporal dependent, then, you would like to detect where are the clusters and outliers, and the emerging hot spot/cold spot areas.</p></li>
 </ul>
 </section>
@@ -298,9 +299,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importing-geospatial-and-aspatial-data" class="level1">
 <h1>3.0 Importing Geospatial and Aspatial Data</h1>
-<section id="importing-geospatial-data---taiwan_village_2020-in-shapefile-format" class="level2">
-<h2 class="anchored" data-anchor-id="importing-geospatial-data---taiwan_village_2020-in-shapefile-format">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020 in shapefile format</h2>
-<p>The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the simple features or layers from file or database and returns an sf object.</p>
+<section id="importing-geospatial-data---taiwan_village_2020" class="level2">
+<h2 class="anchored" data-anchor-id="importing-geospatial-data---taiwan_village_2020">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020</h2>
+<p>The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the shapefile containing the administrative boundaries of Tainan City and returns an sf object named <code>tainan_sf</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tainan_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"TAINAN_VILLAGE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -315,38 +316,30 @@ Bounding box:  xmin: 120.0269 ymin: 22.88751 xmax: 120.6563 ymax: 23.41374
 Geodetic CRS:  TWD97</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(tainan_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Coordinate Reference System:
-  User input: TWD97 
-  wkt:
-GEOGCRS["TWD97",
-    DATUM["Taiwan Datum 1997",
-        ELLIPSOID["GRS 1980",6378137,298.257222101,
-            LENGTHUNIT["metre",1]]],
-    PRIMEM["Greenwich",0,
-        ANGLEUNIT["degree",0.0174532925199433]],
-    CS[ellipsoidal,2],
-        AXIS["geodetic latitude (Lat)",north,
-            ORDER[1],
-            ANGLEUNIT["degree",0.0174532925199433]],
-        AXIS["geodetic longitude (Lon)",east,
-            ORDER[2],
-            ANGLEUNIT["degree",0.0174532925199433]],
-    USAGE[
-        SCOPE["Horizontal component of 3D system."],
-        AREA["Taiwan, Republic of China - onshore and offshore - Taiwan Island, Penghu (Pescadores) Islands."],
-        BBOX[17.36,114.32,26.96,123.61]],
-    ID["EPSG",3824]]</code></pre>
-</div>
-</div>
 </section>
-<section id="importing-aspatial-data---dengue_daily.csv" class="level2">
-<h2 class="anchored" data-anchor-id="importing-aspatial-data---dengue_daily.csv">3.2 Importing Aspatial data - Dengue_Daily.csv</h2>
-<p>The Dengue_Daily dataset is available in CSV format and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in CSV format, a different method is required for reading it. We will utilize the read_csv() function to import the CSV dataset.</p>
+<section id="importing-aspatial-data---dengue_daily" class="level2">
+<h2 class="anchored" data-anchor-id="importing-aspatial-data---dengue_daily">3.2 Importing Aspatial data - Dengue_Daily</h2>
+<p>The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv cdataset and store the object in a tibble data frame named <code>dengue</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dengue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Dengue_Daily.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dengue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Dengue_Daily.csv"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dengue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 26
+  發病日     個案研判日 通報日     性別  年齡層 居住縣市 居住鄉鎮 居住村里
+  &lt;date&gt;     &lt;chr&gt;      &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   
+1 1998-01-02 None       1998-01-07 男    40-44  屏東縣   屏東市   None    
+2 1998-01-03 None       1998-01-14 男    30-34  屏東縣   東港鎮   None    
+3 1998-01-13 None       1998-02-18 男    55-59  宜蘭縣   宜蘭市   None    
+4 1998-01-15 None       1998-01-23 男    35-39  高雄市   苓雅區   None    
+5 1998-01-20 None       1998-02-04 男    55-59  宜蘭縣   五結鄉   None    
+6 1998-01-22 None       1998-02-19 男    20-24  桃園市   蘆竹區   None    
+# ℹ 18 more variables: 最小統計區 &lt;chr&gt;, 最小統計區中心點X &lt;chr&gt;,
+#   最小統計區中心點Y &lt;chr&gt;, 一級統計區 &lt;chr&gt;, 二級統計區 &lt;chr&gt;,
+#   感染縣市 &lt;chr&gt;, 感染鄉鎮 &lt;chr&gt;, 感染村里 &lt;chr&gt;, 是否境外移入 &lt;chr&gt;,
+#   感染國家 &lt;chr&gt;, 確定病例數 &lt;dbl&gt;, 居住村里代碼 &lt;chr&gt;, 感染村里代碼 &lt;chr&gt;,
+#   血清型 &lt;chr&gt;, 內政部居住縣市代碼 &lt;chr&gt;, 內政部居住鄉鎮代碼 &lt;chr&gt;,
+#   內政部感染縣市代碼 &lt;chr&gt;, 內政部感染鄉鎮代碼 &lt;chr&gt;</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -354,16 +347,69 @@ GEOGCRS["TWD97",
 <h1>4.0 Data Wrangling</h1>
 <section id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</h2>
+<p><strong>Task: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</strong></p>
+<p>In this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically <strong>D01, D02, D04, D06, D07, D08, D32, and D39</strong>. To prepare a study area layer focusing on these specific counties, we can do the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'D01'</span>, <span class="st">'D02'</span>, <span class="st">'D04'</span>, <span class="st">'D06'</span>, <span class="st">'D07'</span>, <span class="st">'D08'</span>, <span class="st">'D32'</span>, <span class="st">'D39'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf<span class="ot">&lt;-</span> tainan_sf <span class="sc">%&gt;%</span> <span class="fu">filter</span>(TOWNID <span class="sc">%in%</span> counties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'D01'</span>, <span class="st">'D02'</span>, <span class="st">'D04'</span>, <span class="st">'D06'</span>, <span class="st">'D07'</span>, <span class="st">'D08'</span>, <span class="st">'D32'</span>, <span class="st">'D39'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf<span class="ot">&lt;-</span> tainan_sf <span class="sc">%&gt;%</span> <span class="fu">filter</span>(TOWNID <span class="sc">%in%</span> counties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (<code>tainan_sf</code>) based on the <code>TOWNID</code> column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named <code>tainan_counties_sf</code>, will serve as our study area layer for further analysis or visualization tasks.</p>
+</div>
 </div>
 </section>
-<section id="extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023" class="level2">
-<h2 class="anchored" data-anchor-id="extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023">4.2 Extracting dengue fever cases with epidemiology week 31-50, 2023</h2>
-</section>
 <section id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
-<h2 class="anchored" data-anchor-id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.3 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</h2>
+<h2 class="anchored" data-anchor-id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</h2>
+<p><strong>Tasks:</strong></p>
+<ol type="1">
+<li><strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></li>
+<li><strong>Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</strong></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dengue_2023 <span class="ot">&lt;-</span> dengue <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(發病日,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         最小統計區中心點X,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         最小統計區中心點Y) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EPIWEEK =</span> <span class="fu">epiweek</span>(發病日)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(dengue<span class="sc">$</span>發病日) <span class="sc">==</span> <span class="dv">2023</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualizing the distribution of dengue fever cases across the epidemiology weeks</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dengue_2023, <span class="fu">aes</span>(<span class="at">x =</span> EPIWEEK)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"EPIWEEK"</span>, <span class="at">y =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Dengue Cases in 2023 by Epidemiology weeks"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>More than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dengue_2023_epiweeks_31_50 <span class="ot">&lt;-</span> dengue_2023 <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">between</span>(EPIWEEK, <span class="dv">31</span>, <span class="dv">50</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(dengue_2023_epiweeks_31_50<span class="sc">$</span>EPIWEEK)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50</code></pre>
+</div>
+</div>
+</section>
+<section id="checking-the-coordinate-system" class="level2">
+<h2 class="anchored" data-anchor-id="checking-the-coordinate-system">4.3 Checking the coordinate system</h2>
+<pre class="{r} st_crs(tainan_sf)}"><code></code></pre>
+</section>
+<section id="converting-aspatial-data-converting-to-sf-tibble-data.frame" class="level2">
+<h2 class="anchored" data-anchor-id="converting-aspatial-data-converting-to-sf-tibble-data.frame">4.4 Converting aspatial data (converting to sf tibble data.frame)</h2>
 
 
 </section>
