@@ -220,8 +220,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</a></li>
   <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
-  <li><a href="#checking-the-coordinate-system" id="toc-checking-the-coordinate-system" class="nav-link" data-scroll-target="#checking-the-coordinate-system">4.3 Checking the coordinate system</a></li>
-  <li><a href="#converting-aspatial-data-converting-to-sf-tibble-data.frame" id="toc-converting-aspatial-data-converting-to-sf-tibble-data.frame" class="nav-link" data-scroll-target="#converting-aspatial-data-converting-to-sf-tibble-data.frame">4.4 Converting aspatial data (converting to sf tibble data.frame)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -264,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="getting-started">1.3 Getting Started</h2>
 <p>In this take-home exercise, we will be using the following packages.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, tmap, sf, sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, tmap, sf, sp, sfdep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -366,6 +364,7 @@ Notes
 <p>The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (<code>tainan_sf</code>) based on the <code>TOWNID</code> column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named <code>tainan_counties_sf</code>, will serve as our study area layer for further analysis or visualization tasks.</p>
 </div>
 </div>
+<p>Note: Check that tainan_counties_sf only contains polygon features.</p>
 </section>
 <section id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</h2>
@@ -374,13 +373,15 @@ Notes
 <li><strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></li>
 <li><strong>Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</strong></li>
 </ol>
+<section id="extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 <strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dengue_2023 <span class="ot">&lt;-</span> dengue <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(發病日,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         最小統計區中心點X,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         最小統計區中心點Y) <span class="sc">%&gt;%</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EPIWEEK =</span> <span class="fu">epiweek</span>(發病日)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(dengue<span class="sc">$</span>發病日) <span class="sc">==</span> <span class="dv">2023</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(dengue<span class="sc">$</span>發病日) <span class="sc">==</span> <span class="dv">2023</span> <span class="sc">&amp;</span> 最小統計區中心點X <span class="sc">!=</span> <span class="st">"None"</span> <span class="sc">&amp;</span> 最小統計區中心點Y <span class="sc">!=</span> <span class="st">"None"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Visualizing the distribution of dengue fever cases across the epidemiology weeks</p>
 <div class="cell">
@@ -404,14 +405,211 @@ Notes
 </div>
 </div>
 </section>
-<section id="checking-the-coordinate-system" class="level2">
-<h2 class="anchored" data-anchor-id="checking-the-coordinate-system">4.3 Checking the coordinate system</h2>
-<pre class="{r} st_crs(tainan_sf)}"><code></code></pre>
+<section id="converting-aspatial-data-converting-to-sf-tibble-data.frame" class="level3">
+<h3 class="anchored" data-anchor-id="converting-aspatial-data-converting-to-sf-tibble-data.frame">4.2.2 Converting aspatial data (converting to sf tibble data.frame)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dengue_2023_epiweeks_31_50_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(dengue_2023_epiweeks_31_50,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"最小統計區中心點X"</span>, <span class="st">"最小統計區中心點Y"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">3826</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(dengue_2023_epiweeks_31_50_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 25,461
+Columns: 3
+$ 發病日   &lt;date&gt; 2023-07-30, 2023-07-30, 2023-07-30, 2023-07-30, 2023-07-30, …
+$ EPIWEEK  &lt;dbl&gt; 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 3…
+$ geometry &lt;POINT [m]&gt; POINT (170043.3 2541846), POINT (169825.7 2542290), POI…</code></pre>
+</div>
+</div>
+<p>Note: Check that dengue_2023_epiweeks_31_50_sf only contains point features.</p>
 </section>
-<section id="converting-aspatial-data-converting-to-sf-tibble-data.frame" class="level2">
-<h2 class="anchored" data-anchor-id="converting-aspatial-data-converting-to-sf-tibble-data.frame">4.4 Converting aspatial data (converting to sf tibble data.frame)</h2>
+<section id="checking-the-coordinate-systems" class="level3">
+<h3 class="anchored" data-anchor-id="checking-the-coordinate-systems">4.2.3 Checking the coordinate systems</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">tainan_counties_sf</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">dengue_2023_epiweeks_31_50_sf</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(tainan_counties_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: TWD97 
+  wkt:
+GEOGCRS["TWD97",
+    DATUM["Taiwan Datum 1997",
+        ELLIPSOID["GRS 1980",6378137,298.257222101,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["geodetic latitude (Lat)",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["geodetic longitude (Lon)",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    USAGE[
+        SCOPE["Horizontal component of 3D system."],
+        AREA["Taiwan, Republic of China - onshore and offshore - Taiwan Island, Penghu (Pescadores) Islands."],
+        BBOX[17.36,114.32,26.96,123.61]],
+    ID["EPSG",3824]]</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(dengue_2023_epiweeks_31_50_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: EPSG:3826 
+  wkt:
+PROJCRS["TWD97 / TM2 zone 121",
+    BASEGEOGCRS["TWD97",
+        DATUM["Taiwan Datum 1997",
+            ELLIPSOID["GRS 1980",6378137,298.257222101,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",3824]],
+    CONVERSION["Taiwan 2-degree TM zone 121",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",121,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",0.9999,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",250000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["easting (X)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["northing (Y)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Engineering survey, topographic mapping."],
+        AREA["Taiwan, Republic of China - between 120°E and 122°E, onshore and offshore - Taiwan Island."],
+        BBOX[20.41,119.99,26.72,122.06]],
+    ID["EPSG",3826]]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="project-transformation---missinginaccurate-coordinate-system" class="level3">
+<h3 class="anchored" data-anchor-id="project-transformation---missinginaccurate-coordinate-system">4.2.4 Project Transformation - Missing/Inaccurate Coordinate System</h3>
+<p>tainan_counties_sf is in geographic coordinate systems. We have to change it to projected coordinate system with EPSG 3826.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(tainan_counties_sf, <span class="fu">st_crs</span>(<span class="dv">3826</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(tainan_counties_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: EPSG:3826 
+  wkt:
+PROJCRS["TWD97 / TM2 zone 121",
+    BASEGEOGCRS["TWD97",
+        DATUM["Taiwan Datum 1997",
+            ELLIPSOID["GRS 1980",6378137,298.257222101,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",3824]],
+    CONVERSION["Taiwan 2-degree TM zone 121",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",121,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",0.9999,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",250000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["easting (X)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["northing (Y)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Engineering survey, topographic mapping."],
+        AREA["Taiwan, Republic of China - between 120°E and 122°E, onshore and offshore - Taiwan Island."],
+        BBOX[20.41,119.99,26.72,122.06]],
+    ID["EPSG",3826]]</code></pre>
+</div>
+</div>
+<p>Observe that both sfs are in the same coordinate systems.</p>
+</section>
+<section id="confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" class="level3">
+<h3 class="anchored" data-anchor-id="confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties">4.2.5 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dengue_fever <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(dengue_2023_epiweeks_31_50_sf, tainan_counties_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(dengue_2023_epiweeks_31_50_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 25461 features 
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -23087.03 ymin: 2431978 xmax: 340721.1 ymax: 2788277
+Projected CRS: TWD97 / TM2 zone 121
+First 5 geometries:</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(tainan_counties_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 258 features 
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 153939.6 ymin: 2532739 xmax: 177479.4 ymax: 2554660
+Projected CRS: TWD97 / TM2 zone 121
+First 5 geometries:</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(dengue_fever)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 18816 features 
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: 156856 ymin: 2533403 xmax: 176233.5 ymax: 2553528
+Projected CRS: TWD97 / TM2 zone 121
+First 5 geometries:</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(tainan_counties_sf) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"TOWNID"</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(dengue_fever) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_symbols</span>(<span class="at">size =</span> <span class="fl">0.02</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 

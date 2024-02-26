@@ -27,7 +27,7 @@ In this study, we are interested to discover:
 In this take-home exercise, we will be using the following packages.
 
 ```{r}
-pacman::p_load(tidyverse, tmap, sf, sp)
+pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
 ```
 
 # 2.0 Data Acquisition
@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|----------------|----------------|----------------|------------------------|
+|-------------|-------------|-----------------|------------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -80,6 +80,8 @@ tainan_counties_sf<- tainan_sf %>% filter(TOWNID %in% counties)
 The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (`tainan_sf`) based on the `TOWNID` column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named `tainan_counties_sf`, will serve as our study area layer for further analysis or visualization tasks.
 :::
 
+Note: Check that tainan_counties_sf only contains polygon features.
+
 ## 4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan
 
 **Tasks:**
@@ -87,13 +89,15 @@ The c() function is used to combine the specified counties into a vector (a one 
 1.  **Extracting dengue fever cases within epidemiology week 31-50, 2023**
 2.  **Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties**
 
+### 4.2.1 **Extracting dengue fever cases within epidemiology week 31-50, 2023**
+
 ```{r}
 dengue_2023 <- dengue %>%
   select(發病日,
          最小統計區中心點X,
          最小統計區中心點Y) %>%
   mutate(EPIWEEK = epiweek(發病日)) %>%
-  filter(year(dengue$發病日) == 2023)
+  filter(year(dengue$發病日) == 2023 & 最小統計區中心點X != "None" & 最小統計區中心點Y != "None")
 ```
 
 Visualizing the distribution of dengue fever cases across the epidemiology weeks
@@ -115,9 +119,67 @@ dengue_2023_epiweeks_31_50 <- dengue_2023 %>%
 unique(dengue_2023_epiweeks_31_50$EPIWEEK)
 ```
 
-## 4.3 Checking the coordinate system
+### 4.2.2 Converting aspatial data (converting to sf tibble data.frame)
 
-```{r} st_crs(tainan_sf)}
+```{r}
+dengue_2023_epiweeks_31_50_sf <- st_as_sf(dengue_2023_epiweeks_31_50,
+                                          coords = c("最小統計區中心點X", "最小統計區中心點Y"),
+                                          crs = 4326) %>%
+  st_transform(crs = 3826)
+
+glimpse(dengue_2023_epiweeks_31_50_sf)
 ```
 
-## 4.4 Converting aspatial data (converting to sf tibble data.frame)
+Note: Check that dengue_2023_epiweeks_31_50_sf only contains point features.
+
+### 4.2.3 Checking the coordinate systems
+
+::: panel-tabset
+## tainan_counties_sf
+
+```{r}
+st_crs(tainan_counties_sf)
+```
+
+## dengue_2023_epiweeks_31_50_sf
+
+```{r}
+st_crs(dengue_2023_epiweeks_31_50_sf)
+```
+:::
+
+### 4.2.4 Project Transformation - Missing/Inaccurate Coordinate System
+
+tainan_counties_sf is in geographic coordinate systems. We have to change it to projected coordinate system with EPSG 3826.
+
+```{r}
+tainan_counties_sf <- st_transform(tainan_counties_sf, st_crs(3826))
+st_crs(tainan_counties_sf)
+```
+
+Observe that both sfs are in the same coordinate systems.
+
+### 4.2.5 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
+
+```{r}
+dengue_fever <- st_intersection(dengue_2023_epiweeks_31_50_sf, tainan_counties_sf)
+```
+
+```{r}
+st_geometry(dengue_2023_epiweeks_31_50_sf)
+```
+
+```{r}
+st_geometry(tainan_counties_sf)
+```
+
+```{r}
+st_geometry(dengue_fever)
+```
+
+```{r}
+tm_shape(tainan_counties_sf) +
+  tm_polygons("TOWNID") +
+tm_shape(dengue_fever) +
+  tm_symbols(size = 0.02, col = "black")
+```
