@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-------------|-------------|-----------------|------------------------------|
+|-----------------|-----------------|-----------------|----------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -95,9 +95,14 @@ Note: Check that tainan_counties_sf only contains polygon features.
 dengue_2023 <- dengue %>%
   select(發病日,
          最小統計區中心點X,
-         最小統計區中心點Y) %>%
+         最小統計區中心點Y,
+         居住村里) %>% 
   mutate(EPIWEEK = epiweek(發病日)) %>%
-  filter(year(dengue$發病日) == 2023 & 最小統計區中心點X != "None" & 最小統計區中心點Y != "None")
+  filter(year(發病日) == 2023 & 居住村里 != "None") %>%
+  rename("ONSET-DATE" = 發病日,
+         "X-COORDINATE" = 最小統計區中心點X,
+         "Y-COORDINATE" = 最小統計區中心點Y,
+         "VILLNAME" = 居住村里)
 ```
 
 Visualizing the distribution of dengue fever cases across the epidemiology weeks
@@ -113,73 +118,58 @@ ggplot(dengue_2023, aes(x = EPIWEEK)) +
 More than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.
 
 ```{r}
-dengue_2023_epiweeks_31_50 <- dengue_2023 %>%
+dengue_2023_epiweeks_31_50_df <- dengue_2023 %>%
   filter(between(EPIWEEK, 31, 50))
 
-unique(dengue_2023_epiweeks_31_50$EPIWEEK)
+unique(dengue_2023_epiweeks_31_50_df$EPIWEEK)
 ```
-
-### 4.2.2 Converting aspatial data (converting to sf tibble data.frame)
-
-```{r}
-dengue_2023_epiweeks_31_50_sf <- st_as_sf(dengue_2023_epiweeks_31_50,
-                                          coords = c("最小統計區中心點X", "最小統計區中心點Y"),
-                                          crs = 4326) %>%
-  st_transform(crs = 3826)
-
-glimpse(dengue_2023_epiweeks_31_50_sf)
-```
-
-Note: Check that dengue_2023_epiweeks_31_50_sf only contains point features.
-
-### 4.2.3 Checking the coordinate systems
-
-::: panel-tabset
-## tainan_counties_sf
-
-```{r}
-st_crs(tainan_counties_sf)
-```
-
-## dengue_2023_epiweeks_31_50_sf
-
-```{r}
-st_crs(dengue_2023_epiweeks_31_50_sf)
-```
-:::
-
-### 4.2.4 Project Transformation - Missing/Inaccurate Coordinate System
-
-tainan_counties_sf is in geographic coordinate systems. We have to change it to projected coordinate system with EPSG 3826.
-
-```{r}
-tainan_counties_sf <- st_transform(tainan_counties_sf, st_crs(3826))
-st_crs(tainan_counties_sf)
-```
-
-Observe that both sfs are in the same coordinate systems.
 
 ### 4.2.5 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
 ```{r}
-dengue_fever <- st_intersection(dengue_2023_epiweeks_31_50_sf, tainan_counties_sf)
+dengue_fever_layer_df <- dengue %>%
+  select(發病日,
+         最小統計區中心點X,
+         最小統計區中心點Y,
+         居住縣市,
+         居住鄉鎮,
+         居住村里) %>% 
+  mutate(EPIWEEK = epiweek(發病日),
+         TOWNNAME_VILLNAME = paste(居住鄉鎮, 居住村里, sep="_")) %>%
+  filter(year(發病日) == 2023 & 
+           between(EPIWEEK, 31, 50) & 
+           居住縣市 == "台南市" & 居住鄉鎮 %in% c("安南區", "仁德區", "中西區",
+          "南區", "永康區", "東區", "北區", "安平區")) %>%
+  rename("ONSET-DATE" = 發病日,
+         "X-COORDINATE" = 最小統計區中心點X,
+         "Y-COORDINATE" = 最小統計區中心點Y,
+         "VILLNAME" = 居住村里)
+```
+
+## 4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep
+
+```{r}
+dengue_grp <- dengue_fever_layer_df %>%
+  filter(VILLNAME != "None") %>% 
+  group_by(TOWNNAME_VILLNAME, EPIWEEK) %>%
+  summarise(num_dengue_cases = n()) %>% 
+  complete(EPIWEEK = 31:50, fill = list(num_dengue_cases = 0))
 ```
 
 ```{r}
-st_geometry(dengue_2023_epiweeks_31_50_sf)
+tainan <- tainan_counties_sf %>% 
+  mutate(TOWNNAME_VILLNAME = paste(TOWNNAME, VILLNAME, sep="_")) %>%
+  select(TOWNNAME_VILLNAME, geometry) %>%
+  filter(TOWNNAME_VILLNAME %in% unique(dengue_grp$TOWNNAME_VILLNAME))
 ```
 
 ```{r}
-st_geometry(tainan_counties_sf)
+tainan_dengue_st <- spacetime(.data = dengue_grp,
+                              .geometry = tainan,
+                              .loc_col = "TOWNNAME_VILLNAME",
+                              .time_col = "EPIWEEK")
 ```
 
 ```{r}
-st_geometry(dengue_fever)
-```
-
-```{r}
-tm_shape(tainan_counties_sf) +
-  tm_polygons("TOWNID") +
-tm_shape(dengue_fever) +
-  tm_symbols(size = 0.02, col = "black")
+is_spacetime_cube(tainan_dengue_st)
 ```
