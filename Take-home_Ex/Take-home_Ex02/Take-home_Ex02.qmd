@@ -124,7 +124,7 @@ dengue_2023_epiweeks_31_50_df <- dengue_2023 %>%
 unique(dengue_2023_epiweeks_31_50_df$EPIWEEK)
 ```
 
-### 4.2.5 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
+### 4.2.2 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
 ```{r}
 dengue_fever_layer_df <- dengue %>%
