@@ -222,6 +222,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
   <li><a href="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" id="toc-preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep">4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep</a></li>
   </ul></li>
+  <li><a href="#geospatial-analysis" id="toc-geospatial-analysis" class="nav-link" data-scroll-target="#geospatial-analysis">5.0 Geospatial Analysis</a>
+  <ul class="collapse">
+  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.1 Global spatial autocorrelation analysis</a></li>
+  <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2 Local spatial autocorrelation analysis</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -412,7 +417,7 @@ Notes
 </div>
 </section>
 <section id="confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" class="level3">
-<h3 class="anchored" data-anchor-id="confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties">4.2.5 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</h3>
+<h3 class="anchored" data-anchor-id="confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties">4.2.2 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dengue_fever_layer_df <span class="ot">&lt;-</span> dengue <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(發病日,</span>
@@ -423,11 +428,14 @@ Notes
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         居住村里) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">EPIWEEK =</span> <span class="fu">epiweek</span>(發病日),</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">TOWNNAME_VILLNAME =</span> <span class="fu">paste</span>(居住鄉鎮, 居住村里, <span class="at">sep=</span><span class="st">"_"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(發病日) <span class="sc">==</span> <span class="dv">2023</span> <span class="sc">&amp;</span> <span class="fu">between</span>(EPIWEEK, <span class="dv">31</span>, <span class="dv">50</span>) <span class="sc">&amp;</span> 居住縣市 <span class="sc">==</span> <span class="st">"台南市"</span> <span class="sc">&amp;</span> 居住鄉鎮 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"安南區"</span>, <span class="st">"仁德區"</span>, <span class="st">"中西區"</span>, <span class="st">"南區"</span>,   <span class="st">"永康區"</span>, <span class="st">"東區"</span>,   <span class="st">"北區"</span>,   <span class="st">"安平區"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"ONSET-DATE"</span> <span class="ot">=</span> 發病日,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">"X-COORDINATE"</span> <span class="ot">=</span> 最小統計區中心點X,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Y-COORDINATE"</span> <span class="ot">=</span> 最小統計區中心點Y,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">"VILLNAME"</span> <span class="ot">=</span> 居住村里)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(發病日) <span class="sc">==</span> <span class="dv">2023</span> <span class="sc">&amp;</span> </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">between</span>(EPIWEEK, <span class="dv">31</span>, <span class="dv">50</span>) <span class="sc">&amp;</span> </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>           居住縣市 <span class="sc">==</span> <span class="st">"台南市"</span> <span class="sc">&amp;</span> 居住鄉鎮 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"安南區"</span>, <span class="st">"仁德區"</span>, <span class="st">"中西區"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>          <span class="st">"南區"</span>, <span class="st">"永康區"</span>, <span class="st">"東區"</span>, <span class="st">"北區"</span>, <span class="st">"安平區"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"ONSET-DATE"</span> <span class="ot">=</span> 發病日,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>         <span class="st">"X-COORDINATE"</span> <span class="ot">=</span> 最小統計區中心點X,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Y-COORDINATE"</span> <span class="ot">=</span> 最小統計區中心點Y,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>         <span class="st">"VILLNAME"</span> <span class="ot">=</span> 居住村里)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -458,6 +466,28 @@ Notes
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong><code>TRUE</code></strong> return confirms that <code>tainan_dengue_st</code> is indeed an time-space cube.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="geospatial-analysis" class="level1">
+<h1>5.0 Geospatial Analysis</h1>
+<section id="global-spatial-autocorrelation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.1 Global spatial autocorrelation analysis</h2>
+</section>
+<section id="local-spatial-autocorrelation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2 Local spatial autocorrelation analysis</h2>
 
 
 </section>

@@ -173,3 +173,23 @@ tainan_dengue_st <- spacetime(.data = dengue_grp,
 ```{r}
 is_spacetime_cube(tainan_dengue_st)
 ```
+
+::: callout-note
+## Note
+
+The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space cube.
+:::
+
+# 5.0 Geospatial Analysis
+
+## 5.1 Global spatial autocorrelation analysis
+
+```{r}
+
+```
+
+## 5.2 Local spatial autocorrelation analysis
+
+```{r}
+
+```
