@@ -767,7 +767,7 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan",
-    "text": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan\nTask: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties\nIn this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically D01, D02, D04, D06, D07, D08, D32, and D39. To prepare a study area layer focusing on these specific counties, we can do the following:\n\ncounties &lt;- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')\ntainan_counties_sf&lt;- tainan_sf %&gt;% filter(TOWNID %in% counties)\n\n\n\n\n\n\n\nNotes\n\n\n\nThe c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (tainan_sf) based on the TOWNID column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named tainan_counties_sf, will serve as our study area layer for further analysis or visualization tasks.\n\n\nNote: Check that tainan_counties_sf only contains polygon features."
+    "text": "4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan\nTask: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties\nIn this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically D01, D02, D04, D06, D07, D08, D32, and D39. To prepare a study area layer focusing on these specific counties, we can do the following:\n\ncounties &lt;- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')\ntainan_counties_sf&lt;- tainan_sf %&gt;%\n  select(TOWNID,\n         TOWNNAME,\n         VILLNAME,\n         geometry) %&gt;%\n  filter(TOWNID %in% counties)\n\n\n\n\n\n\n\nNotes\n\n\n\nThe c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (tainan_sf) based on the TOWNID column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named tainan_counties_sf, will serve as our study area layer for further analysis or visualization tasks.\n\n\nNote: Check that tainan_counties_sf only contains polygon features."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-dengue-fever-cases-with-epidemiology-week-31-50-2023",
@@ -830,7 +830,7 @@
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#global-spatial-autocorrelation-analysis",
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "5.1 Global spatial autocorrelation analysis",
-    "text": "5.1 Global spatial autocorrelation analysis"
+    "text": "5.1 Global spatial autocorrelation analysis\n\n5.1.1 Visualising the distribution of dengue fever cases\n\n\n5.1.2 Global measures of spatial autocorrelation\n\n5.1.2.1 Computing Contiguity Spatial Weights\n\n\n5.1.2.2 Computing Global Moran’s I\n\n\n5.1.2.3 Performing Global Moran’s I Test\n\n\n5.1.2.4 Performing Global Moran’s I Permutation Test with Monte-Carlo Simulation\n\n\n5.1.2.5 Visualising Global Monte-Carlo Moran’s I"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#local-spatial-autocorrelation-analysis",
@@ -838,5 +838,12 @@
     "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
     "section": "5.2 Local spatial autocorrelation analysis",
     "text": "5.2 Local spatial autocorrelation analysis"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#emerging-hotspot-analysis",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#emerging-hotspot-analysis",
+    "title": "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan",
+    "section": "5.3 Emerging hotspot analysis",
+    "text": "5.3 Emerging hotspot analysis"
   }
 ]

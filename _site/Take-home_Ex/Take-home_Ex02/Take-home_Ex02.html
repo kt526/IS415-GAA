@@ -203,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul class="collapse">
+  <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1.0 Introduction</a>
   <ul class="collapse">
   <li><a href="#overview---setting-the-scene" id="toc-overview---setting-the-scene" class="nav-link" data-scroll-target="#overview---setting-the-scene">1.1. Overview - Setting the Scene</a></li>
@@ -219,13 +219,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">4.0 Data Wrangling</a>
   <ul class="collapse">
   <li><a href="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</a></li>
-  <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a></li>
+  <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a>
+  <ul class="collapse">
+  <li><a href="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" id="toc-extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" class="nav-link" data-scroll-target="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 <strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></a></li>
+  <li><a href="#confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" id="toc-confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" class="nav-link" data-scroll-target="#confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties">4.2.2 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</a></li>
+  </ul></li>
   <li><a href="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" id="toc-preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep">4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep</a></li>
   </ul></li>
   <li><a href="#geospatial-analysis" id="toc-geospatial-analysis" class="nav-link" data-scroll-target="#geospatial-analysis">5.0 Geospatial Analysis</a>
   <ul class="collapse">
-  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.1 Global spatial autocorrelation analysis</a></li>
+  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.1 Global spatial autocorrelation analysis</a>
+  <ul class="collapse">
+  <li><a href="#visualising-the-distribution-of-dengue-fever-cases" id="toc-visualising-the-distribution-of-dengue-fever-cases" class="nav-link" data-scroll-target="#visualising-the-distribution-of-dengue-fever-cases">5.1.1 Visualising the distribution of dengue fever cases</a></li>
+  <li><a href="#global-measures-of-spatial-autocorrelation" id="toc-global-measures-of-spatial-autocorrelation" class="nav-link" data-scroll-target="#global-measures-of-spatial-autocorrelation">5.1.2 Global measures of spatial autocorrelation</a></li>
+  </ul></li>
   <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2 Local spatial autocorrelation analysis</a></li>
+  <li><a href="#emerging-hotspot-analysis" id="toc-emerging-hotspot-analysis" class="nav-link" data-scroll-target="#emerging-hotspot-analysis">5.3 Emerging hotspot analysis</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -355,7 +364,12 @@ Geodetic CRS:  TWD97</code></pre>
 <p>In this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically <strong>D01, D02, D04, D06, D07, D08, D32, and D39</strong>. To prepare a study area layer focusing on these specific counties, we can do the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'D01'</span>, <span class="st">'D02'</span>, <span class="st">'D04'</span>, <span class="st">'D06'</span>, <span class="st">'D07'</span>, <span class="st">'D08'</span>, <span class="st">'D32'</span>, <span class="st">'D39'</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf<span class="ot">&lt;-</span> tainan_sf <span class="sc">%&gt;%</span> <span class="fu">filter</span>(TOWNID <span class="sc">%in%</span> counties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tainan_counties_sf<span class="ot">&lt;-</span> tainan_sf <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(TOWNID,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         TOWNNAME,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         VILLNAME,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         geometry) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TOWNID <span class="sc">%in%</span> counties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -405,7 +419,7 @@ Notes
 <p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>More than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.</p>
+<p><strong>More than 80%</strong> of the reported dengue fever cases occurred in <strong>epidemiology week 31-50, 2023</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dengue_2023_epiweeks_31_50_df <span class="ot">&lt;-</span> dengue_2023 <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">between</span>(EPIWEEK, <span class="dv">31</span>, <span class="dv">50</span>))</span>
@@ -485,9 +499,33 @@ Note
 <h1>5.0 Geospatial Analysis</h1>
 <section id="global-spatial-autocorrelation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.1 Global spatial autocorrelation analysis</h2>
+<section id="visualising-the-distribution-of-dengue-fever-cases" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-the-distribution-of-dengue-fever-cases">5.1.1 Visualising the distribution of dengue fever cases</h3>
+</section>
+<section id="global-measures-of-spatial-autocorrelation" class="level3">
+<h3 class="anchored" data-anchor-id="global-measures-of-spatial-autocorrelation">5.1.2 Global measures of spatial autocorrelation</h3>
+<section id="computing-contiguity-spatial-weights" class="level4">
+<h4 class="anchored" data-anchor-id="computing-contiguity-spatial-weights">5.1.2.1 Computing Contiguity Spatial Weights</h4>
+</section>
+<section id="computing-global-morans-i" class="level4">
+<h4 class="anchored" data-anchor-id="computing-global-morans-i">5.1.2.2 Computing Global Moran’s I</h4>
+</section>
+<section id="performing-global-morans-i-test" class="level4">
+<h4 class="anchored" data-anchor-id="performing-global-morans-i-test">5.1.2.3 Performing Global Moran’s I Test</h4>
+</section>
+<section id="performing-global-morans-i-permutation-test-with-monte-carlo-simulation" class="level4">
+<h4 class="anchored" data-anchor-id="performing-global-morans-i-permutation-test-with-monte-carlo-simulation">5.1.2.4 Performing Global Moran’s I Permutation Test with Monte-Carlo Simulation</h4>
+</section>
+<section id="visualising-global-monte-carlo-morans-i" class="level4">
+<h4 class="anchored" data-anchor-id="visualising-global-monte-carlo-morans-i">5.1.2.5 Visualising Global Monte-Carlo Moran’s I</h4>
+</section>
+</section>
 </section>
 <section id="local-spatial-autocorrelation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2 Local spatial autocorrelation analysis</h2>
+</section>
+<section id="emerging-hotspot-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="emerging-hotspot-analysis">5.3 Emerging hotspot analysis</h2>
 
 
 </section>

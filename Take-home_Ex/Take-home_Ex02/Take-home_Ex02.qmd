@@ -4,7 +4,7 @@ execute:
   eval: true
   echo: true
   warning: false
-toc-depth: 2
+toc-depth: 3
 code-annotations: hover
 ---
 
@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-----------------|-----------------|-----------------|----------------------|
+|------------------|------------------|------------------|--------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -71,7 +71,12 @@ In this Take-home Exercise, we are interested in narrowing our focus to specific
 
 ```{r}
 counties <- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')
-tainan_counties_sf<- tainan_sf %>% filter(TOWNID %in% counties)
+tainan_counties_sf<- tainan_sf %>%
+  select(TOWNID,
+         TOWNNAME,
+         VILLNAME,
+         geometry) %>%
+  filter(TOWNID %in% counties)
 ```
 
 ::: callout-note
@@ -115,7 +120,7 @@ ggplot(dengue_2023, aes(x = EPIWEEK)) +
   theme_minimal()
 ```
 
-More than 80% of the reported dengue fever cases occurred in epidemiology week 31-50, 2023.
+**More than 80%** of the reported dengue fever cases occurred in **epidemiology week 31-50, 2023**.
 
 ```{r}
 dengue_2023_epiweeks_31_50_df <- dengue_2023 %>%
@@ -184,6 +189,43 @@ The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space c
 
 ## 5.1 Global spatial autocorrelation analysis
 
+### 5.1.1 Visualising the distribution of dengue fever cases
+
+```{r}
+
+
+
+
+```
+
+### 5.1.2 Global measures of spatial autocorrelation
+
+#### 5.1.2.1 Computing Contiguity Spatial Weights
+
+```{r}
+
+```
+
+#### 5.1.2.2 Computing Global Moran's I
+
+```{r}
+
+```
+
+#### 5.1.2.3 Performing Global Moran's I Test
+
+```{r}
+
+```
+
+#### 5.1.2.4 Performing Global Moran's I Permutation Test with Monte-Carlo Simulation
+
+```{r}
+
+```
+
+#### 5.1.2.5 Visualising Global Monte-Carlo Moran's I
+
 ```{r}
 
 ```
@@ -193,3 +235,5 @@ The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space c
 ```{r}
 
 ```
+
+## 5.3 Emerging hotspot analysis
