@@ -35,7 +35,7 @@ pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
 We will be using **2 data sets** in this exercise:
 
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|------------------|------------------|------------------|--------------------|
+|-------------|-------------|-----------------|------------------------------|
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
 
@@ -91,8 +91,8 @@ Note: Check that tainan_counties_sf only contains polygon features.
 
 **Tasks:**
 
-1.  **Extracting dengue fever cases within epidemiology week 31-50, 2023**
-2.  **Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties**
+1.  Extracting dengue fever cases within epidemiology week 31-50, 2023
+2.  Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
 ### 4.2.1 **Extracting dengue fever cases within epidemiology week 31-50, 2023**
 
