@@ -71,11 +71,13 @@ In this Take-home Exercise, we are interested in narrowing our focus to specific
 
 ```{r}
 counties <- c('D01', 'D02', 'D04', 'D06', 'D07', 'D08', 'D32', 'D39')
-tainan_counties_sf<- tainan_sf %>%
-  select(TOWNID,
+tainan_counties_sf <- tainan_sf %>%
+  select(COUNTYNAME,
+         TOWNID,
          TOWNNAME,
          VILLNAME,
          geometry) %>%
+  mutate(TOWNNAME_VILLNAME = paste(TOWNNAME, VILLNAME, sep="_")) %>%
   filter(TOWNID %in% counties)
 ```
 
@@ -101,12 +103,17 @@ dengue_2023 <- dengue %>%
   select(發病日,
          最小統計區中心點X,
          最小統計區中心點Y,
+         居住縣市,
+         居住鄉鎮,
          居住村里) %>% 
-  mutate(EPIWEEK = epiweek(發病日)) %>%
+  mutate(EPIWEEK = epiweek(發病日),
+         TOWNNAME_VILLNAME = paste(居住鄉鎮, 居住村里, sep="_")) %>%
   filter(year(發病日) == 2023 & 居住村里 != "None") %>%
-  rename("ONSET-DATE" = 發病日,
-         "X-COORDINATE" = 最小統計區中心點X,
-         "Y-COORDINATE" = 最小統計區中心點Y,
+  rename("ONSET_DATE" = 發病日,
+         "X_COORDINATE" = 最小統計區中心點X,
+         "Y_COORDINATE" = 最小統計區中心點Y,
+         "COUNTYNAME" = 居住縣市,
+         "TOWNNAME" = 居住鄉鎮,
          "VILLNAME" = 居住村里)
 ```
 
@@ -124,7 +131,7 @@ ggplot(dengue_2023, aes(x = EPIWEEK)) +
 
 ```{r}
 dengue_2023_epiweeks_31_50_df <- dengue_2023 %>%
-  filter(between(EPIWEEK, 31, 50))
+  filter(between(EPIWEEK, 31, 50) )
 
 unique(dengue_2023_epiweeks_31_50_df$EPIWEEK)
 ```
@@ -132,23 +139,17 @@ unique(dengue_2023_epiweeks_31_50_df$EPIWEEK)
 ### 4.2.2 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
 ```{r}
-dengue_fever_layer_df <- dengue %>%
-  select(發病日,
-         最小統計區中心點X,
-         最小統計區中心點Y,
-         居住縣市,
-         居住鄉鎮,
-         居住村里) %>% 
-  mutate(EPIWEEK = epiweek(發病日),
-         TOWNNAME_VILLNAME = paste(居住鄉鎮, 居住村里, sep="_")) %>%
-  filter(year(發病日) == 2023 & 
-           between(EPIWEEK, 31, 50) & 
-           居住縣市 == "台南市" & 居住鄉鎮 %in% c("安南區", "仁德區", "中西區",
-          "南區", "永康區", "東區", "北區", "安平區")) %>%
-  rename("ONSET-DATE" = 發病日,
-         "X-COORDINATE" = 最小統計區中心點X,
-         "Y-COORDINATE" = 最小統計區中心點Y,
-         "VILLNAME" = 居住村里)
+dengue_fever_layer_df <- dengue_2023_epiweeks_31_50_df %>%
+  select(ONSET_DATE,
+         X_COORDINATE,
+         Y_COORDINATE,
+         COUNTYNAME,
+         TOWNNAME,
+         VILLNAME,
+         EPIWEEK) %>% 
+  mutate(TOWNNAME_VILLNAME = paste(TOWNNAME, VILLNAME, sep="_")) %>%
+  filter(COUNTYNAME == "台南市" & TOWNNAME %in% c("安南區", "仁德區", "中西區",
+          "南區", "永康區", "東區", "北區", "安平區"))
 ```
 
 ## 4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep
@@ -162,7 +163,7 @@ dengue_grp <- dengue_fever_layer_df %>%
 ```
 
 ```{r}
-tainan <- tainan_counties_sf %>% 
+tainan_counties_with_dengue <- tainan_counties_sf %>% 
   mutate(TOWNNAME_VILLNAME = paste(TOWNNAME, VILLNAME, sep="_")) %>%
   select(TOWNNAME_VILLNAME, geometry) %>%
   filter(TOWNNAME_VILLNAME %in% unique(dengue_grp$TOWNNAME_VILLNAME))
@@ -170,7 +171,7 @@ tainan <- tainan_counties_sf %>%
 
 ```{r}
 tainan_dengue_st <- spacetime(.data = dengue_grp,
-                              .geometry = tainan,
+                              .geometry = tainan_counties_with_dengue,
                               .loc_col = "TOWNNAME_VILLNAME",
                               .time_col = "EPIWEEK")
 ```
@@ -185,6 +186,27 @@ is_spacetime_cube(tainan_dengue_st)
 The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space cube.
 :::
 
+## 4.4 Preparing for Exploratory Data Analysis
+
+```{r}
+total_dengue_cases_by_village <- dengue_grp %>%
+  select(TOWNNAME_VILLNAME,
+         num_dengue_cases) %>%
+  group_by(TOWNNAME_VILLNAME) %>%
+  summarise(total_dengue_cases = sum(num_dengue_cases))
+```
+
+```{r}
+tainan_dengue_cases_by_village <- left_join(tainan_counties_sf,
+                                            total_dengue_cases_by_village,
+                                            by = "TOWNNAME_VILLNAME") %>% 
+  replace_na(list(total_dengue_cases = 0))
+```
+
+```{r}
+which(colSums(is.na(tainan_dengue_cases_by_village))>0)
+```
+
 # 5.0 Geospatial Analysis
 
 ## 5.1 Global spatial autocorrelation analysis
@@ -192,10 +214,24 @@ The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space c
 ### 5.1.1 Visualising the distribution of dengue fever cases
 
 ```{r}
-
-
-
-
+tmap_mode("plot")
+tm_shape(tainan_dengue_cases_by_village) +
+  tm_fill("total_dengue_cases",
+          style = "jenks",
+          palette = "Reds",
+          title = "Number of Dengue Cases",
+          legend.show = TRUE,
+          popup.vars = c("total_dengue_cases")) +
+  tm_layout(main.title = "Distribution of Total Dengue Cases in Tainan",
+            main.title.position = "center",
+            main.title.size = 1,
+            legend.height = 0.5,
+            legend.width = 0.4,
+            frame = TRUE) +
+  tm_borders(alpha = 0.8) +
+  tm_compass(type="8star", size = 1.5) +
+  tm_scale_bar() +
+  tm_grid(alpha = 0.2)
 ```
 
 ### 5.1.2 Global measures of spatial autocorrelation
@@ -203,25 +239,57 @@ The **`TRUE`** return confirms that `tainan_dengue_st` is indeed an time-space c
 #### 5.1.2.1 Computing Contiguity Spatial Weights
 
 ```{r}
+equal <- tm_shape(tainan_dengue_cases_by_village) +
+  tm_fill("total_dengue_cases",
+          n = 5,
+          style = "equal") +
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "Equal interval classification")
 
+quantile <- tm_shape(tainan_dengue_cases_by_village) +
+  tm_fill("total_dengue_cases",
+          n = 5,
+          style = "quantile") +
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "Equal quantile classification")
+
+tmap_arrange(equal, 
+             quantile, 
+             asp=1, 
+             ncol=2)
 ```
 
 #### 5.1.2.2 Computing Global Moran's I
 
 ```{r}
+wm_q <- tainan_dengue_cases_by_village %>%
+  mutate(nb = st_contiguity(geometry, queen=TRUE),
+         wt = st_weights(nb,
+                         style = "W"),
+         .before = 1)
 
+moranI <- global_moran(wm_q$total_dengue_cases,
+                       wm_q$nb,
+                       wm_q$wt)
+glimpse(moranI)
 ```
 
 #### 5.1.2.3 Performing Global Moran's I Test
 
 ```{r}
-
+global_moran_test(wm_q$total_dengue_cases,
+                       wm_q$nb,
+                       wm_q$wt)
 ```
 
 #### 5.1.2.4 Performing Global Moran's I Permutation Test with Monte-Carlo Simulation
 
 ```{r}
-
+set.seed(1234)
+global_moran_perm(wm_q$total_dengue_cases,
+                       wm_q$nb,
+                       wm_q$wt,
+                  nsim = 99)
 ```
 
 #### 5.1.2.5 Visualising Global Monte-Carlo Moran's I
