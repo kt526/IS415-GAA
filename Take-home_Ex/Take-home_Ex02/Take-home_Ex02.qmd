@@ -34,16 +34,21 @@ pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
 
 We will be using **2 data sets** in this exercise:
 
++---------------------+----------------+----------------------------------------------------------------+------------------------------------------------------------------------------------------------------+
 | Data                | Format         | Description                                                    | Source                                                                                               |
-|-------------|-------------|-----------------|------------------------------|
++=====================+================+================================================================+======================================================================================================+
 | TAIWAN_VILLAGE_2020 | ESRI Shapefile | A geospatial data of village boundary of Taiwan                | [data.gov.tw](https://data.gov.tw/en/datasets/130549)                                                |
++---------------------+----------------+----------------------------------------------------------------+------------------------------------------------------------------------------------------------------+
 | Dengue_Daily.csv    | csv            | An aspatial data of reported dengue cases in Taiwan since 1998 | [Taiwan CDC Open Data Portal](https://data.cdc.gov.tw/en/dataset/dengue-daily-determined-cases-1998) |
++---------------------+----------------+----------------------------------------------------------------+------------------------------------------------------------------------------------------------------+
 
 Create a new folder labelled `Take-home_Ex02` and place all the files into this folder.
 
 # 3.0 Importing Geospatial and Aspatial Data
 
-## 3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020
+## 3.1 Importing Geospatial data
+
+**TAIWAN_VILLAGE_2020**
 
 The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the shapefile containing the administrative boundaries of Tainan City and returns an sf object named `tainan_sf`.
 
@@ -52,9 +57,11 @@ tainan_sf <- st_read(dsn = "data/geospatial",
                 layer = "TAINAN_VILLAGE")
 ```
 
-## 3.2 Importing Aspatial data - Dengue_Daily
+## 3.2 Importing Aspatial data
 
-The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv cdataset and store the object in a tibble data frame named `dengue`.
+**Dengue_Daily**
+
+The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv dataset and store the object in a tibble data frame named `dengue`.
 
 ```{r}
 dengue <- read_csv("data/aspatial/Dengue_Daily.csv")
@@ -65,7 +72,7 @@ head(dengue)
 
 ## 4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan
 
-**Task: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties**
+**Task:** Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
 In this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically **D01, D02, D04, D06, D07, D08, D32, and D39**. To prepare a study area layer focusing on these specific counties, we can do the following:
 
@@ -87,7 +94,15 @@ tainan_counties_sf <- tainan_sf %>%
 The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (`tainan_sf`) based on the `TOWNID` column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named `tainan_counties_sf`, will serve as our study area layer for further analysis or visualization tasks.
 :::
 
-Note: Check that tainan_counties_sf only contains polygon features.
+Note: Check that `tainan_counties_sf` only contains polygon features.
+
+```{r}
+#| echo: false
+tmap_mode("plot")
+
+tm_shape(tainan_counties_sf) + 
+  tm_polygons("TOWNID")
+```
 
 ## 4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan
 
@@ -96,7 +111,7 @@ Note: Check that tainan_counties_sf only contains polygon features.
 1.  Extracting dengue fever cases within epidemiology week 31-50, 2023
 2.  Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties
 
-### 4.2.1 **Extracting dengue fever cases within epidemiology week 31-50, 2023**
+### 4.2.1 Extracting dengue fever cases within epidemiology week 31-50, 2023
 
 ```{r}
 dengue_2023 <- dengue %>%
@@ -209,9 +224,7 @@ which(colSums(is.na(tainan_dengue_cases_by_village))>0)
 
 # 5.0 Geospatial Analysis
 
-## 5.1 Global Spatial Autocorrelation Analysis
-
-### 5.1.1 Visualising the distribution of dengue fever cases
+## 5.1 Visualising the distribution of dengue fever cases
 
 ```{r}
 tmap_mode("plot")
@@ -255,9 +268,79 @@ tmap_arrange(equal,
              ncol=2)
 ```
 
-### 5.1.2 Global measures of spatial autocorrelation
+## 5.2 Spatial Autocorrelation Analysis
 
-#### 5.1.2.1 Computing Global Moran's I
+> “Everything is related to everything else, but near things are more related than distant things.”
+>
+> -- Waldo Tobler, The First Law of Geography
+
+**Spatial Autocorrelation** is used to describe the presence of systematic spatial variation in a variable.
+
++--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+| Positive Spatial Autocorrelation                                                     | Negative Spatial Autocorrelation                                                             |
+|                                                                                      |                                                                                              |
+| ![](imgs/positive_spatial_autocorrelation.png){fig-align="center" width="214"}       | ![](imgs/negative_spatial_autocorrelation.png){fig-align="center" width="221"}               |
++======================================================================================+==============================================================================================+
+| -   Clustering (Like values tend to be in similar locations)                         | -   Checkerboard patterns (“opposite” of clustering)                                         |
+|                                                                                      |                                                                                              |
+| -   Neighbours are similar (more alike neighbours would be under spatial randomness) | -   Neighbours are dissimilar (more neighbours dissimilar would be under spatial randomness) |
+|                                                                                      |                                                                                              |
+| -   Compatible with diffusion (but not necessary caused by diffusion)                | -   Compatible to competition (but not necessary competition)                                |
++--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
+
+The two main types of Spatial Autocorrelation Analysis are:
+
+-   Global spatial autocorrelation analysis
+
+-   Local spatial autocorrelation analysis
+
+### 5.2.1 Global Spatial Autocorrelation Analysis
+
+#### 5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C
+
++----------------------------------------------------------------------------+--------------------------------------------------------------------------+
+| Moran’s I                                                                  | Geary’s C                                                                |
++============================================================================+==========================================================================+
+| ![](imgs/global_moran_i.png)                                               | ![](imgs/global_geary_c.png)                                             |
++----------------------------------------------------------------------------+--------------------------------------------------------------------------+
+| Describe how features differ from the values in the study area as a whole. | Describing how features differ from their immediate neighbours.          |
+|                                                                            |                                                                          |
+| Interpreting the Z value using Moran’s I:                                  | Interpreting the Z value using Geary's c:                                |
+|                                                                            |                                                                          |
+| -   positive (I\>0): Clustered, observations tend to be similar;           | -   Large c value (\>1) : Dispersed, observations tend to be dissimilar; |
+|                                                                            |                                                                          |
+| -   negative(I\<0): Dispersed, observations tend to be dissimilar;         | -   Small c value (\<1) : Clustered, observations tend to be similar;    |
+|                                                                            |                                                                          |
+| -   approximately zero: observations are arranged randomly over space.     | -   c = 1: observations are arranged randomly over space.                |
++----------------------------------------------------------------------------+--------------------------------------------------------------------------+
+
+#### 5.2.1.2 Global measures of spatial autocorrelation
+
+**5.2.1.2.1 Compute Spatial Weights**
+
+To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.
+
+There are several methods to construct spatial weights. We will be using the Contiguity-Based method to construct the spatial weights and derive the Weights Matrix.
+
+**Contiguity-Based Weights**
+
+This method establishes neighbourhood relationships based on contiguity, where geographical units sharing common borders (boundaries) are considered neighbours. Contiguity can be further categorised into the following cases:
+
+![](imgs/contiguity-based_criterions.png){fig-align="center"}
+
+-   "rook" contiguity (sharing a common edge)
+
+-   “bishop” contiguity, (sharing common vertices)
+
+-   "queen" contiguity (sharing a common edge or vertex)
+
+::: callout-note
+## Note
+
+“rook" and "queen" contiguity are more commonly used. Therefore, the number of neighbours according to the queen criterion will always be at least as large as for the rook criterion.
+:::
+
+To derive the **Contiguity-Based Weights,**
 
 ```{r}
 wm_q <- tainan_dengue_cases_by_village %>%
@@ -266,13 +349,23 @@ wm_q <- tainan_dengue_cases_by_village %>%
                          style = "W"),
          .before = 1)
 
+glimpse(wm_q)
+```
+
+**5.2.1.2.2 Compute Global Moran's I**
+
+We will compute the global moran’s I value  using the global_moran() function. The output is a tibble data.frame.
+
+```{r}
 moranI <- global_moran(wm_q$total_dengue_cases,
                        wm_q$nb,
                        wm_q$wt)
 glimpse(moranI)
 ```
 
-#### 5.1.2.2 Performing Global Moran's I Test
+**5.2.1.2.3 Perform Global Moran's I Test**
+
+In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.
 
 ```{r}
 global_moran_test(wm_q$total_dengue_cases,
@@ -280,27 +373,60 @@ global_moran_test(wm_q$total_dengue_cases,
                        wm_q$wt)
 ```
 
-#### 5.1.2.3 Performing Global Moran's I Permutation Test with Monte-Carlo Simulation
+::: callout-note
+## Interpreting the results
+:::
+
+**5.2.1.2.4 Perform Global Moran's I Permutation Test with Monte-Carlo Simulation**
+
+In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the  monte carlo simulation.
+
+::: callout-note
+## Note
+
+The set.seed() function in R is used to create reproducible results when writing code that involves creating variables that take on random values. The value placed in the seed can be any random integer. By using the set.seed() function, you guarantee that the same random values are produced each time you run the code. Read more about setting seeds [here](https://www.statology.org/set-seed-in-r/).
+:::
 
 ```{r}
 set.seed(1234)
-global_moran_perm(wm_q$total_dengue_cases,
+global_moranI_perm <- global_moran_perm(wm_q$total_dengue_cases,
                        wm_q$nb,
                        wm_q$wt,
-                  nsim = 99)
+                       nsim = 99)
+
+global_moranI_perm
 ```
 
-#### 5.1.2.4 Visualising Global Monte-Carlo Moran's I
+::: callout-important
+The number of simulations is always equal to nsim + 1. Since nsim = 99, this means that we will be performing 100 simulations.
+:::
+
+**Interpreting the results**
+
+**5.2.1.2.5 Visualising Global Monte-Carlo Moran's I**
+
+Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.
 
 ```{r}
-
-
-
+hist(global_moranI_perm$res, 
+     freq=TRUE, 
+     breaks=20, 
+     xlab="Simulated Moran's I")
+abline(v=0, 
+       col="red") 
 ```
 
-## 5.2 Local Spatial Autocorrelation Analysis
+We can also look at the summary statistics using the summary() function.
 
-#### 5.2.2.1 Computing Local Moran's I
+```{r}
+summary(global_moranI_perm$res[1:99])
+```
+
+### 5.2.2 Local Spatial Autocorrelation Analysis
+
+**5.2.2.1 Computing Local Moran's I and p-value**
+
+We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.
 
 ```{r}
 lisa <- wm_q %>% 
@@ -310,7 +436,9 @@ lisa <- wm_q %>%
   unnest(local_moran)
 ```
 
-#### 5.2.2.2 Visuaising local Moran’s I and p-value
+**5.2.2.2 Visualizing local Moran’s I and p-value**
+
+The tmap functions are used to prepare a choropleth map by using values in the `ii` and `p_ii_sim` fields.
 
 ```{r}
 tmap_mode("plot")
@@ -318,33 +446,43 @@ map1 <- tm_shape(lisa) +
   tm_fill("ii") + 
   tm_borders(alpha = 0.5) +
   tm_view(set.zoom.limits = c(6,8)) +
-  tm_layout(main.title = "local Moran's I of GDPPC",
+  tm_layout(main.title = "Local Moran's I",
             main.title.size = 0.8)
 
 map2 <- tm_shape(lisa) +
-  tm_fill("p_ii",
+  tm_fill("p_ii_sim",
           breaks = c(0, 0.001, 0.01, 0.05, 1),
               labels = c("0.001", "0.01", "0.05", "Not sig")) + 
   tm_borders(alpha = 0.5) +
-  tm_layout(main.title = "p-value of local Moran's I",
+  tm_layout(main.title = "p-value of Local Moran's I",
             main.title.size = 0.8)
 
 tmap_arrange(map1, map2, ncol = 2)
 ```
 
-#### 5.2.2.3 Visuaising LISA
+**5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map**
+
+The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.
 
 ```{r}
 lisa_sig <- lisa  %>%
   filter(p_ii < 0.05)
+
 tmap_mode("plot")
-tm_shape(lisa) +
+tainan_counties_map <- tm_shape(tainan_counties_sf) + 
+  tm_polygons("TOWNID")
+
+lisa_map <- tm_shape(lisa) +
   tm_polygons() +
   tm_borders(alpha = 0.5) +
 tm_shape(lisa_sig) +
   tm_fill("mean") + 
   tm_borders(alpha = 0.4)
+
+tmap_arrange(tainan_counties_map, lisa_map, ncol = 2)
 ```
+
+**Interpreting the results**
 
 ## 5.3 Emerging HotSpot Analysis (EHSA)
 

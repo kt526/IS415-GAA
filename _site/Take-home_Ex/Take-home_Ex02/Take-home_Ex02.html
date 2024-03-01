@@ -175,6 +175,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05B.html" rel="" target="">
  <span class="dropdown-text">Hands-on Exercise 5B</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex06/Hands-on_Ex06.html" rel="" target="">
+ <span class="dropdown-text">Hands-on Exercise 6</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -213,15 +217,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition">2.0 Data Acquisition</a></li>
   <li><a href="#importing-geospatial-and-aspatial-data" id="toc-importing-geospatial-and-aspatial-data" class="nav-link" data-scroll-target="#importing-geospatial-and-aspatial-data">3.0 Importing Geospatial and Aspatial Data</a>
   <ul class="collapse">
-  <li><a href="#importing-geospatial-data---taiwan_village_2020" id="toc-importing-geospatial-data---taiwan_village_2020" class="nav-link" data-scroll-target="#importing-geospatial-data---taiwan_village_2020">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020</a></li>
-  <li><a href="#importing-aspatial-data---dengue_daily" id="toc-importing-aspatial-data---dengue_daily" class="nav-link" data-scroll-target="#importing-aspatial-data---dengue_daily">3.2 Importing Aspatial data - Dengue_Daily</a></li>
+  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data">3.1 Importing Geospatial data</a></li>
+  <li><a href="#importing-aspatial-data" id="toc-importing-aspatial-data" class="nav-link" data-scroll-target="#importing-aspatial-data">3.2 Importing Aspatial data</a></li>
   </ul></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling">4.0 Data Wrangling</a>
   <ul class="collapse">
   <li><a href="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</a></li>
   <li><a href="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" id="toc-preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</a>
   <ul class="collapse">
-  <li><a href="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" id="toc-extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" class="nav-link" data-scroll-target="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 <strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></a></li>
+  <li><a href="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" id="toc-extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" class="nav-link" data-scroll-target="#extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 Extracting dengue fever cases within epidemiology week 31-50, 2023</a></li>
   <li><a href="#confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" id="toc-confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties" class="nav-link" data-scroll-target="#confining-dengue-fever-layer-to-d01-d02-d04-d06-d07-d08-d32-and-d39-counties">4.2.2 Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</a></li>
   </ul></li>
   <li><a href="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" id="toc-preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep">4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep</a></li>
@@ -229,12 +233,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#geospatial-analysis" id="toc-geospatial-analysis" class="nav-link" data-scroll-target="#geospatial-analysis">5.0 Geospatial Analysis</a>
   <ul class="collapse">
-  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.1 Global Spatial Autocorrelation Analysis</a>
+  <li><a href="#visualising-the-distribution-of-dengue-fever-cases" id="toc-visualising-the-distribution-of-dengue-fever-cases" class="nav-link" data-scroll-target="#visualising-the-distribution-of-dengue-fever-cases">5.1 Visualising the distribution of dengue fever cases</a></li>
+  <li><a href="#spatial-autocorrelation-analysis" id="toc-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#spatial-autocorrelation-analysis">5.2 Spatial Autocorrelation Analysis</a>
   <ul class="collapse">
-  <li><a href="#visualising-the-distribution-of-dengue-fever-cases" id="toc-visualising-the-distribution-of-dengue-fever-cases" class="nav-link" data-scroll-target="#visualising-the-distribution-of-dengue-fever-cases">5.1.1 Visualising the distribution of dengue fever cases</a></li>
-  <li><a href="#global-measures-of-spatial-autocorrelation" id="toc-global-measures-of-spatial-autocorrelation" class="nav-link" data-scroll-target="#global-measures-of-spatial-autocorrelation">5.1.2 Global measures of spatial autocorrelation</a></li>
+  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</a></li>
+  <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</a></li>
   </ul></li>
-  <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2 Local Spatial Autocorrelation Analysis</a></li>
   <li><a href="#emerging-hotspot-analysis-ehsa" id="toc-emerging-hotspot-analysis-ehsa" class="nav-link" data-scroll-target="#emerging-hotspot-analysis-ehsa">5.3 Emerging HotSpot Analysis (EHSA)</a></li>
   </ul></li>
   </ul>
@@ -313,8 +317,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importing-geospatial-and-aspatial-data" class="level1">
 <h1>3.0 Importing Geospatial and Aspatial Data</h1>
-<section id="importing-geospatial-data---taiwan_village_2020" class="level2">
-<h2 class="anchored" data-anchor-id="importing-geospatial-data---taiwan_village_2020">3.1 Importing Geospatial data - TAIWAN_VILLAGE_2020</h2>
+<section id="importing-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-geospatial-data">3.1 Importing Geospatial data</h2>
+<p><strong>TAIWAN_VILLAGE_2020</strong></p>
 <p>The TAIWAN_VILLAGE_2020 dataset was acquired in ESRI shapefile format (.shp). To utilise this dataset in the R-environment, we need to import it as an sf object using the st_read() function from the sf package. This function is used to read the shapefile containing the administrative boundaries of Tainan City and returns an sf object named <code>tainan_sf</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tainan_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
@@ -331,9 +336,10 @@ Geodetic CRS:  TWD97</code></pre>
 </div>
 </div>
 </section>
-<section id="importing-aspatial-data---dengue_daily" class="level2">
-<h2 class="anchored" data-anchor-id="importing-aspatial-data---dengue_daily">3.2 Importing Aspatial data - Dengue_Daily</h2>
-<p>The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv cdataset and store the object in a tibble data frame named <code>dengue</code>.</p>
+<section id="importing-aspatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-aspatial-data">3.2 Importing Aspatial data</h2>
+<p><strong>Dengue_Daily</strong></p>
+<p>The Dengue_Daily dataset is available in csv format (.csv) and was obtained from the Taiwan CDC Open Data Portal. Like the previous dataset, it needs to be imported into the R environment for use. However, since this dataset is aspatial and in csv format, a different method is required for reading it. We will utilize the read_csv() function to import the csv dataset and store the object in a tibble data frame named <code>dengue</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dengue <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/Dengue_Daily.csv"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dengue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -361,7 +367,7 @@ Geodetic CRS:  TWD97</code></pre>
 <h1>4.0 Data Wrangling</h1>
 <section id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-with-specific-counties-of-tainan-city-taiwan">4.1 Preparing a study area layer with specific counties of Tainan City, Taiwan</h2>
-<p><strong>Task: Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</strong></p>
+<p><strong>Task:</strong> Confining study area layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</p>
 <p>In this Take-home Exercise, we are interested in narrowing our focus to specific counties within Tainan City, specifically <strong>D01, D02, D04, D06, D07, D08, D32, and D39</strong>. To prepare a study area layer focusing on these specific counties, we can do the following:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'D01'</span>, <span class="st">'D02'</span>, <span class="st">'D04'</span>, <span class="st">'D06'</span>, <span class="st">'D07'</span>, <span class="st">'D08'</span>, <span class="st">'D32'</span>, <span class="st">'D39'</span>)</span>
@@ -387,7 +393,12 @@ Notes
 <p>The c() function is used to combine the specified counties into a vector (a one dimensional array) named counties. Next, we will filter the Tainan City spatial data frame (<code>tainan_sf</code>) based on the <code>TOWNID</code> column, selecting only those entries that match the counties of interest listed in the counties vector. This refined dataset, named <code>tainan_counties_sf</code>, will serve as our study area layer for further analysis or visualization tasks.</p>
 </div>
 </div>
-<p>Note: Check that tainan_counties_sf only contains polygon features.</p>
+<p>Note: Check that <code>tainan_counties_sf</code> only contains polygon features.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-dengue-fever-layer-with-specific-counties-of-tainan-city-taiwan">4.2 Preparing a dengue fever layer with specific counties of Tainan City, Taiwan</h2>
@@ -397,7 +408,7 @@ Notes
 <li>Confining dengue fever layer to D01, D02, D04, D06, D07, D08, D32 and D39 counties</li>
 </ol>
 <section id="extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023" class="level3">
-<h3 class="anchored" data-anchor-id="extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 <strong>Extracting dengue fever cases within epidemiology week 31-50, 2023</strong></h3>
+<h3 class="anchored" data-anchor-id="extracting-dengue-fever-cases-within-epidemiology-week-31-50-2023">4.2.1 Extracting dengue fever cases within epidemiology week 31-50, 2023</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dengue_2023 <span class="ot">&lt;-</span> dengue <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(發病日,</span>
@@ -424,7 +435,7 @@ Notes
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Dengue Cases in 2023 by Epidemiology weeks"</span>) <span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>More than 80%</strong> of the reported dengue fever cases occurred in <strong>epidemiology week 31-50, 2023</strong>.</p>
@@ -521,10 +532,8 @@ Note
 </section>
 <section id="geospatial-analysis" class="level1">
 <h1>5.0 Geospatial Analysis</h1>
-<section id="global-spatial-autocorrelation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.1 Global Spatial Autocorrelation Analysis</h2>
-<section id="visualising-the-distribution-of-dengue-fever-cases" class="level3">
-<h3 class="anchored" data-anchor-id="visualising-the-distribution-of-dengue-fever-cases">5.1.1 Visualising the distribution of dengue fever cases</h3>
+<section id="visualising-the-distribution-of-dengue-fever-cases" class="level2">
+<h2 class="anchored" data-anchor-id="visualising-the-distribution-of-dengue-fever-cases">5.1 Visualising the distribution of dengue fever cases</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(tainan_dengue_cases_by_village) <span class="sc">+</span></span>
@@ -545,7 +554,7 @@ Note
 <span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_scale_bar</span>() <span class="sc">+</span></span>
 <span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_grid</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
@@ -568,14 +577,128 @@ Note
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">asp=</span><span class="dv">1</span>, </span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="global-measures-of-spatial-autocorrelation" class="level3">
-<h3 class="anchored" data-anchor-id="global-measures-of-spatial-autocorrelation">5.1.2 Global measures of spatial autocorrelation</h3>
-<section id="computing-global-morans-i" class="level4">
-<h4 class="anchored" data-anchor-id="computing-global-morans-i">5.1.2.1 Computing Global Moran’s I</h4>
+<section id="spatial-autocorrelation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-autocorrelation-analysis">5.2 Spatial Autocorrelation Analysis</h2>
+<blockquote class="blockquote">
+<p>“Everything is related to everything else, but near things are more related than distant things.”</p>
+<p>– Waldo Tobler, The First Law of Geography</p>
+</blockquote>
+<p><strong>Spatial Autocorrelation</strong> is used to describe the presence of systematic spatial variation in a variable.</p>
+<table class="table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Positive Spatial Autocorrelation</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/positive_spatial_autocorrelation.png" class="img-fluid figure-img" width="214"></p>
+</figure>
+</div></th>
+<th><p>Negative Spatial Autocorrelation</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/negative_spatial_autocorrelation.png" class="img-fluid figure-img" width="221"></p>
+</figure>
+</div></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><ul>
+<li><p>Clustering (Like values tend to be in similar locations)</p></li>
+<li><p>Neighbours are similar (more alike neighbours would be under spatial randomness)</p></li>
+<li><p>Compatible with diffusion (but not necessary caused by diffusion)</p></li>
+</ul></td>
+<td><ul>
+<li><p>Checkerboard patterns (“opposite” of clustering)</p></li>
+<li><p>Neighbours are dissimilar (more neighbours dissimilar would be under spatial randomness)</p></li>
+<li><p>Compatible to competition (but not necessary competition)</p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p>The two main types of Spatial Autocorrelation Analysis are:</p>
+<ul>
+<li><p>Global spatial autocorrelation analysis</p></li>
+<li><p>Local spatial autocorrelation analysis</p></li>
+</ul>
+<section id="global-spatial-autocorrelation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</h3>
+<section id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c" class="level4">
+<h4 class="anchored" data-anchor-id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c">5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C</h4>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Moran’s I</th>
+<th>Geary’s C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="imgs/global_moran_i.png" class="img-fluid"></td>
+<td><img src="imgs/global_geary_c.png" class="img-fluid"></td>
+</tr>
+<tr class="even">
+<td><p>Describe how features differ from the values in the study area as a whole.</p>
+<p>Interpreting the Z value using Moran’s I:</p>
+<ul>
+<li><p>positive (I&gt;0): Clustered, observations tend to be similar;</p></li>
+<li><p>negative(I&lt;0): Dispersed, observations tend to be dissimilar;</p></li>
+<li><p>approximately zero: observations are arranged randomly over space.</p></li>
+</ul></td>
+<td><p>Describing how features differ from their immediate neighbours.</p>
+<p>Interpreting the Z value using Geary’s c:</p>
+<ul>
+<li><p>Large c value (&gt;1) : Dispersed, observations tend to be dissimilar;</p></li>
+<li><p>Small c value (&lt;1) : Clustered, observations tend to be similar;</p></li>
+<li><p>c = 1: observations are arranged randomly over space.</p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="global-measures-of-spatial-autocorrelation" class="level4">
+<h4 class="anchored" data-anchor-id="global-measures-of-spatial-autocorrelation">5.2.1.2 Global measures of spatial autocorrelation</h4>
+<p><strong>5.2.1.2.1 Compute Spatial Weights</strong></p>
+<p>To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.</p>
+<p>There are several methods to construct spatial weights. We will be using the Contiguity-Based method to construct the spatial weights and derive the Weights Matrix.</p>
+<p><strong>Contiguity-Based Weights</strong></p>
+<p>This method establishes neighbourhood relationships based on contiguity, where geographical units sharing common borders (boundaries) are considered neighbours. Contiguity can be further categorised into the following cases:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/contiguity-based_criterions.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p>“rook” contiguity (sharing a common edge)</p></li>
+<li><p>“bishop” contiguity, (sharing common vertices)</p></li>
+<li><p>“queen” contiguity (sharing a common edge or vertex)</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“rook” and “queen” contiguity are more commonly used. Therefore, the number of neighbours according to the queen criterion will always be at least as large as for the rook criterion.</p>
+</div>
+</div>
+<p>To derive the <strong>Contiguity-Based Weights,</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>wm_q <span class="ot">&lt;-</span> tainan_dengue_cases_by_village <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">st_contiguity</span>(geometry, <span class="at">queen=</span><span class="cn">TRUE</span>),</span>
@@ -583,23 +706,40 @@ Note
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style =</span> <span class="st">"W"</span>),</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt)</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(moranI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wm_q)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 258
+Columns: 9
+$ nb                 &lt;nb&gt; &lt;6, 118, 160&gt;, &lt;126, 128, 138, 168, 222&gt;, &lt;68, 69, 1…
+$ wt                 &lt;list&gt; &lt;0.3333333, 0.3333333, 0.3333333&gt;, &lt;0.2, 0.2, 0.2,…
+$ COUNTYNAME         &lt;chr&gt; "臺南市", "臺南市", "臺南市", "臺南市", "臺南市", "…
+$ TOWNID             &lt;chr&gt; "D06", "D32", "D08", "D02", "D06", "D06", "D08", "D…
+$ TOWNNAME           &lt;chr&gt; "安南區", "仁德區", "中西區", "南區", "安南區", "安…
+$ VILLNAME           &lt;chr&gt; "青草里", "保安里", "赤嵌里", "大成里", "城北里", "…
+$ TOWNNAME_VILLNAME  &lt;chr&gt; "安南區_青草里", "仁德區_保安里", "中西區_赤嵌里", …
+$ total_dengue_cases &lt;int&gt; 2, 19, 111, 29, 1, 10, 37, 48, 108, 66, 26, 2, 3, 1…
+$ geometry           &lt;POLYGON [°]&gt; POLYGON ((120.1176 23.08387..., POLYGON ((1…</code></pre>
+</div>
+</div>
+<p><strong>5.2.1.2.2 Compute Global Moran’s I</strong></p>
+<p>We will compute the global moran’s I value&nbsp; using the global_moran() function. The output is a tibble data.frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(moranI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 2
  $ I: num 0.419
  $ K: num 5.64</code></pre>
 </div>
 </div>
-</section>
-<section id="performing-global-morans-i-test" class="level4">
-<h4 class="anchored" data-anchor-id="performing-global-morans-i-test">5.1.2.2 Performing Global Moran’s I Test</h4>
+<p><strong>5.2.1.2.3 Perform Global Moran’s I Test</strong></p>
+<p>In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Moran I test under randomisation
@@ -614,15 +754,42 @@ Moran I statistic       Expectation          Variance
       0.418994015      -0.003891051       0.001346765 </code></pre>
 </div>
 </div>
-</section>
-<section id="performing-global-morans-i-permutation-test-with-monte-carlo-simulation" class="level4">
-<h4 class="anchored" data-anchor-id="performing-global-morans-i-permutation-test-with-monte-carlo-simulation">5.1.2.3 Performing Global Moran’s I Permutation Test with Monte-Carlo Simulation</h4>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpreting the results
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p><strong>5.2.1.2.4 Perform Global Moran’s I Permutation Test with Monte-Carlo Simulation</strong></p>
+<p>In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the&nbsp; monte carlo simulation.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The set.seed() function in R is used to create reproducible results when writing code that involves creating variables that take on random values. The value placed in the seed can be any random integer. By using the set.seed() function, you guarantee that the same random values are produced each time you run the code. Read more about setting seeds <a href="https://www.statology.org/set-seed-in-r/">here</a>.</p>
+</div>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_perm</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt,</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nsim =</span> <span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>global_moranI_perm <span class="ot">&lt;-</span> <span class="fu">global_moran_perm</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>wt,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">nsim =</span> <span class="dv">99</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>global_moranI_perm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Monte-Carlo simulation of Moran I
@@ -635,65 +802,101 @@ statistic = 0.41899, observed rank = 100, p-value &lt; 2.2e-16
 alternative hypothesis: two.sided</code></pre>
 </div>
 </div>
-</section>
-<section id="visualising-global-monte-carlo-morans-i" class="level4">
-<h4 class="anchored" data-anchor-id="visualising-global-monte-carlo-morans-i">5.1.2.4 Visualising Global Monte-Carlo Moran’s I</h4>
-</section>
-</section>
-</section>
-<section id="local-spatial-autocorrelation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2 Local Spatial Autocorrelation Analysis</h2>
-<section id="computing-local-morans-i" class="level4">
-<h4 class="anchored" data-anchor-id="computing-local-morans-i">5.2.2.1 Computing Local Moran’s I</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_q <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    total_dengue_cases, nb, wt, <span class="at">nsim =</span> <span class="dv">99</span>),</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-</section>
-<section id="visuaising-local-morans-i-and-p-value" class="level4">
-<h4 class="anchored" data-anchor-id="visuaising-local-morans-i-and-p-value">5.2.2.2 Visuaising local Moran’s I and p-value</h4>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The number of simulations is always equal to nsim + 1. Since nsim = 99, this means that we will be performing 100 simulations.</p>
+</div>
+</div>
+<p><strong>Interpreting the results</strong></p>
+<p><strong>5.2.1.2.5 Visualising Global Monte-Carlo Moran’s I</strong></p>
+<p>Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"ii"</span>) <span class="sc">+</span> </span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"local Moran's I of GDPPC"</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"p_ii"</span>,</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="dv">1</span>),</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0.001"</span>, <span class="st">"0.01"</span>, <span class="st">"0.05"</span>, <span class="st">"Not sig"</span>)) <span class="sc">+</span> </span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"p-value of local Moran's I"</span>,</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map1, map2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(global_moranI_perm<span class="sc">$</span>res, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">freq=</span><span class="cn">TRUE</span>, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks=</span><span class="dv">20</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Simulated Moran's I"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
-<section id="visuaising-lisa" class="level4">
-<h4 class="anchored" data-anchor-id="visuaising-lisa">5.2.2.3 Visuaising LISA</h4>
+<p>We can also look at the summary statistics using the summary() function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa  <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_ii <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_sig) <span class="sc">+</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"mean"</span>) <span class="sc">+</span> </span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(global_moranI_perm<span class="sc">$</span>res[<span class="dv">1</span><span class="sc">:</span><span class="dv">99</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-0.096780 -0.028551 -0.008242 -0.006598  0.012804  0.097668 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="local-spatial-autocorrelation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</h3>
+<p><strong>5.2.2.1 Computing Local Moran’s I and p-value</strong></p>
+<p>We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_q <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    total_dengue_cases, nb, wt, <span class="at">nsim =</span> <span class="dv">99</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>5.2.2.2 Visualizing local Moran’s I and p-value</strong></p>
+<p>The tmap functions are used to prepare a choropleth map by using values in the <code>ii</code> and <code>p_ii_sim</code> fields.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"ii"</span>) <span class="sc">+</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"Local Moran's I"</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"p_ii_sim"</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="dv">1</span>),</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0.001"</span>, <span class="st">"0.01"</span>, <span class="st">"0.05"</span>, <span class="st">"Not sig"</span>)) <span class="sc">+</span> </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"p-value of Local Moran's I"</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map1, map2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><strong>5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map</strong></p>
+<p>The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa  <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_ii <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>tainan_counties_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(tainan_counties_sf) <span class="sc">+</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"TOWNID"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>lisa_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(lisa_sig) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"mean"</span>) <span class="sc">+</span> </span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(tainan_counties_map, lisa_map, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Interpreting the results</strong></p>
 </section>
 </section>
 <section id="emerging-hotspot-analysis-ehsa" class="level2">
