@@ -4,6 +4,7 @@ execute:
   eval: true
   echo: true
   warning: false
+date: 03/01/2024
 toc-depth: 3
 code-annotations: hover
 ---
@@ -276,18 +277,6 @@ tmap_arrange(equal,
 
 **Spatial Autocorrelation** is used to describe the presence of systematic spatial variation in a variable.
 
-+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
-| Positive Spatial Autocorrelation                                                     | Negative Spatial Autocorrelation                                                             |
-|                                                                                      |                                                                                              |
-| ![](imgs/positive_spatial_autocorrelation.png){fig-align="center" width="214"}       | ![](imgs/negative_spatial_autocorrelation.png){fig-align="center" width="221"}               |
-+======================================================================================+==============================================================================================+
-| -   Clustering (Like values tend to be in similar locations)                         | -   Checkerboard patterns (“opposite” of clustering)                                         |
-|                                                                                      |                                                                                              |
-| -   Neighbours are similar (more alike neighbours would be under spatial randomness) | -   Neighbours are dissimilar (more neighbours dissimilar would be under spatial randomness) |
-|                                                                                      |                                                                                              |
-| -   Compatible with diffusion (but not necessary caused by diffusion)                | -   Compatible to competition (but not necessary competition)                                |
-+--------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+
-
 The two main types of Spatial Autocorrelation Analysis are:
 
 -   Global spatial autocorrelation analysis
@@ -297,6 +286,8 @@ The two main types of Spatial Autocorrelation Analysis are:
 ### 5.2.1 Global Spatial Autocorrelation Analysis
 
 #### 5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C
+
+We can test the presence of spatial autocorrelation using the Moran’s I or Geary's C.
 
 +----------------------------------------------------------------------------+--------------------------------------------------------------------------+
 | Moran’s I                                                                  | Geary’s C                                                                |
@@ -314,9 +305,17 @@ The two main types of Spatial Autocorrelation Analysis are:
 | -   approximately zero: observations are arranged randomly over space.     | -   c = 1: observations are arranged randomly over space.                |
 +----------------------------------------------------------------------------+--------------------------------------------------------------------------+
 
-#### 5.2.1.2 Global measures of spatial autocorrelation
+In this Take-home Exercise, we use Moran’s I to test the spatial autocorrelation. To test for spatial autocorrelation, we can follow the steps below:
 
-**5.2.1.2.1 Compute Spatial Weights**
+1.  State the null and alternative hypotheses
+2.  Choose the significance level ⍺
+    -   Statistically, we select the confident interval such as 95% =\> alpha value = 0.05.
+3.  Calculate the test statistic
+4.  State the conclusion
+    -   Reject the Null hypothesis (H0) if p-value is smaller than alpha value.
+    -   Failed to reject the Null Hypothesis (H0) if p-value is greater than alpha value.
+
+#### 5.2.1.2 Compute Spatial Weights
 
 To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.
 
@@ -352,9 +351,9 @@ wm_q <- tainan_dengue_cases_by_village %>%
 glimpse(wm_q)
 ```
 
-**5.2.1.2.2 Compute Global Moran's I**
+#### 5.2.1.3 Compute Global Moran's I
 
-We will compute the global moran’s I value  using the global_moran() function. The output is a tibble data.frame.
+We will compute the global moran’s I value using the global_moran() function. The output is a tibble data.frame.
 
 ```{r}
 moranI <- global_moran(wm_q$total_dengue_cases,
@@ -363,7 +362,7 @@ moranI <- global_moran(wm_q$total_dengue_cases,
 glimpse(moranI)
 ```
 
-**5.2.1.2.3 Perform Global Moran's I Test**
+#### 5.2.1.4 Perform Global Moran's I Test
 
 In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.
 
@@ -377,9 +376,9 @@ global_moran_test(wm_q$total_dengue_cases,
 ## Interpreting the results
 :::
 
-**5.2.1.2.4 Perform Global Moran's I Permutation Test with Monte-Carlo Simulation**
+#### 5.2.1.5 Perform Global Moran's I Permutation Test with Monte-Carlo Simulation
 
-In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the  monte carlo simulation.
+In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the monte carlo simulation.
 
 ::: callout-note
 ## Note
@@ -403,7 +402,7 @@ The number of simulations is always equal to nsim + 1. Since nsim = 99, this mea
 
 **Interpreting the results**
 
-**5.2.1.2.5 Visualising Global Monte-Carlo Moran's I**
+#### 5.2.1.6 Visualising Global Monte-Carlo Moran's I
 
 Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.
 
@@ -424,7 +423,7 @@ summary(global_moranI_perm$res[1:99])
 
 ### 5.2.2 Local Spatial Autocorrelation Analysis
 
-**5.2.2.1 Computing Local Moran's I and p-value**
+#### 5.2.2.1 Computing Local Moran's I and p-value
 
 We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.
 
@@ -436,7 +435,7 @@ lisa <- wm_q %>%
   unnest(local_moran)
 ```
 
-**5.2.2.2 Visualizing local Moran’s I and p-value**
+#### 5.2.2.2 Visualizing local Moran’s I and p-value
 
 The tmap functions are used to prepare a choropleth map by using values in the `ii` and `p_ii_sim` fields.
 
@@ -460,7 +459,7 @@ map2 <- tm_shape(lisa) +
 tmap_arrange(map1, map2, ncol = 2)
 ```
 
-**5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map**
+#### 5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map
 
 The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.
 
@@ -484,7 +483,7 @@ tmap_arrange(tainan_counties_map, lisa_map, ncol = 2)
 
 **Interpreting the results**
 
-## 5.3 Emerging HotSpot Analysis (EHSA)
+## 5.3 Emerging **H**otSpot Analysis (EHSA)
 
 ```{r}
 

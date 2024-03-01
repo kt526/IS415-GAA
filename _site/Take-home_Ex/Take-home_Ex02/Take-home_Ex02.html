@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-03-01">
 
 <title>IS415 Geospatial Analytics and Applications - Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan</title>
 <style>
@@ -239,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</a></li>
   <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</a></li>
   </ul></li>
-  <li><a href="#emerging-hotspot-analysis-ehsa" id="toc-emerging-hotspot-analysis-ehsa" class="nav-link" data-scroll-target="#emerging-hotspot-analysis-ehsa">5.3 Emerging HotSpot Analysis (EHSA)</a></li>
+  <li><a href="#emerging-hotspot-analysis-ehsa" id="toc-emerging-hotspot-analysis-ehsa" class="nav-link" data-scroll-target="#emerging-hotspot-analysis-ehsa">5.3 Emerging <strong>H</strong>otSpot Analysis (EHSA)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -257,6 +258,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 1, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -588,42 +595,6 @@ Note
 <p>– Waldo Tobler, The First Law of Geography</p>
 </blockquote>
 <p><strong>Spatial Autocorrelation</strong> is used to describe the presence of systematic spatial variation in a variable.</p>
-<table class="table">
-<colgroup>
-<col style="width: 47%">
-<col style="width: 52%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Positive Spatial Autocorrelation</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="imgs/positive_spatial_autocorrelation.png" class="img-fluid figure-img" width="214"></p>
-</figure>
-</div></th>
-<th><p>Negative Spatial Autocorrelation</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="imgs/negative_spatial_autocorrelation.png" class="img-fluid figure-img" width="221"></p>
-</figure>
-</div></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><ul>
-<li><p>Clustering (Like values tend to be in similar locations)</p></li>
-<li><p>Neighbours are similar (more alike neighbours would be under spatial randomness)</p></li>
-<li><p>Compatible with diffusion (but not necessary caused by diffusion)</p></li>
-</ul></td>
-<td><ul>
-<li><p>Checkerboard patterns (“opposite” of clustering)</p></li>
-<li><p>Neighbours are dissimilar (more neighbours dissimilar would be under spatial randomness)</p></li>
-<li><p>Compatible to competition (but not necessary competition)</p></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
 <p>The two main types of Spatial Autocorrelation Analysis are:</p>
 <ul>
 <li><p>Global spatial autocorrelation analysis</p></li>
@@ -633,6 +604,7 @@ Note
 <h3 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</h3>
 <section id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c" class="level4">
 <h4 class="anchored" data-anchor-id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c">5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C</h4>
+<p>We can test the presence of spatial autocorrelation using the Moran’s I or Geary’s C.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%">
@@ -667,10 +639,23 @@ Note
 </tr>
 </tbody>
 </table>
+<p>In this Take-home Exercise, we use Moran’s I to test the spatial autocorrelation. To test for spatial autocorrelation, we can follow the steps below:</p>
+<ol type="1">
+<li>State the null and alternative hypotheses</li>
+<li>Choose the significance level ⍺
+<ul>
+<li>Statistically, we select the confident interval such as 95% =&gt; alpha value = 0.05.</li>
+</ul></li>
+<li>Calculate the test statistic</li>
+<li>State the conclusion
+<ul>
+<li>Reject the Null hypothesis (H0) if p-value is smaller than alpha value.</li>
+<li>Failed to reject the Null Hypothesis (H0) if p-value is greater than alpha value.</li>
+</ul></li>
+</ol>
 </section>
-<section id="global-measures-of-spatial-autocorrelation" class="level4">
-<h4 class="anchored" data-anchor-id="global-measures-of-spatial-autocorrelation">5.2.1.2 Global measures of spatial autocorrelation</h4>
-<p><strong>5.2.1.2.1 Compute Spatial Weights</strong></p>
+<section id="compute-spatial-weights" class="level4">
+<h4 class="anchored" data-anchor-id="compute-spatial-weights">5.2.1.2 Compute Spatial Weights</h4>
 <p>To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.</p>
 <p>There are several methods to construct spatial weights. We will be using the Contiguity-Based method to construct the spatial weights and derive the Weights Matrix.</p>
 <p><strong>Contiguity-Based Weights</strong></p>
@@ -721,8 +706,10 @@ $ total_dengue_cases &lt;int&gt; 2, 19, 111, 29, 1, 10, 37, 48, 108, 66, 26, 2, 
 $ geometry           &lt;POLYGON [°]&gt; POLYGON ((120.1176 23.08387..., POLYGON ((1…</code></pre>
 </div>
 </div>
-<p><strong>5.2.1.2.2 Compute Global Moran’s I</strong></p>
-<p>We will compute the global moran’s I value&nbsp; using the global_moran() function. The output is a tibble data.frame.</p>
+</section>
+<section id="compute-global-morans-i" class="level4">
+<h4 class="anchored" data-anchor-id="compute-global-morans-i">5.2.1.3 Compute Global Moran’s I</h4>
+<p>We will compute the global moran’s I value using the global_moran() function. The output is a tibble data.frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                       wm_q<span class="sc">$</span>nb,</span>
@@ -734,7 +721,9 @@ $ geometry           &lt;POLYGON [°]&gt; POLYGON ((120.1176 23.08387..., POLYGO
  $ K: num 5.64</code></pre>
 </div>
 </div>
-<p><strong>5.2.1.2.3 Perform Global Moran’s I Test</strong></p>
+</section>
+<section id="perform-global-morans-i-test" class="level4">
+<h4 class="anchored" data-anchor-id="perform-global-morans-i-test">5.2.1.4 Perform Global Moran’s I Test</h4>
 <p>In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
@@ -767,8 +756,10 @@ Interpreting the results
 
 </div>
 </div>
-<p><strong>5.2.1.2.4 Perform Global Moran’s I Permutation Test with Monte-Carlo Simulation</strong></p>
-<p>In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the&nbsp; monte carlo simulation.</p>
+</section>
+<section id="perform-global-morans-i-permutation-test-with-monte-carlo-simulation" class="level4">
+<h4 class="anchored" data-anchor-id="perform-global-morans-i-permutation-test-with-monte-carlo-simulation">5.2.1.5 Perform Global Moran’s I Permutation Test with Monte-Carlo Simulation</h4>
+<p>In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the monte carlo simulation.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -816,7 +807,9 @@ Important
 </div>
 </div>
 <p><strong>Interpreting the results</strong></p>
-<p><strong>5.2.1.2.5 Visualising Global Monte-Carlo Moran’s I</strong></p>
+</section>
+<section id="visualising-global-monte-carlo-morans-i" class="level4">
+<h4 class="anchored" data-anchor-id="visualising-global-monte-carlo-morans-i">5.2.1.6 Visualising Global Monte-Carlo Moran’s I</h4>
 <p>Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(global_moranI_perm<span class="sc">$</span>res, </span>
@@ -841,7 +834,8 @@ Important
 </section>
 <section id="local-spatial-autocorrelation-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</h3>
-<p><strong>5.2.2.1 Computing Local Moran’s I and p-value</strong></p>
+<section id="computing-local-morans-i-and-p-value" class="level4">
+<h4 class="anchored" data-anchor-id="computing-local-morans-i-and-p-value">5.2.2.1 Computing Local Moran’s I and p-value</h4>
 <p>We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_q <span class="sc">%&gt;%</span> </span>
@@ -850,7 +844,9 @@ Important
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_moran)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>5.2.2.2 Visualizing local Moran’s I and p-value</strong></p>
+</section>
+<section id="visualizing-local-morans-i-and-p-value" class="level4">
+<h4 class="anchored" data-anchor-id="visualizing-local-morans-i-and-p-value">5.2.2.2 Visualizing local Moran’s I and p-value</h4>
 <p>The tmap functions are used to prepare a choropleth map by using values in the <code>ii</code> and <code>p_ii_sim</code> fields.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
@@ -874,7 +870,9 @@ Important
 <p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><strong>5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map</strong></p>
+</section>
+<section id="visualize-the-local-indicator-of-spatial-association-lisa-map" class="level4">
+<h4 class="anchored" data-anchor-id="visualize-the-local-indicator-of-spatial-association-lisa-map">5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map</h4>
 <p>The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa  <span class="sc">%&gt;%</span></span>
@@ -899,8 +897,9 @@ Important
 <p><strong>Interpreting the results</strong></p>
 </section>
 </section>
+</section>
 <section id="emerging-hotspot-analysis-ehsa" class="level2">
-<h2 class="anchored" data-anchor-id="emerging-hotspot-analysis-ehsa">5.3 Emerging HotSpot Analysis (EHSA)</h2>
+<h2 class="anchored" data-anchor-id="emerging-hotspot-analysis-ehsa">5.3 Emerging <strong>H</strong>otSpot Analysis (EHSA)</h2>
 
 
 </section>
