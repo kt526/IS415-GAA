@@ -356,10 +356,125 @@ ggarrange(r, s, z,
           nrow = 1)
 ```
 
+```{r}
+r <- ggplot(data=ict_derived, 
+             aes(x= `RADIO_PR`)) +
+  geom_density(color="black",
+               fill="light blue") +
+  ggtitle("Raw values without standardisation")
+
+shan_ict_s_df <- as.data.frame(shan_ict.std)
+s <- ggplot(data=shan_ict_s_df, 
+       aes(x=`RADIO_PR`)) +
+  geom_density(color="black",
+               fill="light blue") +
+  ggtitle("Min-Max Standardisation")
+
+shan_ict_z_df <- as.data.frame(shan_ict.z)
+z <- ggplot(data=shan_ict_z_df, 
+       aes(x=`RADIO_PR`)) +
+  geom_density(color="black",
+               fill="light blue") +
+  ggtitle("Z-score Standardisation")
+
+ggarrange(r, s, z,
+          ncol = 3,
+          nrow = 1)
+```
+
 ## 6.3 Computing proximity matrix
+
+We will be using the dist() function of R to calculate the proximity distance matrix.
+
+```{r}
+proxmat <- dist(shan_ict, method = 'euclidean')
+```
+
+```{r}
+proxmat
+```
+
+::: callout-note
+## Note
+
+*dist()* supports six distance proximity calculations, they are: **euclidean, maximum, manhattan, canberra, binary and minkowski**. The default is *euclidean* proximity matrix.
+:::
 
 ## 6.4 Computing hierarchical clustering
 
+Next, we will use the hclust() function of R stats to compute hierarchical clustering.
+
+```{r}
+hclust_ward <- hclust(proxmat, method = 'ward.D')
+```
+
+```{r}
+plot(hclust_ward, cex = 0.6)
+```
+
+::: callout-note
+## Note
+
+*hclust()* employed agglomeration method to compute the cluster. Eight clustering algorithms are supported, they are: ward.D, ward.D2, single, complete, average(UPGMA), mcquitty(WPGMA), median(WPGMC) and centroid(UPGMC).
+:::
+
 ### 6.4.1 Selecting the optimal clustering algorithm
 
-### 6.4.2 **Determining Optimal Clusters**
+One of the challenge in performing hierarchical clustering is to identify stronger clustering structures. This issue can be solve by using agnes() function of cluster package.
+
+```{r}
+m <- c( "average", "single", "complete", "ward")
+names(m) <- c( "average", "single", "complete", "ward")
+
+ac <- function(x) {
+  agnes(shan_ict, method = x)$ac
+}
+
+map_dbl(m, ac)
+```
+
+From the output above, we can see that the Ward's method provides the strongest clustering structure among the four methods assessed. Thus, for subsequent analysis, we will be using the Ward's method.
+
+### 6.4.2 Determining Optimal Clusters
+
+The second challenge faced in performing clustering analysis is to determine the optimal clusters to retain.
+
+There are three commonly used methods to determine the optimal clusters, they are:
+
+1.  Elbow method
+2.  Average silhoutte method
+3.  Gap statistic method
+
+#### 6.4.2.1 Gap statistic method
+
+The gap statistic method compares the total within intra-cluster variation for different values of k with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic (i.e., that yields the largest gap statistic). This means that the clustering structure is far away from the random uniform distribution of points.
+
+```{r}
+set.seed(12345)
+gap_stat <- clusGap(shan_ict, 
+                    FUN = hcut, 
+                    nstart = 25, 
+                    K.max = 10, 
+                    B = 50)
+# Print the result
+print(gap_stat, method = "firstmax")
+```
+
+We can visualise the plot using *fviz_gap_stat()* of factoextra package.
+
+```{r}
+fviz_gap_stat(gap_stat)
+```
+
+With reference to the gap statistic graph above, the recommended number of cluster to retain is 1. However, it is not logical to retain only one cluster. By examine the gap statistic graph, the 6-cluster gives the largest gap statistic and should be the next best cluster to pick.
+
+### 6.4.3 Interpreting Dendrograms
+
+We can draw the dendrogram with a border around the selected clusters by using [*rect.hclust()*](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/rect.hclust.html) of R stats
+
+```{r}
+plot(hclust_ward, cex = 0.6)
+rect.hclust(hclust_ward, 
+            k = 6, 
+            border = 2:5)
+```
