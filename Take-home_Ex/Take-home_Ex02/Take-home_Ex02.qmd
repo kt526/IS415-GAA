@@ -209,7 +209,7 @@ which(colSums(is.na(tainan_dengue_cases_by_village))>0)
 
 # 5.0 Geospatial Analysis
 
-## 5.1 Global spatial autocorrelation analysis
+## 5.1 Global Spatial Autocorrelation Analysis
 
 ### 5.1.1 Visualising the distribution of dengue fever cases
 
@@ -234,10 +234,6 @@ tm_shape(tainan_dengue_cases_by_village) +
   tm_grid(alpha = 0.2)
 ```
 
-### 5.1.2 Global measures of spatial autocorrelation
-
-#### 5.1.2.1 Computing Contiguity Spatial Weights
-
 ```{r}
 equal <- tm_shape(tainan_dengue_cases_by_village) +
   tm_fill("total_dengue_cases",
@@ -259,7 +255,9 @@ tmap_arrange(equal,
              ncol=2)
 ```
 
-#### 5.1.2.2 Computing Global Moran's I
+### 5.1.2 Global measures of spatial autocorrelation
+
+#### 5.1.2.1 Computing Global Moran's I
 
 ```{r}
 wm_q <- tainan_dengue_cases_by_village %>%
@@ -274,7 +272,7 @@ moranI <- global_moran(wm_q$total_dengue_cases,
 glimpse(moranI)
 ```
 
-#### 5.1.2.3 Performing Global Moran's I Test
+#### 5.1.2.2 Performing Global Moran's I Test
 
 ```{r}
 global_moran_test(wm_q$total_dengue_cases,
@@ -282,7 +280,7 @@ global_moran_test(wm_q$total_dengue_cases,
                        wm_q$wt)
 ```
 
-#### 5.1.2.4 Performing Global Moran's I Permutation Test with Monte-Carlo Simulation
+#### 5.1.2.3 Performing Global Moran's I Permutation Test with Monte-Carlo Simulation
 
 ```{r}
 set.seed(1234)
@@ -292,16 +290,64 @@ global_moran_perm(wm_q$total_dengue_cases,
                   nsim = 99)
 ```
 
-#### 5.1.2.5 Visualising Global Monte-Carlo Moran's I
+#### 5.1.2.4 Visualising Global Monte-Carlo Moran's I
+
+```{r}
+
+
+
+```
+
+## 5.2 Local Spatial Autocorrelation Analysis
+
+#### 5.2.2.1 Computing Local Moran's I
+
+```{r}
+lisa <- wm_q %>% 
+  mutate(local_moran = local_moran(
+    total_dengue_cases, nb, wt, nsim = 99),
+         .before = 1) %>%
+  unnest(local_moran)
+```
+
+#### 5.2.2.2 Visuaising local Moran’s I and p-value
+
+```{r}
+tmap_mode("plot")
+map1 <- tm_shape(lisa) +
+  tm_fill("ii") + 
+  tm_borders(alpha = 0.5) +
+  tm_view(set.zoom.limits = c(6,8)) +
+  tm_layout(main.title = "local Moran's I of GDPPC",
+            main.title.size = 0.8)
+
+map2 <- tm_shape(lisa) +
+  tm_fill("p_ii",
+          breaks = c(0, 0.001, 0.01, 0.05, 1),
+              labels = c("0.001", "0.01", "0.05", "Not sig")) + 
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "p-value of local Moran's I",
+            main.title.size = 0.8)
+
+tmap_arrange(map1, map2, ncol = 2)
+```
+
+#### 5.2.2.3 Visuaising LISA
+
+```{r}
+lisa_sig <- lisa  %>%
+  filter(p_ii < 0.05)
+tmap_mode("plot")
+tm_shape(lisa) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(lisa_sig) +
+  tm_fill("mean") + 
+  tm_borders(alpha = 0.4)
+```
+
+## 5.3 Emerging HotSpot Analysis (EHSA)
 
 ```{r}
 
 ```
-
-## 5.2 Local spatial autocorrelation analysis
-
-```{r}
-
-```
-
-## 5.3 Emerging hotspot analysis
