@@ -1,5 +1,5 @@
 ---
-title: "In-class Exercise 5: Global and Local Measures of Spatial Autocorrelation"
+title: "In-class Exercise 5: Global and Local Measures of Spatial Autocorrelation, Emerging Hot Spot Analysis: sfdep methods"
 execute:
   eval: true
   echo: true
@@ -37,13 +37,13 @@ hunan_2012 <- read_csv("data/aspatial/Hunan_2012.csv")
 ```
 
 ```{r}
-# hunan_gdppc <- read_csv("data/aspatial/Hunan_GDPPC.csv")
+hunan_gdppc <- read_csv("data/aspatial/Hunan_GDPPC.csv")
 ```
 
 Performing relational join on the two data frames - `hunan` and `hunan_2012`
 
 ```{r}
-hunan_gdppc <- left_join(hunan,hunan_2012) %>%
+hunan_gdppc_joined <- left_join(hunan,hunan_2012) %>%
   select(1:4, 7, 15)
 ```
 
@@ -52,7 +52,7 @@ Visualizing the choropleth map
 ```{r}
 tmap_mode('plot')
 
-tm_shape(hunan_gdppc) +
+tm_shape(hunan_gdppc_joined) +
   tm_fill("GDPPC",
           style = "quantile",
           palette = "Blues",
@@ -73,7 +73,7 @@ tm_shape(hunan_gdppc) +
 **Step 1: Deriving contiguity weights: Queen's method**
 
 ```{r}
-wm_q <- hunan_gdppc %>%
+wm_q <- hunan_gdppc_joined %>%
   mutate(nb = st_contiguity(geometry),      # <1>
          wt = st_weights(nb,
                          style = "W"),
@@ -110,3 +110,59 @@ global_moran_perm(wm_q$GDPPC,
 ```
 
 1.  `nsim = 99` will run **100 simulations** because the simulations will start from 0
+
+# **Emerging Hot Spot Analysis: sfdep methods**
+
+## **Overview**
+
+Emerging Hot Spot Analysis (EHSA) is a spatio-temporal analysis method for revealing and describing how hot spot and cold spot areas evolve over time. The analysis consist of four main steps:
+
+-   Building a space-time cube,
+
+-   Calculating Getis-Ord local Gi\* statistic for each bin by using an FDR correction,
+
+-   Evaluating these hot and cold spot trends by using Mann-Kendall trend test,
+
+-   Categorising each study area location by referring to the resultant trend z-score and p-value for each location with data, and with the hot spot z-score and p-value for each bin.
+
+## **Creating a Time Series Cube**
+
+```{r}
+GDPPC_st <- spacetime(hunan_gdppc, hunan,
+                      .loc_col = "County",
+                      .time_col = "Year")
+```
+
+```{r}
+is_spacetime_cube(GDPPC_st)
+```
+
+## **Deriving the spatial weights**
+
+```{r}
+GDPPC_nb <- GDPPC_st %>%
+  activate("geometry") %>%
+  mutate(nb = include_self(st_contiguity(geometry)),
+         wt = st_inverse_distance(nb, geometry,
+                                  scale = 1,
+                                  alpha = 1),
+         .before = 1) %>%
+  set_nbs("nb") %>%
+  set_wts("wt")
+```
+
+## **Computing Gi\***
+
+```{r}
+gi_stars <- GDPPC_nb %>% 
+  group_by(Year) %>% 
+  mutate(gi_star = local_gstar_perm(
+    GDPPC, nb, wt)) %>% 
+  tidyr::unnest(gi_star)
+```
+
+## **Mann-Kendall Test**
+
+```{r}
+
+```
