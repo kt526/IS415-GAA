@@ -1,5 +1,5 @@
 ---
-title: "Take-home Exercise 2: Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan"
+title: "Take-home Exercise 2:Application of Spatial and Spatio-temporal Analysis Methods to Discover the Distribution of Dengue Fever in Tainan City, Taiwan"
 execute:
   eval: true
   echo: true
@@ -13,7 +13,9 @@ code-annotations: hover
 
 ## 1.1. Overview - Setting the Scene
 
-[Dengue Hemorrhagic Fever](https://www.cdc.gov/dengue/resources/denguedhf-information-for-health-care-practitioners_2009.pdf) (in short dengue fever) is one of the most widespread mosquito-borne diseases in the most tropical and subtropical regions. It is an acute disease caused by dengue virus infection which is transmitted by female Aedes aegypti and Aedes albopictus mosquitoes. In 2015, Taiwan had recorded the most severe dengue fever outbreak with more than 43,000 dengue cases and 228 deaths. Since then, the annual reported dengue fever cases were maintained at the level of not more than 200 cases. However, in 2023, Taiwan recorded 26703 dengue fever cases.
+[Dengue Hemorrhagic Fever](https://www.cdc.gov/dengue/resources/denguedhf-information-for-health-care-practitioners_2009.pdf) (in short dengue fever) is one of the most widespread mosquito-borne diseases in the most tropical and subtropical regions. It is an acute disease caused by dengue virus infection which is transmitted by female Aedes aegypti and Aedes albopictus mosquitoes.
+
+In 2015, Taiwan had recorded the most severe dengue fever outbreak with **more than 43,000 dengue cases** and **228 deaths**. Since then, the annual reported dengue fever cases were maintained at the level of not more than 200 cases. However, in **2023**, Taiwan recorded **26703 dengue fever cases**.
 
 ## 1.2 Objectives
 
@@ -28,7 +30,7 @@ In this study, we are interested to discover:
 In this take-home exercise, we will be using the following packages.
 
 ```{r}
-pacman::p_load(tidyverse, tmap, sf, sp, sfdep)
+pacman::p_load(plotly, tidyverse, tmap, sf, sp, sfdep)
 ```
 
 # 2.0 Data Acquisition
@@ -176,6 +178,7 @@ dengue_grp <- dengue_fever_layer_df %>%
   group_by(TOWNNAME_VILLNAME, EPIWEEK) %>%
   summarise(num_dengue_cases = n()) %>% 
   complete(EPIWEEK = 31:50, fill = list(num_dengue_cases = 0))
+dengue_grp <- as_tibble(dengue_grp)
 ```
 
 ```{r}
@@ -190,13 +193,6 @@ tainan_dengue_st <- spacetime(.data = dengue_grp,
                               .geometry = tainan_counties_with_dengue,
                               .loc_col = "TOWNNAME_VILLNAME",
                               .time_col = "EPIWEEK")
-
-
-#dengue_st_test <- spacetime(dengue_grp, tainan_counties_with_dengue,
-#                      .loc_col = "TOWNNAME_VILLNAME",
-#                      .time_col = "EPIWEEK")
-#
-#is_spacetime_cube(dengue_st_test)
 ```
 
 ```{r}
@@ -560,11 +556,107 @@ Emerging Hot Spot Analysis (EHSA) is a spatio-temporal analysis method for revea
 ## 7.1 Derive Spatial Weights
 
 ```{r}
+tainan_dengue_nb <- tainan_dengue_st %>%
+  activate("geometry") %>%
+  mutate(nb = include_self(st_contiguity(geometry)),
+         wt = st_inverse_distance(nb, geometry,
+                                  scale = 1,
+                                  alpha = 1),
+         .before = 1) %>%
+  set_nbs("nb") %>%
+  set_wts("wt")
 
+head(tainan_dengue_nb)
 ```
 
-## 7.1 Compute Gi statistics
+## 7.2 Compute Gi statistics
 
 ```{r}
+gi_stars <- tainan_dengue_nb %>% 
+  group_by(EPIWEEK) %>% 
+  mutate(gi_star = local_gstar_perm(
+    num_dengue_cases, nb, wt)) %>% 
+  tidyr::unnest(gi_star)
+```
 
+## 7.3 Mann-Kendall Test
+
+```{r}
+cbg <- gi_stars %>% 
+  ungroup() %>% 
+  filter(TOWNNAME_VILLNAME == "安南區_青草里") |> 
+  select(TOWNNAME_VILLNAME, EPIWEEK, gi_star)
+```
+
+```{r}
+p <- ggplot(data = cbg, 
+       aes(x = EPIWEEK, 
+           y = gi_star)) +
+  geom_line() +
+  theme_light()
+
+ggplotly(p)
+```
+
+```{r}
+cbg %>%
+  summarise(mk = list(
+    unclass(
+      Kendall::MannKendall(gi_star)))) %>% 
+  tidyr::unnest_wider(mk)
+```
+
+```{r}
+ehsa <- gi_stars %>%
+  group_by(TOWNNAME_VILLNAME) %>%
+  summarise(mk = list(
+    unclass(
+      Kendall::MannKendall(gi_star)))) %>%
+  tidyr::unnest_wider(mk)
+```
+
+```{r}
+emerging <- ehsa %>% 
+  arrange(sl, abs(tau)) %>% 
+  slice(1:5)
+```
+
+## **7.4 Performing Emerging Hotspot Analysis**
+
+```{r}
+ehsa <- emerging_hotspot_analysis(
+  x = tainan_dengue_st, 
+  .var = "num_dengue_cases", 
+  k = 1, 
+  nsim = 99
+)
+```
+
+### 7.4.1 Visualising the distribution of EHSA classes
+
+```{r}
+ggplot(data = ehsa,
+       aes(x = classification)) +
+  geom_bar() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
+### 7.4.2 Visualising EHSA
+
+```{r}
+tainan_ehsa <- tainan_counties_sf %>%
+  left_join(ehsa,
+            by = join_by(TOWNNAME_VILLNAME == location))
+```
+
+```{r}
+ehsa_sig <- tainan_ehsa  %>%
+  filter(p_value < 0.05)
+tmap_mode("plot")
+tm_shape(tainan_ehsa) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(ehsa_sig) +
+  tm_fill("classification") + 
+  tm_borders(alpha = 0.4)
 ```
