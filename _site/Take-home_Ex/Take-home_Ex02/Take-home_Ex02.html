@@ -232,15 +232,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" id="toc-preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep" class="nav-link" data-scroll-target="#preparing-a-dengue-fever-layer-in-spacetime-d3-class-of-sfdep">4.3 Preparing a dengue fever layer in spacetime d3 class of sfdep</a></li>
   <li><a href="#preparing-for-exploratory-data-analysis" id="toc-preparing-for-exploratory-data-analysis" class="nav-link" data-scroll-target="#preparing-for-exploratory-data-analysis">4.4 Preparing for Exploratory Data Analysis</a></li>
   </ul></li>
-  <li><a href="#geospatial-analysis" id="toc-geospatial-analysis" class="nav-link" data-scroll-target="#geospatial-analysis">5.0 Geospatial Analysis</a>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">5.0 Exploratory Data Analysis</a>
   <ul class="collapse">
   <li><a href="#visualising-the-distribution-of-dengue-fever-cases" id="toc-visualising-the-distribution-of-dengue-fever-cases" class="nav-link" data-scroll-target="#visualising-the-distribution-of-dengue-fever-cases">5.1 Visualising the distribution of dengue fever cases</a></li>
-  <li><a href="#spatial-autocorrelation-analysis" id="toc-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#spatial-autocorrelation-analysis">5.2 Spatial Autocorrelation Analysis</a>
-  <ul class="collapse">
-  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</a></li>
-  <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</a></li>
   </ul></li>
-  <li><a href="#emerging-hotspot-analysis-ehsa" id="toc-emerging-hotspot-analysis-ehsa" class="nav-link" data-scroll-target="#emerging-hotspot-analysis-ehsa">5.3 Emerging <strong>H</strong>otSpot Analysis (EHSA)</a></li>
+  <li><a href="#spatial-autocorrelation-analysis" id="toc-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#spatial-autocorrelation-analysis">6.0 Spatial Autocorrelation Analysis</a>
+  <ul class="collapse">
+  <li><a href="#global-spatial-autocorrelation-analysis" id="toc-global-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#global-spatial-autocorrelation-analysis">6.2.1 Global Spatial Autocorrelation Analysis</a></li>
+  <li><a href="#local-spatial-autocorrelation-analysis" id="toc-local-spatial-autocorrelation-analysis" class="nav-link" data-scroll-target="#local-spatial-autocorrelation-analysis">6.2.2 Local Spatial Autocorrelation Analysis</a></li>
+  <li><a href="#hot-spot-and-cold-spot-area-analysis-hcsa" id="toc-hot-spot-and-cold-spot-area-analysis-hcsa" class="nav-link" data-scroll-target="#hot-spot-and-cold-spot-area-analysis-hcsa">6.2.3 Hot Spot and Cold Spot Area Analysis (HCSA)</a></li>
+  </ul></li>
+  <li><a href="#emerging-hot-spot-analysis-ehsa" id="toc-emerging-hot-spot-analysis-ehsa" class="nav-link" data-scroll-target="#emerging-hot-spot-analysis-ehsa">7.0 Emerging Hot Spot Analysis (EHSA)</a>
+  <ul class="collapse">
+  <li><a href="#derive-spatial-weights-1" id="toc-derive-spatial-weights-1" class="nav-link" data-scroll-target="#derive-spatial-weights-1">7.1 Derive Spatial Weights</a></li>
+  <li><a href="#compute-gi-statistics-1" id="toc-compute-gi-statistics-1" class="nav-link" data-scroll-target="#compute-gi-statistics-1">7.1 Compute Gi statistics</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -492,7 +497,14 @@ Notes
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tainan_dengue_st <span class="ot">&lt;-</span> <span class="fu">spacetime</span>(<span class="at">.data =</span> dengue_grp,</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.geometry =</span> tainan_counties_with_dengue,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.loc_col =</span> <span class="st">"TOWNNAME_VILLNAME"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.time_col =</span> <span class="st">"EPIWEEK"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">.time_col =</span> <span class="st">"EPIWEEK"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#dengue_st_test &lt;- spacetime(dengue_grp, tainan_counties_with_dengue,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                      .loc_col = "TOWNNAME_VILLNAME",</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                      .time_col = "EPIWEEK")</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#is_spacetime_cube(dengue_st_test)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_spacetime_cube</span>(tainan_dengue_st)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -537,8 +549,8 @@ Note
 </div>
 </section>
 </section>
-<section id="geospatial-analysis" class="level1">
-<h1>5.0 Geospatial Analysis</h1>
+<section id="exploratory-data-analysis" class="level1">
+<h1>5.0 Exploratory Data Analysis</h1>
 <section id="visualising-the-distribution-of-dengue-fever-cases" class="level2">
 <h2 class="anchored" data-anchor-id="visualising-the-distribution-of-dengue-fever-cases">5.1 Visualising the distribution of dengue fever cases</h2>
 <div class="cell">
@@ -588,8 +600,9 @@ Note
 </div>
 </div>
 </section>
-<section id="spatial-autocorrelation-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-autocorrelation-analysis">5.2 Spatial Autocorrelation Analysis</h2>
+</section>
+<section id="spatial-autocorrelation-analysis" class="level1">
+<h1>6.0 Spatial Autocorrelation Analysis</h1>
 <blockquote class="blockquote">
 <p>“Everything is related to everything else, but near things are more related than distant things.”</p>
 <p>– Waldo Tobler, The First Law of Geography</p>
@@ -601,9 +614,9 @@ Note
 <li><p>Local spatial autocorrelation analysis</p></li>
 </ul>
 <section id="global-spatial-autocorrelation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">5.2.1 Global Spatial Autocorrelation Analysis</h3>
+<h3 class="anchored" data-anchor-id="global-spatial-autocorrelation-analysis">6.2.1 Global Spatial Autocorrelation Analysis</h3>
 <section id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c" class="level4">
-<h4 class="anchored" data-anchor-id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c">5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C</h4>
+<h4 class="anchored" data-anchor-id="measures-of-global-of-spatial-autocorrelation-morans-i-and-gearys-c">6.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C</h4>
 <p>We can test the presence of spatial autocorrelation using the Moran’s I or Geary’s C.</p>
 <table class="table">
 <colgroup>
@@ -641,10 +654,14 @@ Note
 </table>
 <p>In this Take-home Exercise, we use Moran’s I to test the spatial autocorrelation. To test for spatial autocorrelation, we can follow the steps below:</p>
 <ol type="1">
-<li>State the null and alternative hypotheses</li>
+<li>State the null and alternative hypotheses
+<ul>
+<li>H<sub>0</sub> (null hypothesis):</li>
+<li>H<sub>1</sub> (alternative hypothesis):</li>
+</ul></li>
 <li>Choose the significance level ⍺
 <ul>
-<li>Statistically, we select the confident interval such as 95% =&gt; alpha value = 0.05.</li>
+<li>Statistically, we select the confident interval as 95% =&gt; alpha value (⍺) = 0.05.</li>
 </ul></li>
 <li>Calculate the test statistic</li>
 <li>State the conclusion
@@ -655,7 +672,7 @@ Note
 </ol>
 </section>
 <section id="compute-spatial-weights" class="level4">
-<h4 class="anchored" data-anchor-id="compute-spatial-weights">5.2.1.2 Compute Spatial Weights</h4>
+<h4 class="anchored" data-anchor-id="compute-spatial-weights">6.2.1.2 Compute Spatial Weights</h4>
 <p>To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.</p>
 <p>There are several methods to construct spatial weights. We will be using the Contiguity-Based method to construct the spatial weights and derive the Weights Matrix.</p>
 <p><strong>Contiguity-Based Weights</strong></p>
@@ -686,7 +703,7 @@ Note
 <p>To derive the <strong>Contiguity-Based Weights,</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>wm_q <span class="ot">&lt;-</span> tainan_dengue_cases_by_village <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">st_contiguity</span>(geometry, <span class="at">queen=</span><span class="cn">TRUE</span>),</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">st_contiguity</span>(geometry),</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt =</span> <span class="fu">st_weights</span>(nb,</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style =</span> <span class="st">"W"</span>),</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span>
@@ -708,7 +725,7 @@ $ geometry           &lt;POLYGON [°]&gt; POLYGON ((120.1176 23.08387..., POLYGO
 </div>
 </section>
 <section id="compute-global-morans-i" class="level4">
-<h4 class="anchored" data-anchor-id="compute-global-morans-i">5.2.1.3 Compute Global Moran’s I</h4>
+<h4 class="anchored" data-anchor-id="compute-global-morans-i">6.2.1.3 Compute Global Moran’s I</h4>
 <p>We will compute the global moran’s I value using the global_moran() function. The output is a tibble data.frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>moranI <span class="ot">&lt;-</span> <span class="fu">global_moran</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
@@ -723,7 +740,7 @@ $ geometry           &lt;POLYGON [°]&gt; POLYGON ((120.1176 23.08387..., POLYGO
 </div>
 </section>
 <section id="perform-global-morans-i-test" class="level4">
-<h4 class="anchored" data-anchor-id="perform-global-morans-i-test">5.2.1.4 Perform Global Moran’s I Test</h4>
+<h4 class="anchored" data-anchor-id="perform-global-morans-i-test">6.2.1.4 Perform Global Moran’s I Test</h4>
 <p>In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global_moran_test</span>(wm_q<span class="sc">$</span>total_dengue_cases,</span>
@@ -758,7 +775,7 @@ Interpreting the results
 </div>
 </section>
 <section id="perform-global-morans-i-permutation-test-with-monte-carlo-simulation" class="level4">
-<h4 class="anchored" data-anchor-id="perform-global-morans-i-permutation-test-with-monte-carlo-simulation">5.2.1.5 Perform Global Moran’s I Permutation Test with Monte-Carlo Simulation</h4>
+<h4 class="anchored" data-anchor-id="perform-global-morans-i-permutation-test-with-monte-carlo-simulation">6.2.1.5 Perform Global Moran’s I Permutation Test with Monte-Carlo Simulation</h4>
 <p>In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the monte carlo simulation.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -809,7 +826,7 @@ Important
 <p><strong>Interpreting the results</strong></p>
 </section>
 <section id="visualising-global-monte-carlo-morans-i" class="level4">
-<h4 class="anchored" data-anchor-id="visualising-global-monte-carlo-morans-i">5.2.1.6 Visualising Global Monte-Carlo Moran’s I</h4>
+<h4 class="anchored" data-anchor-id="visualising-global-monte-carlo-morans-i">6.2.1.6 Visualising Global Monte-Carlo Moran’s I</h4>
 <p>Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(global_moranI_perm<span class="sc">$</span>res, </span>
@@ -833,9 +850,9 @@ Important
 </section>
 </section>
 <section id="local-spatial-autocorrelation-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">5.2.2 Local Spatial Autocorrelation Analysis</h3>
+<h3 class="anchored" data-anchor-id="local-spatial-autocorrelation-analysis">6.2.2 Local Spatial Autocorrelation Analysis</h3>
 <section id="computing-local-morans-i-and-p-value" class="level4">
-<h4 class="anchored" data-anchor-id="computing-local-morans-i-and-p-value">5.2.2.1 Computing Local Moran’s I and p-value</h4>
+<h4 class="anchored" data-anchor-id="computing-local-morans-i-and-p-value">6.2.2.1 Computing Local Moran’s I and p-value</h4>
 <p>We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lisa <span class="ot">&lt;-</span> wm_q <span class="sc">%&gt;%</span> </span>
@@ -846,7 +863,7 @@ Important
 </div>
 </section>
 <section id="visualizing-local-morans-i-and-p-value" class="level4">
-<h4 class="anchored" data-anchor-id="visualizing-local-morans-i-and-p-value">5.2.2.2 Visualizing local Moran’s I and p-value</h4>
+<h4 class="anchored" data-anchor-id="visualizing-local-morans-i-and-p-value">6.2.2.2 Visualizing local Moran’s I and p-value</h4>
 <p>The tmap functions are used to prepare a choropleth map by using values in the <code>ii</code> and <code>p_ii_sim</code> fields.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
@@ -872,7 +889,7 @@ Important
 </div>
 </section>
 <section id="visualize-the-local-indicator-of-spatial-association-lisa-map" class="level4">
-<h4 class="anchored" data-anchor-id="visualize-the-local-indicator-of-spatial-association-lisa-map">5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map</h4>
+<h4 class="anchored" data-anchor-id="visualize-the-local-indicator-of-spatial-association-lisa-map">6.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map</h4>
 <p>The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>lisa_sig <span class="ot">&lt;-</span> lisa  <span class="sc">%&gt;%</span></span>
@@ -897,9 +914,105 @@ Important
 <p><strong>Interpreting the results</strong></p>
 </section>
 </section>
+<section id="hot-spot-and-cold-spot-area-analysis-hcsa" class="level3">
+<h3 class="anchored" data-anchor-id="hot-spot-and-cold-spot-area-analysis-hcsa">6.2.3 Hot Spot and Cold Spot Area Analysis (HCSA)</h3>
+<p>HCSA uses spatial weights to identify locations of statistically significant hot spots and cold spots in an spatially weighted attribute that are in proximity to one another based on a calculated distance. The analysis groups features when similar high (hot) or low (cold) values are found in a cluster. The polygon features usually represent administration boundaries or a custom grid structure.</p>
+<section id="derive-spatial-weights" class="level4">
+<h4 class="anchored" data-anchor-id="derive-spatial-weights">6.2.3.1 Derive Spatial Weights</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>wm_idw <span class="ot">&lt;-</span> tainan_dengue_cases_by_village <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">st_contiguity</span>(geometry),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wts =</span> <span class="fu">st_inverse_distance</span>(nb, geometry,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha =</span> <span class="dv">1</span>),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="emerging-hotspot-analysis-ehsa" class="level2">
-<h2 class="anchored" data-anchor-id="emerging-hotspot-analysis-ehsa">5.3 Emerging <strong>H</strong>otSpot Analysis (EHSA)</h2>
+<section id="compute-gi-statistics" class="level4">
+<h4 class="anchored" data-anchor-id="compute-gi-statistics">6.2.3.2 Compute Gi statistics</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>HCSA <span class="ot">&lt;-</span> wm_idw <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">local_Gi =</span> <span class="fu">local_gstar_perm</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    total_dengue_cases, nb, wt, <span class="at">nsim =</span> <span class="dv">99</span>),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(local_Gi)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>HCSA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 258 features and 16 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 120.0627 ymin: 22.89401 xmax: 120.2925 ymax: 23.09144
+Geodetic CRS:  TWD97
+# A tibble: 258 × 17
+   gi_star    e_gi   var_gi p_value   p_sim p_folded_sim skewness kurtosis nb   
+     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;nb&gt; 
+ 1 -1.95   0.00286  2.33e-6 -1.68   0.0921          0.02     0.01   0.845  &lt;int&gt;
+ 2 -1.64   0.00356  1.70e-6 -1.64   0.101           0.08     0.04   0.146  &lt;int&gt;
+ 3 -1.44   0.00431  1.37e-6 -1.86   0.0628          0.08     0.04   0.209  &lt;int&gt;
+ 4 -0.244  0.00367  1.84e-6 -0.0987 0.921           0.96     0.48   0.426  &lt;int&gt;
+ 5 -2.23   0.00329  2.58e-6 -1.91   0.0562          0.02     0.01   0.765  &lt;int&gt;
+ 6 -2.86   0.00335  1.41e-6 -2.67   0.00765         0.02     0.01   0.322  &lt;int&gt;
+ 7 -0.851  0.00324  2.06e-6 -0.531  0.595           0.64     0.32   0.622  &lt;int&gt;
+ 8  0.0840 0.00392  1.33e-6  0.0438 0.965           0.86     0.43   0.432  &lt;int&gt;
+ 9  1.84   0.00411  1.66e-6  1.96   0.0500          0.04     0.02   0.0233 &lt;int&gt;
+10 -0.971  0.00381  1.69e-6 -0.979  0.328           0.36     0.18   0.194  &lt;int&gt;
+# ℹ 248 more rows
+# ℹ 8 more variables: wts &lt;list&gt;, COUNTYNAME &lt;chr&gt;, TOWNID &lt;chr&gt;,
+#   TOWNNAME &lt;chr&gt;, VILLNAME &lt;chr&gt;, TOWNNAME_VILLNAME &lt;chr&gt;,
+#   total_dengue_cases &lt;int&gt;, geometry &lt;POLYGON [°]&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="mapping-gi-statistics" class="level4">
+<h4 class="anchored" data-anchor-id="mapping-gi-statistics">6.2.3.3 Mapping Gi statistics</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(HCSA) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"gi_star"</span>) <span class="sc">+</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_view</span>(<span class="at">set.zoom.limits =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"Gi* of Dengue cases"</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>map2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(HCSA) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"p_value"</span>,</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="dv">1</span>),</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0.001"</span>, <span class="st">"0.01"</span>, <span class="st">"0.05"</span>, <span class="st">"Not sig"</span>)) <span class="sc">+</span> </span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">main.title =</span> <span class="st">"p-value of Gi*"</span>,</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.size =</span> <span class="fl">0.8</span>)</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map1, map2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>HCSA_sig <span class="ot">&lt;-</span> HCSA  <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(p_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA) <span class="sc">+</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(HCSA_sig) <span class="sc">+</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">"gi_star"</span>) <span class="sc">+</span> </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex02_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="emerging-hot-spot-analysis-ehsa" class="level1">
+<h1>7.0 Emerging Hot Spot Analysis (EHSA)</h1>
+<p>Emerging Hot Spot Analysis (EHSA) is a spatio-temporal analysis method for revealing and describing how hot spot and cold spot areas evolve over time. We will be using the spacetime cube that was created previously.</p>
+<section id="derive-spatial-weights-1" class="level2">
+<h2 class="anchored" data-anchor-id="derive-spatial-weights-1">7.1 Derive Spatial Weights</h2>
+</section>
+<section id="compute-gi-statistics-1" class="level2">
+<h2 class="anchored" data-anchor-id="compute-gi-statistics-1">7.1 Compute Gi statistics</h2>
 
 
 </section>

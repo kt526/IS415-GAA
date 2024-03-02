@@ -190,6 +190,13 @@ tainan_dengue_st <- spacetime(.data = dengue_grp,
                               .geometry = tainan_counties_with_dengue,
                               .loc_col = "TOWNNAME_VILLNAME",
                               .time_col = "EPIWEEK")
+
+
+#dengue_st_test <- spacetime(dengue_grp, tainan_counties_with_dengue,
+#                      .loc_col = "TOWNNAME_VILLNAME",
+#                      .time_col = "EPIWEEK")
+#
+#is_spacetime_cube(dengue_st_test)
 ```
 
 ```{r}
@@ -223,7 +230,7 @@ tainan_dengue_cases_by_village <- left_join(tainan_counties_sf,
 which(colSums(is.na(tainan_dengue_cases_by_village))>0)
 ```
 
-# 5.0 Geospatial Analysis
+# 5.0 Exploratory Data Analysis
 
 ## 5.1 Visualising the distribution of dengue fever cases
 
@@ -269,7 +276,7 @@ tmap_arrange(equal,
              ncol=2)
 ```
 
-## 5.2 Spatial Autocorrelation Analysis
+# 6.0 Spatial Autocorrelation Analysis
 
 > “Everything is related to everything else, but near things are more related than distant things.”
 >
@@ -283,9 +290,9 @@ The two main types of Spatial Autocorrelation Analysis are:
 
 -   Local spatial autocorrelation analysis
 
-### 5.2.1 Global Spatial Autocorrelation Analysis
+### 6.2.1 Global Spatial Autocorrelation Analysis
 
-#### 5.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C
+#### 6.2.1.1 Measures of Global of Spatial Autocorrelation: Moran’s I and Geary’s C
 
 We can test the presence of spatial autocorrelation using the Moran’s I or Geary's C.
 
@@ -308,14 +315,16 @@ We can test the presence of spatial autocorrelation using the Moran’s I or Gea
 In this Take-home Exercise, we use Moran’s I to test the spatial autocorrelation. To test for spatial autocorrelation, we can follow the steps below:
 
 1.  State the null and alternative hypotheses
+    -   H~0~ (null hypothesis):
+    -   H~1~ (alternative hypothesis):
 2.  Choose the significance level ⍺
-    -   Statistically, we select the confident interval such as 95% =\> alpha value = 0.05.
+    -   Statistically, we select the confident interval as 95% =\> alpha value (⍺) = 0.05.
 3.  Calculate the test statistic
 4.  State the conclusion
     -   Reject the Null hypothesis (H0) if p-value is smaller than alpha value.
     -   Failed to reject the Null Hypothesis (H0) if p-value is greater than alpha value.
 
-#### 5.2.1.2 Compute Spatial Weights
+#### 6.2.1.2 Compute Spatial Weights
 
 To calculate global spatial autocorrelation statistics effectively, we need to first construct the spatial weights for the study area. The spatial weights play a critical role in defining the neighbourhood relationships between geographical units within the study area.
 
@@ -343,7 +352,7 @@ To derive the **Contiguity-Based Weights,**
 
 ```{r}
 wm_q <- tainan_dengue_cases_by_village %>%
-  mutate(nb = st_contiguity(geometry, queen=TRUE),
+  mutate(nb = st_contiguity(geometry),
          wt = st_weights(nb,
                          style = "W"),
          .before = 1)
@@ -351,7 +360,7 @@ wm_q <- tainan_dengue_cases_by_village %>%
 glimpse(wm_q)
 ```
 
-#### 5.2.1.3 Compute Global Moran's I
+#### 6.2.1.3 Compute Global Moran's I
 
 We will compute the global moran’s I value using the global_moran() function. The output is a tibble data.frame.
 
@@ -362,7 +371,7 @@ moranI <- global_moran(wm_q$total_dengue_cases,
 glimpse(moranI)
 ```
 
-#### 5.2.1.4 Perform Global Moran's I Test
+#### 6.2.1.4 Perform Global Moran's I Test
 
 In order to perform the Global Moran’s I Test, we will be using the global_moran_test() function from sfdep package.
 
@@ -376,7 +385,7 @@ global_moran_test(wm_q$total_dengue_cases,
 ## Interpreting the results
 :::
 
-#### 5.2.1.5 Perform Global Moran's I Permutation Test with Monte-Carlo Simulation
+#### 6.2.1.5 Perform Global Moran's I Permutation Test with Monte-Carlo Simulation
 
 In practice, monte carlo simulation should be used to perform the statistical test. We can use the global_moran_perm() function of sfdep package to run the monte carlo simulation.
 
@@ -402,7 +411,7 @@ The number of simulations is always equal to nsim + 1. Since nsim = 99, this mea
 
 **Interpreting the results**
 
-#### 5.2.1.6 Visualising Global Monte-Carlo Moran's I
+#### 6.2.1.6 Visualising Global Monte-Carlo Moran's I
 
 Let us visualise the simulated Moran’s I test statistics by plotting the distribution of the statistical values using a histogram.
 
@@ -421,9 +430,9 @@ We can also look at the summary statistics using the summary() function.
 summary(global_moranI_perm$res[1:99])
 ```
 
-### 5.2.2 Local Spatial Autocorrelation Analysis
+### 6.2.2 Local Spatial Autocorrelation Analysis
 
-#### 5.2.2.1 Computing Local Moran's I and p-value
+#### 6.2.2.1 Computing Local Moran's I and p-value
 
 We will compute the local moran’s I value using the local_moran() function. The output is a sf data.frame.
 
@@ -435,7 +444,7 @@ lisa <- wm_q %>%
   unnest(local_moran)
 ```
 
-#### 5.2.2.2 Visualizing local Moran’s I and p-value
+#### 6.2.2.2 Visualizing local Moran’s I and p-value
 
 The tmap functions are used to prepare a choropleth map by using values in the `ii` and `p_ii_sim` fields.
 
@@ -459,7 +468,7 @@ map2 <- tm_shape(lisa) +
 tmap_arrange(map1, map2, ncol = 2)
 ```
 
-#### 5.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map
+#### 6.2.2.3 Visualize the Local Indicator of Spatial Association (LISA) map
 
 The LISA map is a categorical map showing outliers and clusters. LISA map is an interpreted map by combining local Moran’s I of geographical areas and their respective p-values. There are two types of outliers namely: High-Low and Low-High outliers. Likewise, there are two types of clusters namely: High-High and Low-Low clusters.
 
@@ -483,7 +492,78 @@ tmap_arrange(tainan_counties_map, lisa_map, ncol = 2)
 
 **Interpreting the results**
 
-## 5.3 Emerging **H**otSpot Analysis (EHSA)
+### 6.2.3 Hot Spot and Cold Spot Area Analysis (HCSA)
+
+HCSA uses spatial weights to identify locations of statistically significant hot spots and cold spots in an spatially weighted attribute that are in proximity to one another based on a calculated distance. The analysis groups features when similar high (hot) or low (cold) values are found in a cluster. The polygon features usually represent administration boundaries or a custom grid structure.
+
+#### 6.2.3.1 Derive Spatial Weights
+
+```{r}
+wm_idw <- tainan_dengue_cases_by_village %>%
+  mutate(nb = st_contiguity(geometry),
+         wts = st_inverse_distance(nb, geometry,
+                                   scale = 1,
+                                   alpha = 1),
+         .before = 1)
+```
+
+#### 6.2.3.2 Compute Gi statistics
+
+```{r}
+HCSA <- wm_idw %>% 
+  mutate(local_Gi = local_gstar_perm(
+    total_dengue_cases, nb, wt, nsim = 99),
+         .before = 1) %>%
+  unnest(local_Gi)
+HCSA
+```
+
+#### 6.2.3.3 Mapping Gi statistics
+
+```{r}
+tmap_mode("plot")
+map1 <- tm_shape(HCSA) +
+  tm_fill("gi_star") + 
+  tm_borders(alpha = 0.5) +
+  tm_view(set.zoom.limits = c(6,8)) +
+  tm_layout(main.title = "Gi* of Dengue cases",
+            main.title.size = 0.8)
+
+map2 <- tm_shape(HCSA) +
+  tm_fill("p_value",
+          breaks = c(0, 0.001, 0.01, 0.05, 1),
+              labels = c("0.001", "0.01", "0.05", "Not sig")) + 
+  tm_borders(alpha = 0.5) +
+  tm_layout(main.title = "p-value of Gi*",
+            main.title.size = 0.8)
+
+tmap_arrange(map1, map2, ncol = 2)
+```
+
+```{r}
+HCSA_sig <- HCSA  %>%
+  filter(p_sim < 0.05)
+
+tmap_mode("plot")
+tm_shape(HCSA) +
+  tm_polygons() +
+  tm_borders(alpha = 0.5) +
+tm_shape(HCSA_sig) +
+  tm_fill("gi_star") + 
+  tm_borders(alpha = 0.4)
+```
+
+# 7.0 Emerging Hot Spot Analysis (EHSA)
+
+Emerging Hot Spot Analysis (EHSA) is a spatio-temporal analysis method for revealing and describing how hot spot and cold spot areas evolve over time. We will be using the spacetime cube that was created previously.
+
+## 7.1 Derive Spatial Weights
+
+```{r}
+
+```
+
+## 7.1 Compute Gi statistics
 
 ```{r}
 
