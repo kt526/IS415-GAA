@@ -175,7 +175,7 @@ The `dengue_extracted` is a tibble data.frame and we are now left with 6 variabl
 
 We can also use RStudio's [Data Viewer](https://docs.posit.co/ide/user/ide/guide/data/data-viewer.html) to view the contents of `dengue_extracted`.
 
-![Figure 1. Image](imgs/dengue_extracted_view.png){fig-align="center"}
+![](imgs/dengue_extracted_view.png){fig-align="center"}
 
 Notice the following after using the str() and viewing the `dengue_extracted` contents from Data Viewer :
 
@@ -918,7 +918,7 @@ emerging <- ehsa %>%
   slice(1:5)
 ```
 
-## **7.4 Performing Emerging Hotspot Analysis**
+## 7.4 Performing Emerging Hotspot Analysis
 
 ```{r}
 ehsa <- emerging_hotspot_analysis(
