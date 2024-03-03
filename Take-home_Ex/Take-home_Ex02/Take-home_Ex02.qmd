@@ -824,7 +824,6 @@ By comparing all the four maps above, we are able to come up with the following 
 Let us find out the names of these villages that have high number of dengue cases reported
 
 ```{r}
-# Find the row with the highest gi_star among the filtered data
 hotspot_areas <- HCSA_sig %>%
   arrange(desc(gi_star)) %>% 
   head(3)
