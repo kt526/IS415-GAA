@@ -33,7 +33,7 @@ In this study, we are interested to discover:
 In this take-home exercise, we will be using the following packages.
 
 ```{r}
-pacman::p_load(plotly, tidyverse, tmap, sf, sp, sfdep)
+pacman::p_load(Kendall, plotly, tidyverse, tmap, sf, sp, sfdep)
 ```
 
 # 2.0 Data Acquisition
@@ -124,7 +124,7 @@ tm_shape(tainan_towns_sf) +
 
 ## 4.2 Preparing a dengue fever layer with specific towns of Tainan City, Taiwan
 
-The subsequent tasks entail preparing the dengue fever layer for specific counties within Tainan City, Taiwan. This involves:
+The subsequent tasks entail preparing the dengue fever layer for specific towns within Tainan City, Taiwan. This involves:
 
 1.  Confining dengue fever layer with TOWNIDs D01, D02, D04, D06, D07, D08, D32 and D39
 2.  Extracting dengue fever cases within epidemiology week 31-50, 2023
@@ -290,7 +290,7 @@ dengue_grp <- as_tibble(dengue_grp)
 ```
 
 ```{r}
-tainan_counties_with_dengue <- tainan_towns_sf %>% 
+tainan_towns_with_dengue <- tainan_towns_sf %>% 
   mutate(TOWNNAME_VILLNAME = paste(TOWNNAME, VILLNAME, sep="_")) %>%
   select(TOWNNAME_VILLNAME, geometry) %>%
   filter(TOWNNAME_VILLNAME %in% unique(dengue_grp$TOWNNAME_VILLNAME))
@@ -298,7 +298,7 @@ tainan_counties_with_dengue <- tainan_towns_sf %>%
 
 ```{r}
 tainan_dengue_st <- spacetime(.data = dengue_grp,
-                              .geometry = tainan_counties_with_dengue,
+                              .geometry = tainan_towns_with_dengue,
                               .loc_col = "TOWNNAME_VILLNAME",
                               .time_col = "EPIWEEK")
 ```
@@ -340,6 +340,7 @@ In this section, we want to visualize the distribution of dengue fever cases acr
 
 ```{r}
 #| code-fold: true
+
 tmap_mode("plot")
 
 tainan_dengue_cases_by_village_map <- tm_shape(tainan_dengue_cases_by_village) +
@@ -349,7 +350,7 @@ tainan_dengue_cases_by_village_map <- tm_shape(tainan_dengue_cases_by_village) +
           title = "Number of Dengue Cases",
           legend.show = TRUE,
           popup.vars = c("total_dengue_cases")) +
-  tm_layout(main.title = "Distribution of Dengue Cases in Tainan Counties",
+  tm_layout(main.title = "Distribution of Dengue Cases in Tainan Towns",
             main.title.position = "center",
             main.title.size = 0.85,
             legend.height = 0.5,
