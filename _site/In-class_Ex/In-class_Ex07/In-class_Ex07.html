@@ -283,29 +283,52 @@ Note
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> District Pcode     District Name      Township Pcode     Township Name     
+ Length:55          Length:55          Length:55          Length:55         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ Total households     Radio         Television    Land line phone 
+ Min.   : 3318    Min.   :  115   Min.   :  728   Min.   :  20.0  
+ 1st Qu.: 8711    1st Qu.: 1260   1st Qu.: 3744   1st Qu.: 266.5  
+ Median :13685    Median : 2497   Median : 6117   Median : 695.0  
+ Mean   :18369    Mean   : 4487   Mean   :10183   Mean   : 929.9  
+ 3rd Qu.:23471    3rd Qu.: 6192   3rd Qu.:13906   3rd Qu.:1082.5  
+ Max.   :82604    Max.   :30176   Max.   :62388   Max.   :6736.0  
+  Mobile phone      Computer      Internet at home
+ Min.   :  150   Min.   :  20.0   Min.   :   8.0  
+ 1st Qu.: 2037   1st Qu.: 121.0   1st Qu.:  88.0  
+ Median : 3559   Median : 244.0   Median : 316.0  
+ Mean   : 6470   Mean   : 575.5   Mean   : 760.2  
+ 3rd Qu.: 7177   3rd Qu.: 507.0   3rd Qu.: 630.5  
+ Max.   :48461   Max.   :6705.0   Max.   :9746.0  </code></pre>
+</div>
 </div>
 <p>Notice that the range of each variable varies. We need to perform standardisation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ict_derived <span class="ot">&lt;-</span> ict <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">RADIO_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Radio</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TV_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Television</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">LLPHONE_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Land line phone</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">MPHONE_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Mobile phone</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">COMPUTER_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Computer</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">INTERNET_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Internet at home</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">DT_PCODE</span><span class="st">`</span> <span class="ot">=</span><span class="st">`</span><span class="at">District Pcode</span><span class="st">`</span>,<span class="st">`</span><span class="at">DT</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">District Name</span><span class="st">`</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TS_PCODE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Township Pcode</span><span class="st">`</span>, <span class="st">`</span><span class="at">TS</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Township Name</span><span class="st">`</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TT_HOUSEHOLDS</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">RADIO</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Radio</span><span class="st">`</span>, <span class="st">`</span><span class="at">TV</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Television</span><span class="st">`</span>, </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">LLPHONE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Land line phone</span><span class="st">`</span>, <span class="st">`</span><span class="at">MPHONE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Mobile phone</span><span class="st">`</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">COMPUTER</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Computer</span><span class="st">`</span>, <span class="st">`</span><span class="at">INTERNET</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Internet at home</span><span class="st">`</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ict_derived <span class="ot">&lt;-</span> ict <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">RADIO_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Radio</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TV_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Television</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">LLPHONE_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Land line phone</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">MPHONE_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Mobile phone</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">COMPUTER_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Computer</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">INTERNET_PR</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Internet at home</span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span><span class="sc">*</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">DT_PCODE</span><span class="st">`</span> <span class="ot">=</span><span class="st">`</span><span class="at">District Pcode</span><span class="st">`</span>,<span class="st">`</span><span class="at">DT</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">District Name</span><span class="st">`</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TS_PCODE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Township Pcode</span><span class="st">`</span>, <span class="st">`</span><span class="at">TS</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Township Name</span><span class="st">`</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">TT_HOUSEHOLDS</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Total households</span><span class="st">`</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">RADIO</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Radio</span><span class="st">`</span>, <span class="st">`</span><span class="at">TV</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Television</span><span class="st">`</span>, </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">LLPHONE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Land line phone</span><span class="st">`</span>, <span class="st">`</span><span class="at">MPHONE</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Mobile phone</span><span class="st">`</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">COMPUTER</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Computer</span><span class="st">`</span>, <span class="st">`</span><span class="at">INTERNET</span><span class="st">`</span><span class="ot">=</span><span class="st">`</span><span class="at">Internet at home</span><span class="st">`</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Preparing the data for choropleth map</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>shan_sf <span class="ot">&lt;-</span> <span class="fu">left_join</span>(shan_sf, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     ict_derived, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"TS_PCODE"</span><span class="ot">=</span><span class="st">"TS_PCODE"</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(shan_sf, <span class="st">"data/rds/shan_sf.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shan_sf <span class="ot">&lt;-</span> <span class="fu">left_join</span>(shan_sf, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     ict_derived, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"TS_PCODE"</span><span class="ot">=</span><span class="st">"TS_PCODE"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(shan_sf, <span class="st">"data/rds/shan_sf.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -325,53 +348,217 @@ Note
 </div>
 <p><strong>Reading in data from rds</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shan_sf <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/shan_sf.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shan_sf <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/shan_sf.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Plotting Multiple Histograms</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>radio <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">RADIO_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>tv <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">TV_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>llphone <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">LLPHONE_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>mphone <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">MPHONE_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>computer <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">COMPUTER_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>internet <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>shan_sf, </span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">INTERNET_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(radio, tv, llphone, mphone, computer, internet, </span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">ncol =</span> <span class="dv">3</span>, </span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>radio <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">RADIO_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tv <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">TV_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>llphone <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">LLPHONE_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>mphone <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">MPHONE_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>computer <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">COMPUTER_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>internet <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>ict_derived, </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> <span class="st">`</span><span class="at">INTERNET_PR</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"black"</span>, </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"light blue"</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(radio, tv, llphone, mphone, computer, internet, </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">ncol =</span> <span class="dv">3</span>, </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>          <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><strong>Correlation Analysis</strong></p>
+<p>To check if the input variables are highly correlated.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cluster_vars.cor <span class="ot">=</span> <span class="fu">cor</span>(ict_derived[,<span class="dv">12</span><span class="sc">:</span><span class="dv">17</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot.mixed</span>(cluster_vars.cor,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower =</span> <span class="st">"ellipse"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper =</span> <span class="st">"number"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">tl.pos =</span> <span class="st">"lt"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">diag =</span> <span class="st">"l"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">tl.col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Interpreting the corrplot</strong></p>
+<ol type="1">
+<li>Size of Ellipse
+<ol type="1">
+<li>Narrow means highly correlated</li>
+</ol></li>
+<li>Color
+<ol type="1">
+<li>Red denotes negative correlation</li>
+<li>Blue denotes positive correlation</li>
+</ol></li>
+</ol>
+<p><strong>Extracting clustering variables</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cluster_vars <span class="ot">&lt;-</span> shan_sf <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_geometry</span>(<span class="cn">NULL</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"TS.x"</span>, <span class="st">"RADIO_PR"</span>, <span class="st">"TV_PR"</span>, <span class="st">"LLPHONE_PR"</span>, <span class="st">"MPHONE_PR"</span>, <span class="st">"COMPUTER_PR"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster_vars,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        TS.x RADIO_PR    TV_PR LLPHONE_PR MPHONE_PR COMPUTER_PR
+1    Mongmit 286.1852 554.1313   35.30618  260.6944    12.15939
+2    Pindaya 417.4647 505.1300   19.83584  162.3917    12.88190
+3    Ywangan 484.5215 260.5734   11.93591  120.2856     4.41465
+4   Pinlaung 231.6499 541.7189   28.54454  249.4903    13.76255
+5     Mabein 449.4903 708.6423   72.75255  392.6089    16.45042
+6      Kalaw 280.7624 611.6204   42.06478  408.7951    29.63160
+7      Pekon 318.6118 535.8494   39.83270  214.8476    18.97032
+8   Lawksawk 387.1017 630.0035   31.51366  320.5686    21.76677
+9  Nawnghkio 349.3359 547.9456   38.44960  323.0201    15.76465
+10   Kyaukme 210.9548 601.1773   39.58267  372.4930    30.94709</code></pre>
+</div>
+</div>
+<p>st_set_geometry = dropping away the geometric columns</p>
+<p>Note: even if you don’t select the geometry column, the geometry layer will still be read in</p>
+<p>The current row names in <code>cluster_vars</code> are labelled as 1, 2, 3 … We need to set the row names as the township name using row.names() function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(cluster_vars) <span class="ot">&lt;-</span> cluster_vars<span class="sc">$</span><span class="st">"TS.x"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster_vars,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               TS.x RADIO_PR    TV_PR LLPHONE_PR MPHONE_PR COMPUTER_PR
+Mongmit     Mongmit 286.1852 554.1313   35.30618  260.6944    12.15939
+Pindaya     Pindaya 417.4647 505.1300   19.83584  162.3917    12.88190
+Ywangan     Ywangan 484.5215 260.5734   11.93591  120.2856     4.41465
+Pinlaung   Pinlaung 231.6499 541.7189   28.54454  249.4903    13.76255
+Mabein       Mabein 449.4903 708.6423   72.75255  392.6089    16.45042
+Kalaw         Kalaw 280.7624 611.6204   42.06478  408.7951    29.63160
+Pekon         Pekon 318.6118 535.8494   39.83270  214.8476    18.97032
+Lawksawk   Lawksawk 387.1017 630.0035   31.51366  320.5686    21.76677
+Nawnghkio Nawnghkio 349.3359 547.9456   38.44960  323.0201    15.76465
+Kyaukme     Kyaukme 210.9548 601.1773   39.58267  372.4930    30.94709</code></pre>
+</div>
+</div>
+<p>Notice that the row number has been replaced into the township name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>shan_ict <span class="ot">&lt;-</span> <span class="fu">select</span>(cluster_vars, <span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shan_ict, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          RADIO_PR    TV_PR LLPHONE_PR MPHONE_PR COMPUTER_PR
+Mongmit   286.1852 554.1313   35.30618  260.6944    12.15939
+Pindaya   417.4647 505.1300   19.83584  162.3917    12.88190
+Ywangan   484.5215 260.5734   11.93591  120.2856     4.41465
+Pinlaung  231.6499 541.7189   28.54454  249.4903    13.76255
+Mabein    449.4903 708.6423   72.75255  392.6089    16.45042
+Kalaw     280.7624 611.6204   42.06478  408.7951    29.63160
+Pekon     318.6118 535.8494   39.83270  214.8476    18.97032
+Lawksawk  387.1017 630.0035   31.51366  320.5686    21.76677
+Nawnghkio 349.3359 547.9456   38.44960  323.0201    15.76465
+Kyaukme   210.9548 601.1773   39.58267  372.4930    30.94709</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(shan_ict, <span class="st">"data/rds/shan_ict.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Computing the proximity matrix</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>shan_ict <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"data/rds/shan_ict.rds"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>proxmat <span class="ot">&lt;-</span> <span class="fu">dist</span>(shan_ict, <span class="at">method =</span> <span class="st">'euclidean'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Interpreting dendrogram</strong></p>
+<p>Optimal number of clusters are based on local optimization</p>
+<p><strong>Computing hierarchical clustering</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(proxmat, <span class="at">method =</span> <span class="st">'ward.D'</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hclust_ward, <span class="at">cex =</span> <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Notes:</p>
+<ul>
+<li><p>as.factor = changing a data type from numerical data type into a factor data type</p></li>
+<li><p>cbind() denotes column append: Used instead because there is no unique identifiers between <code>shan_sf</code> and <code>groups</code>.</p></li>
+<li><p>If the data has been sorted, we should not use cbind() because the sequence of data would have changed.</p></li>
+</ul>
+<p><strong>SKATER approach using sfdep</strong></p>
+<p>This code chunk below will be redundant when we are using sfdep</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>shan_sp <span class="ot">&lt;-</span> <span class="fu">as_Spatial</span>(shan_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>shan.nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(shan_sf)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shan.nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Neighbour list object:
+Number of regions: 55 
+Number of nonzero links: 264 
+Percentage nonzero weights: 8.727273 
+Average number of links: 4.8 
+Link number distribution:
+
+ 2  3  4  5  6  7  8  9 
+ 5  9  7 21  4  3  5  1 
+5 least connected regions:
+3 5 7 9 47 with 2 links
+1 most connected region:
+8 with 9 links</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shan_sf,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">grey</span>(.<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf),</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">grey</span>(.<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note that if we are using spdep, we can use the coordinates() function. But if we are using sfdep, we need to derive the centroids of each polygon.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(<span class="fu">st_centroid</span>(shan_sf))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(shan_sf),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">border=</span><span class="fu">grey</span>(.<span class="dv">5</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shan.nb,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>     pts,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"blue"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="In-class_Ex07_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Cluster analysis</strong></p>
+<ul>
+<li><p>Looking at the distribution of clusters based on map</p></li>
+<li><p>Dissecting cluster membership (to label the clusters) (we need to characterize the clusters based on interpreting the parallel coordinates plots)</p></li>
+</ul>
 
 
 
