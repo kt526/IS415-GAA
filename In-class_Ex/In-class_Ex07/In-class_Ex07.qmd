@@ -1,0 +1,145 @@
+---
+title: "In-class Exercise 7: Geographic Segmentation with Spatially Constrained Cluster Analysis: sfdep methods"
+format: html
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 03/04/2024
+code-annotations: hover
+---
+
+**Installing and loading R packages**
+
+```{r}
+pacman::p_load(sp, spdep, tmap, sf, ClustGeo, 
+               ggpubr, cluster, factoextra, NbClust,
+               heatmaply, corrplot, psych, tidyverse, GGally)
+```
+
+::: callout-note
+## Note
+
+-   We remove rgdal because it is no longer in CRAN
+
+-   Loading tidyverse allows us to use other packages such as ggplot, dplyr, tidyr
+:::
+
+**Data import and preparation**
+
+We will be using 2 datasets in this exercise:
+
+-   Myanmar Township Boundary Data (geometric file)
+
+-   Shan-ICT.csv (attribute file)
+
+```{r}
+#| eval: false
+shan_sf <- st_read(dsn = "data/geospatial", 
+                   layer = "myanmar_township_boundaries") %>% 
+  filter(ST %in% c("Shan (East)", "Shan (North)", "Shan (South)")) %>%
+  select(c(2:7))
+```
+
+Filter: To only include Shan states
+
+Select: To select only relevant fields
+
+Note: **Geodetic CRS: WGS 84**, we do not have to be particular about the projection here because we are building graphs
+
+```{r}
+#| eval: false
+ict <- read_csv("data/aspatial/Shan-ICT.csv")
+```
+
+```{r}
+#| eval: false
+summary(ict)
+```
+
+Notice that the range of each variable varies. We need to perform standardisation.
+
+```{r}
+#| eval: false
+ict_derived <- ict %>%
+  mutate(`RADIO_PR` = `Radio`/`Total households`*1000,
+         `TV_PR` = `Television`/`Total households`*1000,
+         `LLPHONE_PR` = `Land line phone`/`Total households`*1000,
+         `MPHONE_PR` = `Mobile phone`/`Total households`*1000,
+         `COMPUTER_PR` = `Computer`/`Total households`*1000,
+         `INTERNET_PR` = `Internet at home`/`Total households`*1000) %>% 
+  rename(`DT_PCODE` =`District Pcode`,`DT`=`District Name`,
+         `TS_PCODE`=`Township Pcode`, `TS`=`Township Name`,
+         `TT_HOUSEHOLDS`=`Total households`,
+         `RADIO`=`Radio`, `TV`=`Television`, 
+         `LLPHONE`=`Land line phone`, `MPHONE`=`Mobile phone`,
+         `COMPUTER`=`Computer`, `INTERNET`=`Internet at home`) 
+```
+
+**Preparing the data for choropleth map**
+
+```{r}
+#| eval: false
+shan_sf <- left_join(shan_sf, 
+                     ict_derived, by=c("TS_PCODE"="TS_PCODE"))
+  
+write_rds(shan_sf, "data/rds/shan_sf.rds")
+```
+
+::: callout-note
+## Note
+
+-   If we want the output to be a sf data frame, the first argument should be a sf data frame.
+
+-   If we use st_join(), but arguments must be sf data frames.
+:::
+
+**Reading in data from rds**
+
+```{r}
+shan_sf <- read_rds("data/rds/shan_sf.rds")
+```
+
+**Plotting Multiple Histograms**
+
+```{r}
+radio <- ggplot(data=shan_sf, 
+             aes(x= `RADIO_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+tv <- ggplot(data=shan_sf, 
+             aes(x= `TV_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+llphone <- ggplot(data=shan_sf, 
+             aes(x= `LLPHONE_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+mphone <- ggplot(data=shan_sf, 
+             aes(x= `MPHONE_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+computer <- ggplot(data=shan_sf, 
+             aes(x= `COMPUTER_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+internet <- ggplot(data=shan_sf, 
+             aes(x= `INTERNET_PR`)) +
+  geom_histogram(bins=20, 
+                 color="black", 
+                 fill="light blue")
+
+ggarrange(radio, tv, llphone, mphone, computer, internet, 
+          ncol = 3, 
+          nrow = 2)
+```
