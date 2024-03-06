@@ -1,0 +1,61 @@
+---
+title: "Geograpgically Weighted Regression"
+execute:
+  warning: false
+date: 03/06/2024
+code-annotations: hover
+toc-depth: 3
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this hands-on exercise, you will gain hands-on experience on how to **Calibrating Hedonic Pricing Model for Private Highrise Property with GWR Method**.
+
+## 1.2 Overview
+
+**Geographically weighted regression (GWR)** is a spatial statistical technique that takes non-stationary variables into consideration (e.g., climate; demographic factors; physical environment characteristics) and models the local relationships between these independent variables and an outcome of interest (also known as dependent variable). In this hands-on exercise, you will learn how to build [hedonic pricing](https://www.investopedia.com/terms/h/hedonicpricing.asp) models by using GWR methods. The dependent variable is the resale prices of condominium in 2015. The independent variables are divided into either structural and locational.
+
+## 1.3 Installing and loading R packages
+
+```{r}
+pacman::p_load(olsrr, corrplot, ggpubr, sf, spdep, GWmodel, tmap, tidyverse, gtsummary)
+```
+
+::: callout-note
+## A short note about GWmodel
+
+[**GWmodel**](https://www.jstatsoft.org/article/view/v063i17) package provides a collection of localised spatial statistical methods, namely: GW summary statistics, GW principal components analysis, GW discriminant analysis and various forms of GW regression; some of which are provided in basic and robust (outlier resistant) forms. Commonly, outputs or parameters of the GWmodel are mapped to provide a useful exploratory tool, which can often precede (and direct) a more traditional or sophisticated statistical analysis.
+:::
+
+# 2.0 Data Acquisition
+
+We will be using 2 datasets in this exercise:
+
+-   URA Master Plan subzone boundary in shapefile format (i.e. *MP14_SUBZONE_WEB_PL*)
+
+-   condo_resale_2015 in csv format (i.e. *condo_resale_2015.csv*)
+
+# 3.0 Geospatial Data Handling
+
+We will be using the *st_read()* from **sf** package to import the data into RStudio.
+
+## 3.1 Importing Geospatial Data
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial",
+               layer = "MP14_SUBZONE_WEB_PL")
+```
+
+## 3.2 Importing Aspatial Data
+
+The `condo_resale_2015` file is in .csv format. We will be import it using *read_csv* function of **readr** package.
+
+```{r}
+condo_resale <- read_csv("data/aspatial/Condo_resale_2015.csv")
+```
+
+# 4.0 Exploratory Data Analysis (EDA)
+
+## 
