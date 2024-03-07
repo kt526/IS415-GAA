@@ -166,3 +166,43 @@ To reveal the geospatial distribution of Condominium resale prices in Singapore,
 # 5.0 Hedonic Pricing Modelling in R
 
 ## 5.1 Simple Linear Regression Method
+
+Building a simple linear regression model by using `SELLING_PRICE` as the dependent variable and `AREA_SQM` as the independent variable.
+
+```{r}
+condo.slr <- lm(formula=SELLING_PRICE ~ AREA_SQM, data = condo_resale.sf)
+summary(condo.slr)
+```
+
+::: callout-note
+## Note
+
+The functions summary() and anova() can be used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by lm.
+:::
+
+**Interpretations**
+
+-   The output report reveals that the SELLING_PRICE can be explained by using the formula:
+
+```         
+      *y = -258121.1 + 14719x1*
+```
+
+-   The R-squared of 0.4518 reveals that the simple regression model built is able to explain about 45% of the resale prices.
+
+-   Since p-value (\< 2e-16) is much smaller than 0.0001, we will reject the null hypothesis that mean is a good estimator of `SELLING_PRICE`. This will allow us to infer that simple linear regression model above is a good estimator of `SELLING_PRICE`.
+
+-   The **Coefficients** section of the report reveals that the p-values of both the estimates of the Intercept and `ARA_SQM` are smaller than 0.001. In view of this, the null hypothesis of the B0 and B1 are equal to 0 will be rejected. As a results, we will be able to infer that the B0 and B1 are good parameter estimates.
+
+**Visualising best fit curve on scatterplot**
+
+```{r}
+ggplot(data=condo_resale.sf,  
+       aes(x=`AREA_SQM`, y=`SELLING_PRICE`)) +
+  geom_point() +
+  geom_smooth(method = lm)
+```
+
+**Interpretations**
+
+-   Figure above reveals that there are a few statistical outliers with relatively high selling prices.

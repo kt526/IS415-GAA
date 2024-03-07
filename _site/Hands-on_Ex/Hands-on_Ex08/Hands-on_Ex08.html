@@ -440,6 +440,68 @@ Projected CRS: SVY21</code></pre>
 <h1>5.0 Hedonic Pricing Modelling in R</h1>
 <section id="simple-linear-regression-method" class="level2">
 <h2 class="anchored" data-anchor-id="simple-linear-regression-method">5.1 Simple Linear Regression Method</h2>
+<p>Building a simple linear regression model by using&nbsp;<code>SELLING_PRICE</code>&nbsp;as the dependent variable and&nbsp;<code>AREA_SQM</code> as the independent variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>condo.slr <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula=</span>SELLING_PRICE <span class="sc">~</span> AREA_SQM, <span class="at">data =</span> condo_resale.sf)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(condo.slr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = SELLING_PRICE ~ AREA_SQM, data = condo_resale.sf)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-3695815  -391764   -87517   258900 13503875 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -258121.1    63517.2  -4.064 5.09e-05 ***
+AREA_SQM      14719.0      428.1  34.381  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 942700 on 1434 degrees of freedom
+Multiple R-squared:  0.4518,    Adjusted R-squared:  0.4515 
+F-statistic:  1182 on 1 and 1434 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The functions&nbsp;summary()&nbsp;and&nbsp;anova()&nbsp;can be used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by&nbsp;lm.</p>
+</div>
+</div>
+<p><strong>Interpretations</strong></p>
+<ul>
+<li>The output report reveals that the SELLING_PRICE can be explained by using the formula:</li>
+</ul>
+<pre><code>      *y = -258121.1 + 14719x1*</code></pre>
+<ul>
+<li><p>The R-squared of 0.4518 reveals that the simple regression model built is able to explain about 45% of the resale prices.</p></li>
+<li><p>Since p-value (&lt; 2e-16) is much smaller than 0.0001, we will reject the null hypothesis that mean is a good estimator of <code>SELLING_PRICE</code>. This will allow us to infer that simple linear regression model above is a good estimator of&nbsp;<code>SELLING_PRICE</code>.</p></li>
+<li><p>The&nbsp;<strong>Coefficients</strong> section of the report reveals that the p-values of both the estimates of the Intercept and <code>ARA_SQM</code> are smaller than 0.001. In view of this, the null hypothesis of the B0 and B1 are equal to 0 will be rejected. As a results, we will be able to infer that the B0 and B1 are good parameter estimates.</p></li>
+</ul>
+<p><strong>Visualising best fit curve on scatterplot</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>condo_resale.sf,  </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">AREA_SQM</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">SELLING_PRICE</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Hands-on_Ex08_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Interpretations</strong></p>
+<ul>
+<li>Figure above reveals that there are a few statistical outliers with relatively high selling prices.</li>
+</ul>
 
 
 </section>
