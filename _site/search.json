@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Preface",
     "section": "",
-    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nGeograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n6 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 8: Geograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n6 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03_KDE.html",
@@ -1108,70 +1108,70 @@
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "",
     "text": "In this hands-on exercise, you will gain hands-on experience on how to Calibrating Hedonic Pricing Model for Private Highrise Property with GWR Method.\n\n\n\nGeographically weighted regression (GWR) is a spatial statistical technique that takes non-stationary variables into consideration (e.g., climate; demographic factors; physical environment characteristics) and models the local relationships between these independent variables and an outcome of interest (also known as dependent variable). In this hands-on exercise, you will learn how to build hedonic pricing models by using GWR methods. The dependent variable is the resale prices of condominium in 2015. The independent variables are divided into either structural and locational.\n\n\n\n\npacman::p_load(olsrr, corrplot, ggpubr, sf, spdep, GWmodel, tmap, tidyverse, gtsummary)\n\n\n\n\n\n\n\nA short note about GWmodel\n\n\n\nGWmodel package provides a collection of localised spatial statistical methods, namely: GW summary statistics, GW principal components analysis, GW discriminant analysis and various forms of GW regression; some of which are provided in basic and robust (outlier resistant) forms. Commonly, outputs or parameters of the GWmodel are mapped to provide a useful exploratory tool, which can often precede (and direct) a more traditional or sophisticated statistical analysis."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#getting-started",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#getting-started",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "",
     "text": "In this hands-on exercise, you will gain hands-on experience on how to Calibrating Hedonic Pricing Model for Private Highrise Property with GWR Method."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#overview",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#overview",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "",
     "text": "Geographically weighted regression (GWR) is a spatial statistical technique that takes non-stationary variables into consideration (e.g., climate; demographic factors; physical environment characteristics) and models the local relationships between these independent variables and an outcome of interest (also known as dependent variable). In this hands-on exercise, you will learn how to build hedonic pricing models by using GWR methods. The dependent variable is the resale prices of condominium in 2015. The independent variables are divided into either structural and locational."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#installing-and-loading-r-packages",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#installing-and-loading-r-packages",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "",
     "text": "pacman::p_load(olsrr, corrplot, ggpubr, sf, spdep, GWmodel, tmap, tidyverse, gtsummary)\n\n\n\n\n\n\n\nA short note about GWmodel\n\n\n\nGWmodel package provides a collection of localised spatial statistical methods, namely: GW summary statistics, GW principal components analysis, GW discriminant analysis and various forms of GW regression; some of which are provided in basic and robust (outlier resistant) forms. Commonly, outputs or parameters of the GWmodel are mapped to provide a useful exploratory tool, which can often precede (and direct) a more traditional or sophisticated statistical analysis."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#importing-geospatial-data",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#importing-geospatial-data",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "3.1 Importing Geospatial Data",
     "text": "3.1 Importing Geospatial Data\n\nmpsz &lt;- st_read(dsn = \"data/geospatial\",\n               layer = \"MP14_SUBZONE_WEB_PL\")\n\nReading layer `MP14_SUBZONE_WEB_PL' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex08\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nUpdating CRS information\n\nmpsz_svy21 &lt;- st_transform(mpsz, 3414)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#importing-aspatial-data",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#importing-aspatial-data",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "3.2 Importing Aspatial Data",
     "text": "3.2 Importing Aspatial Data\nThe condo_resale_2015 file is in .csv format. We will be import it using read_csv function of readr package.\n\ncondo_resale &lt;- read_csv(\"data/aspatial/Condo_resale_2015.csv\")\n\nConverting aspatial data frame into a sf object\n\ncondo_resale.sf &lt;- st_as_sf(condo_resale,\n                            coords = c(\"LONGITUDE\", \"LATITUDE\"),\n                            crs=4326) %&gt;%\n  st_transform(crs=3414)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#statistical-graphics",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#statistical-graphics",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "4.1 Statistical Graphics",
     "text": "4.1 Statistical Graphics\nPlotting the distribution of SELLING_PRICE using histogram.\n\nselling_price_histogram &lt;- ggplot(data=condo_resale.sf, aes(x=`SELLING_PRICE`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\") + \n  labs(title = \"Distribution of Condominium Selling Price\",\n       subtitle = \"Plot of count by selling price\",\n       caption = \"Figure 1.\") +\n  theme(plot.caption = element_text(hjust = 0.5, face = \"italic\"))\n\ncondo_resale.sf &lt;- condo_resale.sf %&gt;%\n  mutate(`LOG_SELLING_PRICE` = log(SELLING_PRICE))\n\nlog_selling_price_histogram &lt;- ggplot(data=condo_resale.sf, aes(x=`LOG_SELLING_PRICE`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\") + \n  labs(title = \"Distribution of Log Condominium Selling Price\",\n       subtitle = \"Plot of count by log selling price\",\n       caption = \"Figure 2.\")+\n  theme(plot.caption = element_text(hjust = 0.5, face = \"italic\"))\n\nggarrange(selling_price_histogram, log_selling_price_histogram, nrow = 1)\n\n\n\n\nInterpretations\n\nFigure 1. reveals a right skewed distribution histogram\nThis means that more condominium units were transacted at relative lower prices\nWe can normalising the skewed distribution histogram using log transformation\nFigure 2. shows the histogram which has been log transformed and the distribution is relatively less skewed"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#multiple-histogram-plots-distribution-of-variables",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#multiple-histogram-plots-distribution-of-variables",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "4.2 Multiple Histogram Plots distribution of variables",
     "text": "4.2 Multiple Histogram Plots distribution of variables\n\nAREA_SQM &lt;- ggplot(data=condo_resale.sf, aes(x= `AREA_SQM`)) + \n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nAGE &lt;- ggplot(data=condo_resale.sf, aes(x= `AGE`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_CBD &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_CBD`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_CHILDCARE &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_CHILDCARE`)) + \n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_ELDERLYCARE &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_ELDERLYCARE`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_URA_GROWTH_AREA &lt;- ggplot(data=condo_resale.sf, \n                               aes(x= `PROX_URA_GROWTH_AREA`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_HAWKER_MARKET &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_HAWKER_MARKET`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_KINDERGARTEN &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_KINDERGARTEN`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_MRT &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_MRT`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_PARK &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_PARK`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_PRIMARY_SCH &lt;- ggplot(data=condo_resale.sf, aes(x= `PROX_PRIMARY_SCH`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nPROX_TOP_PRIMARY_SCH &lt;- ggplot(data=condo_resale.sf, \n                               aes(x= `PROX_TOP_PRIMARY_SCH`)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\nggarrange(AREA_SQM, AGE, PROX_CBD, PROX_CHILDCARE, PROX_ELDERLYCARE, \n          PROX_URA_GROWTH_AREA, PROX_HAWKER_MARKET, PROX_KINDERGARTEN, PROX_MRT,\n          PROX_PARK, PROX_PRIMARY_SCH, PROX_TOP_PRIMARY_SCH,  \n          ncol = 3, nrow = 4)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#statistical-point-map",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#statistical-point-map",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "4.3 Statistical Point Map",
     "text": "4.3 Statistical Point Map\nTo reveal the geospatial distribution of Condominium resale prices in Singapore, we can plot a point map using the tmap package."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#simple-linear-regression-method",
     "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#simple-linear-regression-method",
-    "title": "Geograpgically Weighted Regression",
+    "title": "Hands-on Exercise 8: Geograpgically Weighted Regression",
     "section": "5.1 Simple Linear Regression Method",
     "text": "5.1 Simple Linear Regression Method\nBuilding a simple linear regression model by using SELLING_PRICE as the dependent variable and AREA_SQM as the independent variable.\n\ncondo.slr &lt;- lm(formula=SELLING_PRICE ~ AREA_SQM, data = condo_resale.sf)\nsummary(condo.slr)\n\n\nCall:\nlm(formula = SELLING_PRICE ~ AREA_SQM, data = condo_resale.sf)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-3695815  -391764   -87517   258900 13503875 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) -258121.1    63517.2  -4.064 5.09e-05 ***\nAREA_SQM      14719.0      428.1  34.381  &lt; 2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 942700 on 1434 degrees of freedom\nMultiple R-squared:  0.4518,    Adjusted R-squared:  0.4515 \nF-statistic:  1182 on 1 and 1434 DF,  p-value: &lt; 2.2e-16\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe functions summary() and anova() can be used to obtain and print a summary and analysis of variance table of the results. The generic accessor functions coefficients, effects, fitted.values and residuals extract various useful features of the value returned by lm.\n\n\nInterpretations\n\nThe output report reveals that the SELLING_PRICE can be explained by using the formula:\n\n      *y = -258121.1 + 14719x1*\n\nThe R-squared of 0.4518 reveals that the simple regression model built is able to explain about 45% of the resale prices.\nSince p-value (&lt; 2e-16) is much smaller than 0.0001, we will reject the null hypothesis that mean is a good estimator of SELLING_PRICE. This will allow us to infer that simple linear regression model above is a good estimator of SELLING_PRICE.\nThe Coefficients section of the report reveals that the p-values of both the estimates of the Intercept and ARA_SQM are smaller than 0.001. In view of this, the null hypothesis of the B0 and B1 are equal to 0 will be rejected. As a results, we will be able to infer that the B0 and B1 are good parameter estimates.\n\nVisualising best fit curve on scatterplot\n\nggplot(data=condo_resale.sf,  \n       aes(x=`AREA_SQM`, y=`SELLING_PRICE`)) +\n  geom_point() +\n  geom_smooth(method = lm)\n\n\n\n\nInterpretations\n\nFigure above reveals that there are a few statistical outliers with relatively high selling prices."
   }

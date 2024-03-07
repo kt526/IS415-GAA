@@ -1,5 +1,5 @@
 ---
-title: "Geograpgically Weighted Regression"
+title: "Hands-on Exercise 8: Geograpgically Weighted Regression"
 execute:
   warning: false
 date: 03/06/2024
