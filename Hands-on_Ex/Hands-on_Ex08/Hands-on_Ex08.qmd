@@ -162,3 +162,7 @@ To reveal the geospatial distribution of Condominium resale prices in Singapore,
 ```{r}
 
 ```
+
+# 5.0 Hedonic Pricing Modelling in R
+
+## 5.1 Simple Linear Regression Method

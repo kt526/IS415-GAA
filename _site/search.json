@@ -1167,5 +1167,12 @@
     "title": "Geograpgically Weighted Regression",
     "section": "4.3 Statistical Point Map",
     "text": "4.3 Statistical Point Map\nTo reveal the geospatial distribution of Condominium resale prices in Singapore, we can plot a point map using the tmap package."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#simple-linear-regression-method",
+    "href": "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html#simple-linear-regression-method",
+    "title": "Geograpgically Weighted Regression",
+    "section": "5.1 Simple Linear Regression Method",
+    "text": "5.1 Simple Linear Regression Method"
   }
 ]
