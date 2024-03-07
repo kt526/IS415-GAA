@@ -48,6 +48,12 @@ mpsz <- st_read(dsn = "data/geospatial",
                layer = "MP14_SUBZONE_WEB_PL")
 ```
 
+**Updating CRS information**
+
+```{r}
+mpsz_svy21 <- st_transform(mpsz, 3414)
+```
+
 ## 3.2 Importing Aspatial Data
 
 The `condo_resale_2015` file is in .csv format. We will be import it using *read_csv* function of **readr** package.
@@ -74,7 +80,7 @@ Plotting the distribution of `SELLING_PRICE` using histogram.
 ```{r}
 selling_price_histogram <- ggplot(data=condo_resale.sf, aes(x=`SELLING_PRICE`)) +
   geom_histogram(bins=20, color="black", fill="light blue") + 
-  labs(title = "Distribution of condominium Selling Price",
+  labs(title = "Distribution of Condominium Selling Price",
        subtitle = "Plot of count by selling price",
        caption = "Figure 1.") +
   theme(plot.caption = element_text(hjust = 0.5, face = "italic"))
@@ -84,7 +90,7 @@ condo_resale.sf <- condo_resale.sf %>%
 
 log_selling_price_histogram <- ggplot(data=condo_resale.sf, aes(x=`LOG_SELLING_PRICE`)) +
   geom_histogram(bins=20, color="black", fill="light blue") + 
-  labs(title = "Distribution of Log condominium Selling Price",
+  labs(title = "Distribution of Log Condominium Selling Price",
        subtitle = "Plot of count by log selling price",
        caption = "Figure 2.")+
   theme(plot.caption = element_text(hjust = 0.5, face = "italic"))
@@ -147,4 +153,12 @@ ggarrange(AREA_SQM, AGE, PROX_CBD, PROX_CHILDCARE, PROX_ELDERLYCARE,
           PROX_URA_GROWTH_AREA, PROX_HAWKER_MARKET, PROX_KINDERGARTEN, PROX_MRT,
           PROX_PARK, PROX_PRIMARY_SCH, PROX_TOP_PRIMARY_SCH,  
           ncol = 3, nrow = 4)
+```
+
+## 4.3 Statistical Point Map
+
+To reveal the geospatial distribution of Condominium resale prices in Singapore, we can plot a point map using the tmap package.
+
+```{r}
+
 ```
