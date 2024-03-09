@@ -1,0 +1,13 @@
+---
+title: "Take-home Exercise 3"
+execute:
+  eval: true
+  echo: true
+  warning: false
+format:
+  html:
+    code-fold: false
+date: 03/09/2024
+toc-depth: 3
+code-annotations: hover
+---
