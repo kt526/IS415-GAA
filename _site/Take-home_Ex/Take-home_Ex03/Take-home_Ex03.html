@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-03-09">
+<meta name="dcterms.date" content="2024-03-12">
 
-<title>IS415 Geospatial Analytics and Applications - Take-home Exercise 3</title>
+<title>IS415 Geospatial Analytics and Applications - Take-home Exercise 3: Prototyping Modules for Geospatial Analytics Shiny Application</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -187,14 +221,36 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link active" data-scroll-target="#loading-packages"><strong>1.0 Loading Packages</strong></a></li>
+  <li><a href="#importing-datasets-into-r-environment" id="toc-importing-datasets-into-r-environment" class="nav-link" data-scroll-target="#importing-datasets-into-r-environment"><strong>2.0 Importing Datasets into R Environment</strong></a>
+  <ul class="collapse">
+  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data"><strong>2.1 Importing Geospatial Data</strong></a></li>
+  <li><a href="#importing-aspatial-data" id="toc-importing-aspatial-data" class="nav-link" data-scroll-target="#importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></a></li>
+  </ul></li>
+  <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><strong>3.0 Data Wrangling</strong></a>
+  <ul class="collapse">
+  <li><a href="#preparing-a-study-area-layer-by-provinces" id="toc-preparing-a-study-area-layer-by-provinces" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></a>
+  <ul class="collapse">
+  <li><a href="#extracting-relevant-columns" id="toc-extracting-relevant-columns" class="nav-link" data-scroll-target="#extracting-relevant-columns"><strong>3.1.1 Extracting relevant columns</strong></a></li>
+  </ul></li>
+  <li><a href="#preparing-a-road-accident-layer" id="toc-preparing-a-road-accident-layer" class="nav-link" data-scroll-target="#preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></a>
+  <ul class="collapse">
+  <li><a href="#extracting-relevant-columns-1" id="toc-extracting-relevant-columns-1" class="nav-link" data-scroll-target="#extracting-relevant-columns-1"><strong>3.2.1 Extracting relevant columns</strong></a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Take-home Exercise 3</h1>
+<h1 class="title">Take-home Exercise 3: Prototyping Modules for Geospatial Analytics Shiny Application</h1>
 </div>
 
 
@@ -205,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 9, 2024</p>
+      <p class="date">March 12, 2024</p>
     </div>
   </div>
   
@@ -215,8 +271,174 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="loading-packages" class="level1">
+<h1><strong>1.0 Loading Packages</strong></h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="importing-datasets-into-r-environment" class="level1">
+<h1><strong>2.0 Importing Datasets into R Environment</strong></h1>
+<p>In this exercise, we will be using the following datasets:</p>
+<table class="table">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data</th>
+<th>Type</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>➡️<strong>Thailand Road Accident [2019-2022]</strong></td>
+<td><strong>Aspatial</strong></td>
+<td><strong>.csv</strong></td>
+</tr>
+<tr class="even">
+<td>➡️<strong>Thailand Subnational Administrative Boundaries</strong></td>
+<td><strong>Geospatial</strong></td>
+<td><strong>.shp</strong></td>
+</tr>
+<tr class="odd">
+<td>Geofabrik’s OpenStreetMap road data for Thailand</td>
+<td>Geospatial</td>
+<td>.shp</td>
+</tr>
+</tbody>
+</table>
+<section id="importing-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-geospatial-data"><strong>2.1 Importing Geospatial Data</strong></h2>
+<p>The&nbsp;<strong>Thailand Subnational Administrative Boundaries</strong>&nbsp;dataset is available in ESRI shapefile format. It comprises the administrative boundaries at various levels within Thailand.</p>
+<ul>
+<li><p>Level 0: country</p></li>
+<li><p><strong>Level 1: province</strong></p></li>
+<li><p>Level 2: district</p></li>
+<li><p>Level 3: sub-district or tambon</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>thailand_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm1_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `tha_admbnda_adm1_rtsd_20220121' from data source 
+  `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex03\data\geospatial' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 77 features and 16 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 97.34336 ymin: 5.613038 xmax: 105.637 ymax: 20.46507
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+<p>There are a total of 77 provinces in Thailand.</p>
+</section>
+<section id="importing-aspatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/thai_road_accident_2019_2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="data-wrangling" class="level1">
+<h1><strong>3.0 Data Wrangling</strong></h1>
+<section id="preparing-a-study-area-layer-by-provinces" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></h2>
+<section id="extracting-relevant-columns" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-relevant-columns"><strong>3.1.1 Extracting relevant columns</strong></h3>
+<p>Firstly, we use the colnames() to see all the column names present in <code>thailand_sf</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(thailand_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Shape_Leng" "Shape_Area" "ADM1_EN"    "ADM1_TH"    "ADM1_PCODE"
+ [6] "ADM1_REF"   "ADM1ALT1EN" "ADM1ALT2EN" "ADM1ALT1TH" "ADM1ALT2TH"
+[11] "ADM0_EN"    "ADM0_TH"    "ADM0_PCODE" "date"       "validOn"   
+[16] "validTo"    "geometry"  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>thailand_sf_extracted <span class="ot">&lt;-</span> thailand_sf <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ADM1_EN,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         ADM1_PCODE,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(thailand_sf_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="preparing-a-road-accident-layer" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></h2>
+<section id="extracting-relevant-columns-1" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-relevant-columns-1"><strong>3.2.1 Extracting relevant columns</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accidents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "acc_code"                    "incident_datetime"          
+ [3] "report_datetime"             "province_th"                
+ [5] "province_en"                 "agency"                     
+ [7] "route"                       "vehicle_type"               
+ [9] "presumed_cause"              "accident_type"              
+[11] "number_of_vehicles_involved" "number_of_fatalities"       
+[13] "number_of_injuries"          "weather_condition"          
+[15] "latitude"                    "longitude"                  
+[17] "road_description"            "slope_description"          </code></pre>
+</div>
+</div>
+<p>Next, from <code>accidents</code>, we will select the following relevant columns so that its easier for our analysis later on.</p>
+<ul>
+<li><p>latitude</p></li>
+<li><p>longtitude</p></li>
+<li><p>incident_datetime</p></li>
+<li><p>province_en</p></li>
+<li><p>presumed_cause</p></li>
+<li><p>weather_condition</p></li>
+<li><p>number_of_fatalities</p></li>
+<li><p>number_of_injuries</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(latitude,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         longitude,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         incident_datetime,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         province_en,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         presumed_cause,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         weather_condition,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         number_of_fatalities,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>         number_of_injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [81,735 × 8] (S3: tbl_df/tbl/data.frame)
+ $ latitude            : num [1:81735] 15 15.2 12.4 18.6 15.9 ...
+ $ longitude           : num [1:81735] 100.9 104.9 99.9 98.8 100.6 ...
+ $ incident_datetime   : POSIXct[1:81735], format: "2019-01-01 00:00:00" "2019-01-01 00:03:00" ...
+ $ province_en         : chr [1:81735] "Loburi" "Ubon Ratchathani" "Prachuap Khiri Khan" "Chiang Mai" ...
+ $ presumed_cause      : chr [1:81735] "driving under the influence of alcohol" "speeding" "speeding" "driving under the influence of alcohol" ...
+ $ weather_condition   : chr [1:81735] "clear" "clear" "clear" "clear" ...
+ $ number_of_fatalities: num [1:81735] 0 0 1 0 0 0 0 1 3 0 ...
+ $ number_of_injuries  : num [1:81735] 2 2 0 1 0 2 2 0 0 1 ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents))<span class="sc">&gt;</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> latitude longitude 
+       15        16 </code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

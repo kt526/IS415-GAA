@@ -1,5 +1,5 @@
 ---
-title: "Take-home Exercise 3"
+title: "Take-home Exercise 3: Prototyping Modules for Geospatial Analytics Shiny Application"
 execute:
   eval: true
   echo: true
@@ -7,7 +7,117 @@ execute:
 format:
   html:
     code-fold: false
-date: 03/09/2024
+date: 03/12/2024
 toc-depth: 3
 code-annotations: hover
 ---
+
+# **1.0 Loading Packages**
+
+```{r}
+pacman::p_load(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
+```
+
+# **2.0 Importing Datasets into R Environment**
+
+In this exercise, we will be using the following datasets:
+
+| Data                                                 | Type           | Format   |
+|--------------------------------------|-----------------|-----------------|
+| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
+| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
+| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |
+
+## **2.1 Importing Geospatial Data**
+
+The **Thailand Subnational Administrative Boundaries** dataset is available in ESRI shapefile format. It comprises the administrative boundaries at various levels within Thailand.
+
+-   Level 0: country
+
+-   **Level 1: province**
+
+-   Level 2: district
+
+-   Level 3: sub-district or tambon
+
+```{r}
+thailand_sf <- st_read(dsn = "data/geospatial", 
+                layer = "tha_admbnda_adm1_rtsd_20220121")
+```
+
+There are a total of 77 provinces in Thailand.
+
+## **2.2 Importing Aspatial Data**
+
+```{r}
+accidents <- read_csv("data/aspatial/thai_road_accident_2019_2022.csv")
+```
+
+# **3.0 Data Wrangling**
+
+## **3.1 Preparing a study area layer by provinces**
+
+### **3.1.1 Extracting relevant columns**
+
+Firstly, we use the colnames() to see all the column names present in `thailand_sf`.
+
+```{r}
+colnames(thailand_sf)
+```
+
+```{r}
+thailand_sf_extracted <- thailand_sf %>%
+  select(ADM1_EN,
+         ADM1_PCODE,
+         geometry)
+```
+
+```{r}
+plot(st_geometry(thailand_sf_extracted))
+```
+
+## **3.2 Preparing a road accident layer**
+
+### **3.2.1 Extracting relevant columns**
+
+```{r}
+colnames(accidents)
+```
+
+Next, from `accidents`, we will select the following relevant columns so that its easier for our analysis later on.
+
+-   latitude
+
+-   longtitude
+
+-   incident_datetime
+
+-   province_en
+
+-   presumed_cause
+
+-   weather_condition
+
+-   number_of_fatalities
+
+-   number_of_injuries
+
+```{r}
+accidents_extracted <- accidents %>%
+  select(latitude,
+         longitude,
+         incident_datetime,
+         province_en,
+         presumed_cause,
+         weather_condition,
+         number_of_fatalities,
+         number_of_injuries)
+```
+
+```{r}
+str(accidents_extracted)
+```
+
+```{r}
+which(colSums(is.na(accidents))>0)
+```
