@@ -23,7 +23,7 @@ pacman::p_load(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 In this exercise, we will be using the following datasets:
 
 | Data                                                 | Type           | Format   |
-|--------------------------------------|-----------------|-----------------|
+|------------------------------------|------------------|------------------|
 | ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
 | ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
 | Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |
@@ -73,6 +73,7 @@ thailand_sf_extracted <- thailand_sf %>%
 ```
 
 ```{r}
+par(mar = c(0,0,0,0))
 plot(st_geometry(thailand_sf_extracted))
 ```
 
@@ -119,5 +120,22 @@ str(accidents_extracted)
 ```
 
 ```{r}
-which(colSums(is.na(accidents))>0)
+colSums(is.na(accidents_extracted))
+```
+
+```{r}
+accidents_extracted <- na.omit(accidents_extracted)
+```
+
+```{r}
+colSums(is.na(accidents_extracted))
+```
+
+### **3.1.2 Converting aspatial data into geospatial data**
+
+```{r}
+accidents_sf <- st_as_sf(accidents_extracted, 
+                       coords = c("longitude", "latitude"),
+                       crs=4326) %>%
+  st_transform(crs = 4239)
 ```
