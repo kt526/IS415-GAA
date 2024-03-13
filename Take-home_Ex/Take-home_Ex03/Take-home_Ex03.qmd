@@ -23,7 +23,7 @@ pacman::p_load(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 In this exercise, we will be using the following datasets:
 
 | Data                                                 | Type           | Format   |
-|------------------------------------|------------------|------------------|
+|-------------------------------------------|--------------|--------------|
 | ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
 | ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
 | Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |
@@ -42,10 +42,29 @@ The **Thailand Subnational Administrative Boundaries** dataset is available in
 
 ```{r}
 thailand_sf <- st_read(dsn = "data/geospatial", 
+                layer = "tha_admbnda_adm0_rtsd_20220121")
+```
+
+```{r}
+thailand_province_sf <- st_read(dsn = "data/geospatial", 
                 layer = "tha_admbnda_adm1_rtsd_20220121")
 ```
 
 There are a total of 77 provinces in Thailand.
+
+```{r}
+tmap_mode("plot")
+
+thailand_map <- tm_shape(thailand_sf) + 
+  tm_borders(alpha = 0.8)
+
+thailand_province_map <- tm_shape(thailand_province_sf) + 
+  tm_polygons("ADM1_EN") + 
+  tm_borders(alpha = 0.8) +
+  tm_legend(show=FALSE)
+
+tmap_arrange(thailand_map, thailand_province_map, ncol = 2)
+```
 
 ## **2.2 Importing Aspatial Data**
 
@@ -57,35 +76,46 @@ accidents <- read_csv("data/aspatial/thai_road_accident_2019_2022.csv")
 
 ## **3.1 Preparing a study area layer by provinces**
 
-### **3.1.1 Extracting relevant columns**
+### **3.1.1 Extract relevant columns**
 
-Firstly, we use the colnames() to see all the column names present in `thailand_sf`.
+Firstly, we use the colnames() to see all the column names present in `thailand_province_sf`.
 
 ```{r}
-colnames(thailand_sf)
+colnames(thailand_province_sf)
 ```
 
+Next, from `thailand_province_sf`, we will select the following relevant columns so that its easier for our analysis later on.
+
+-   ADM1_EN
+
+-   ADM1_PCODE
+
+-   geometry
+
 ```{r}
-thailand_sf_extracted <- thailand_sf %>%
+thailand_sf_extracted <- thailand_province_sf %>%
   select(ADM1_EN,
          ADM1_PCODE,
          geometry)
 ```
 
-```{r}
-par(mar = c(0,0,0,0))
-plot(st_geometry(thailand_sf_extracted))
-```
+### **3.1.2 Check coordinate system**
+
+### **3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)**
+
+### **3.1.4 Create OWIN object**
+
+### **3.1.5 Plot OWIN object**
 
 ## **3.2 Preparing a road accident layer**
 
-### **3.2.1 Extracting relevant columns**
+### **3.2.1 Extract relevant columns**
 
 ```{r}
 colnames(accidents)
 ```
 
-Next, from `accidents`, we will select the following relevant columns so that its easier for our analysis later on.
+Similar to `thailand_province_sf`, we will select the following relevant columns from `accidents`.
 
 -   latitude
 
@@ -131,11 +161,56 @@ accidents_extracted <- na.omit(accidents_extracted)
 colSums(is.na(accidents_extracted))
 ```
 
-### **3.1.2 Converting aspatial data into geospatial data**
+### **3.2.2 Converting aspatial data into geospatial data**
 
 ```{r}
-accidents_sf <- st_as_sf(accidents_extracted, 
+accidents_extracted <- st_as_sf(accidents_extracted, 
                        coords = c("longitude", "latitude"),
                        crs=4326) %>%
-  st_transform(crs = 4239)
+  st_transform(crs = 32648)
+```
+
+Checking the number of unique provinces in `accidents_extracted`
+
+```{r}
+unique(accidents_extracted$province_en)
+```
+
+There are a total of 78 provinces? An unknown province is present in the unique list.
+
+Remove unknown province.
+
+```{r}
+accidents_extracted <- accidents_extracted %>% 
+  filter(province_en != "unknown")
+```
+
+### **3.2.3 Check coordinate system**
+
+```{r}
+
+```
+
+### **3.2.4 Create ppp objects using sf method**
+
+```{r}
+accidents_extracted_ppp <- as.ppp(accidents_extracted)
+summary(accidents_extracted_ppp)
+```
+
+### **3.2.5 Check for duplicated point events**
+
+```{r}
+any(duplicated(accidents_extracted_ppp))
+```
+
+```{r}
+sum(multiplicity(accidents_extracted_ppp) > 1)
+```
+
+The output shows that there are 15 duplicated point events.
+
+### **3.2.6 Removing duplicated point events using jittering approach**
+
+```{r}
 ```

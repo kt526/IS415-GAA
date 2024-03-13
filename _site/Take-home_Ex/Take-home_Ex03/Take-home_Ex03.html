@@ -235,12 +235,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#preparing-a-study-area-layer-by-provinces" id="toc-preparing-a-study-area-layer-by-provinces" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></a>
   <ul class="collapse">
-  <li><a href="#extracting-relevant-columns" id="toc-extracting-relevant-columns" class="nav-link" data-scroll-target="#extracting-relevant-columns"><strong>3.1.1 Extracting relevant columns</strong></a></li>
+  <li><a href="#extract-relevant-columns" id="toc-extract-relevant-columns" class="nav-link" data-scroll-target="#extract-relevant-columns"><strong>3.1.1 Extract relevant columns</strong></a></li>
+  <li><a href="#check-coordinate-system" id="toc-check-coordinate-system" class="nav-link" data-scroll-target="#check-coordinate-system"><strong>3.1.2 Check coordinate system</strong></a></li>
+  <li><a href="#transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" id="toc-transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" class="nav-link" data-scroll-target="#transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs"><strong>3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)</strong></a></li>
+  <li><a href="#create-owin-object" id="toc-create-owin-object" class="nav-link" data-scroll-target="#create-owin-object"><strong>3.1.4 Create OWIN object</strong></a></li>
+  <li><a href="#plot-owin-object" id="toc-plot-owin-object" class="nav-link" data-scroll-target="#plot-owin-object"><strong>3.1.5 Plot OWIN object</strong></a></li>
   </ul></li>
   <li><a href="#preparing-a-road-accident-layer" id="toc-preparing-a-road-accident-layer" class="nav-link" data-scroll-target="#preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></a>
   <ul class="collapse">
-  <li><a href="#extracting-relevant-columns-1" id="toc-extracting-relevant-columns-1" class="nav-link" data-scroll-target="#extracting-relevant-columns-1"><strong>3.2.1 Extracting relevant columns</strong></a></li>
-  <li><a href="#converting-aspatial-data-into-geospatial-data" id="toc-converting-aspatial-data-into-geospatial-data" class="nav-link" data-scroll-target="#converting-aspatial-data-into-geospatial-data"><strong>3.1.2 Converting aspatial data into geospatial data</strong></a></li>
+  <li><a href="#extract-relevant-columns-1" id="toc-extract-relevant-columns-1" class="nav-link" data-scroll-target="#extract-relevant-columns-1"><strong>3.2.1 Extract relevant columns</strong></a></li>
+  <li><a href="#converting-aspatial-data-into-geospatial-data" id="toc-converting-aspatial-data-into-geospatial-data" class="nav-link" data-scroll-target="#converting-aspatial-data-into-geospatial-data"><strong>3.2.2 Converting aspatial data into geospatial data</strong></a></li>
+  <li><a href="#check-coordinate-system-1" id="toc-check-coordinate-system-1" class="nav-link" data-scroll-target="#check-coordinate-system-1"><strong>3.2.3 Check coordinate system</strong></a></li>
+  <li><a href="#create-ppp-objects-using-sf-method" id="toc-create-ppp-objects-using-sf-method" class="nav-link" data-scroll-target="#create-ppp-objects-using-sf-method"><strong>3.2.4 Create ppp objects using sf method</strong></a></li>
+  <li><a href="#check-for-duplicated-point-events" id="toc-check-for-duplicated-point-events" class="nav-link" data-scroll-target="#check-for-duplicated-point-events"><strong>3.2.5 Check for duplicated point events</strong></a></li>
+  <li><a href="#removing-duplicated-point-events-using-jittering-approach" id="toc-removing-duplicated-point-events-using-jittering-approach" class="nav-link" data-scroll-target="#removing-duplicated-point-events-using-jittering-approach"><strong>3.2.6 Removing duplicated point events using jittering approach</strong></a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -283,9 +291,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this exercise, we will be using the following datasets:</p>
 <table class="table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 60%">
+<col style="width: 19%">
+<col style="width: 19%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -323,7 +331,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>thailand_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm1_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm0_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `tha_admbnda_adm0_rtsd_20220121' from data source 
+  `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex03\data\geospatial' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 13 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 97.34336 ymin: 5.613038 xmax: 105.637 ymax: 20.46507
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>thailand_province_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm1_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `tha_admbnda_adm1_rtsd_20220121' from data source 
   `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex03\data\geospatial' 
@@ -336,11 +358,27 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 <p>There are a total of 77 provinces in Thailand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>thailand_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_sf) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>thailand_province_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_province_sf) <span class="sc">+</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"ADM1_EN"</span>) <span class="sc">+</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_legend</span>(<span class="at">show=</span><span class="cn">FALSE</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(thailand_map, thailand_province_map, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="importing-aspatial-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/thai_road_accident_2019_2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/thai_road_accident_2019_2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -348,11 +386,11 @@ Geodetic CRS:  WGS 84</code></pre>
 <h1><strong>3.0 Data Wrangling</strong></h1>
 <section id="preparing-a-study-area-layer-by-provinces" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></h2>
-<section id="extracting-relevant-columns" class="level3">
-<h3 class="anchored" data-anchor-id="extracting-relevant-columns"><strong>3.1.1 Extracting relevant columns</strong></h3>
-<p>Firstly, we use the colnames() to see all the column names present in <code>thailand_sf</code>.</p>
+<section id="extract-relevant-columns" class="level3">
+<h3 class="anchored" data-anchor-id="extract-relevant-columns"><strong>3.1.1 Extract relevant columns</strong></h3>
+<p>Firstly, we use the colnames() to see all the column names present in <code>thailand_province_sf</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(thailand_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(thailand_province_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Shape_Leng" "Shape_Area" "ADM1_EN"    "ADM1_TH"    "ADM1_PCODE"
  [6] "ADM1_REF"   "ADM1ALT1EN" "ADM1ALT2EN" "ADM1ALT1TH" "ADM1ALT2TH"
@@ -360,27 +398,38 @@ Geodetic CRS:  WGS 84</code></pre>
 [16] "validTo"    "geometry"  </code></pre>
 </div>
 </div>
+<p>Next, from <code>thailand_province_sf</code>, we will select the following relevant columns so that its easier for our analysis later on.</p>
+<ul>
+<li><p>ADM1_EN</p></li>
+<li><p>ADM1_PCODE</p></li>
+<li><p>geometry</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>thailand_sf_extracted <span class="ot">&lt;-</span> thailand_sf <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ADM1_EN,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         ADM1_PCODE,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>thailand_sf_extracted <span class="ot">&lt;-</span> thailand_province_sf <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ADM1_EN,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         ADM1_PCODE,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>         geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(thailand_sf_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+</section>
+<section id="check-coordinate-system" class="level3">
+<h3 class="anchored" data-anchor-id="check-coordinate-system"><strong>3.1.2 Check coordinate system</strong></h3>
+</section>
+<section id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" class="level3">
+<h3 class="anchored" data-anchor-id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs"><strong>3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)</strong></h3>
+</section>
+<section id="create-owin-object" class="level3">
+<h3 class="anchored" data-anchor-id="create-owin-object"><strong>3.1.4 Create OWIN object</strong></h3>
+</section>
+<section id="plot-owin-object" class="level3">
+<h3 class="anchored" data-anchor-id="plot-owin-object"><strong>3.1.5 Plot OWIN object</strong></h3>
 </section>
 </section>
 <section id="preparing-a-road-accident-layer" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></h2>
-<section id="extracting-relevant-columns-1" class="level3">
-<h3 class="anchored" data-anchor-id="extracting-relevant-columns-1"><strong>3.2.1 Extracting relevant columns</strong></h3>
+<section id="extract-relevant-columns-1" class="level3">
+<h3 class="anchored" data-anchor-id="extract-relevant-columns-1"><strong>3.2.1 Extract relevant columns</strong></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accidents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accidents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "acc_code"                    "incident_datetime"          
  [3] "report_datetime"             "province_th"                
@@ -393,7 +442,7 @@ Geodetic CRS:  WGS 84</code></pre>
 [17] "road_description"            "slope_description"          </code></pre>
 </div>
 </div>
-<p>Next, from <code>accidents</code>, we will select the following relevant columns so that its easier for our analysis later on.</p>
+<p>Similar to <code>thailand_province_sf</code>, we will select the following relevant columns from <code>accidents</code>.</p>
 <ul>
 <li><p>latitude</p></li>
 <li><p>longtitude</p></li>
@@ -405,18 +454,18 @@ Geodetic CRS:  WGS 84</code></pre>
 <li><p>number_of_injuries</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(latitude,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         longitude,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         incident_datetime,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         province_en,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         presumed_cause,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         weather_condition,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         number_of_fatalities,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>         number_of_injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(latitude,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         longitude,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>         incident_datetime,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         province_en,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         presumed_cause,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         weather_condition,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         number_of_fatalities,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>         number_of_injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [81,735 × 8] (S3: tbl_df/tbl/data.frame)
  $ latitude            : num [1:81735] 15 15.2 12.4 18.6 15.9 ...
@@ -430,7 +479,7 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            latitude            longitude    incident_datetime 
                  359                  359                    0 
@@ -441,10 +490,10 @@ number_of_fatalities   number_of_injuries
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            latitude            longitude    incident_datetime 
                    0                    0                    0 
@@ -456,13 +505,115 @@ number_of_fatalities   number_of_injuries
 </div>
 </section>
 <section id="converting-aspatial-data-into-geospatial-data" class="level3">
-<h3 class="anchored" data-anchor-id="converting-aspatial-data-into-geospatial-data"><strong>3.1.2 Converting aspatial data into geospatial data</strong></h3>
+<h3 class="anchored" data-anchor-id="converting-aspatial-data-into-geospatial-data"><strong>3.2.2 Converting aspatial data into geospatial data</strong></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>accidents_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(accidents_extracted, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">4239</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(accidents_extracted, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">32648</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Checking the number of unique provinces in <code>accidents_extracted</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(accidents_extracted<span class="sc">$</span>province_en)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Loburi"                   "Ubon Ratchathani"        
+ [3] "Prachuap Khiri Khan"      "Chiang Mai"              
+ [5] "Nakhon Sawan"             "Mae Hong Son"            
+ [7] "Chumphon"                 "Sing Buri"               
+ [9] "Songkhla"                 "Trat"                    
+[11] "Lamphun"                  "Phuket"                  
+[13] "Saraburi"                 "Ratchaburi"              
+[15] "Phra Nakhon Si Ayutthaya" "Nakhon Ratchasima"       
+[17] "Nakhon Si Thammarat"      "Kalasin"                 
+[19] "Chaiyaphum"               "Suphan Buri"             
+[21] "Phetchaburi"              "Chai Nat"                
+[23] "Phrae"                    "Prachin Buri"            
+[25] "Nakhon Pathom"            "Phetchabun"              
+[27] "Ang Thong"                "Kanchanaburi"            
+[29] "Nonthaburi"               "Samut Prakan"            
+[31] "Bangkok"                  "Phayao"                  
+[33] "Phatthalung"              "Yala"                    
+[35] "Maha Sarakham"            "Surat Thani"             
+[37] "Amnat Charoen"            "Nong Khai"               
+[39] "Nan"                      "Phangnga"                
+[41] "Narathiwat"               "Chanthaburi"             
+[43] "Samut Sakhon"             "Samut Songkhram"         
+[45] "Phitsanulok"              "Pathum Thani"            
+[47] "Tak"                      "Loei"                    
+[49] "Chiang Rai"               "Chachoengsao"            
+[51] "Buri Ram"                 "Uthai Thani"             
+[53] "Krabi"                    "Surin"                   
+[55] "Udon Thani"               "Si Sa Ket"               
+[57] "Uttaradit"                "Khon Kaen"               
+[59] "Kamphaeng Phet"           "Yasothon"                
+[61] "Satun"                    "Nakhon Nayok"            
+[63] "Rayong"                   "Chon Buri"               
+[65] "buogkan"                  "Sa Kaeo"                 
+[67] "Nong Bua Lam Phu"         "Roi Et"                  
+[69] "Sakon Nakhon"             "Mukdahan"                
+[71] "Nakhon Phanom"            "Phichit"                 
+[73] "Pattani"                  "Sukhothai"               
+[75] "Trang"                    "Lampang"                 
+[77] "Ranong"                   "unknown"                 </code></pre>
+</div>
+</div>
+<p>There are a total of 78 provinces? An unknown province is present in the unique list.</p>
+<p>Remove unknown province.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents_extracted <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">!=</span> <span class="st">"unknown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="check-coordinate-system-1" class="level3">
+<h3 class="anchored" data-anchor-id="check-coordinate-system-1"><strong>3.2.3 Check coordinate system</strong></h3>
+</section>
+<section id="create-ppp-objects-using-sf-method" class="level3">
+<h3 class="anchored" data-anchor-id="create-ppp-objects-using-sf-method"><strong>3.2.4 Create ppp objects using sf method</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(accidents_extracted)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(accidents_extracted_ppp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Marked planar point pattern:  81351 points
+Average intensity 6.160696e-08 points per square unit
+
+*Pattern contains duplicated points*
+
+Coordinates are given to 2 decimal places
+i.e. rounded to the nearest multiple of 0.01 units
+
+marks are of type 'double'
+Summary:
+                      Min.                    1st Qu. 
+"2019-01-01 00:00:00.0000" "2020-01-16 14:40:00.0000" 
+                    Median                       Mean 
+"2021-01-02 18:30:00.0000" "2021-01-08 10:38:03.3506" 
+                   3rd Qu.                       Max. 
+"2022-01-02 19:17:00.0000" "2022-12-31 23:55:00.0000" 
+
+Window: rectangle = [-255162.2, 555471.8] x [639404.8, 2268356.6] units
+                    (810600 x 1629000 units)
+Window area = 1.32048e+12 square units</code></pre>
+</div>
+</div>
+</section>
+<section id="check-for-duplicated-point-events" class="level3">
+<h3 class="anchored" data-anchor-id="check-for-duplicated-point-events"><strong>3.2.5 Check for duplicated point events</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(accidents_extracted_ppp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">multiplicity</span>(accidents_extracted_ppp) <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+</div>
+<p>The output shows that there are 15 duplicated point events.</p>
+</section>
+<section id="removing-duplicated-point-events-using-jittering-approach" class="level3">
+<h3 class="anchored" data-anchor-id="removing-duplicated-point-events-using-jittering-approach"><strong>3.2.6 Removing duplicated point events using jittering approach</strong></h3>
 
 
 </section>
