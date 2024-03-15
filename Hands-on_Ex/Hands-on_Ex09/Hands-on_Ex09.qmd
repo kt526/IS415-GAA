@@ -86,3 +86,7 @@ price_mlr <- lm(resale_price ~ floor_area_sqm +
                 data=train_data)
 summary(price_mlr)
 ```
+
+```{r}
+write_rds(price_mlr, "data/rds/price_mlr.rds" ) 
+```
