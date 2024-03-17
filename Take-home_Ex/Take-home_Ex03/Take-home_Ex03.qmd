@@ -23,7 +23,7 @@ pacman::p_load(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 In this exercise, we will be using the following datasets:
 
 | Data                                                 | Type           | Format   |
-|-------------------------------------------|--------------|--------------|
+|------------------------------------------------------|----------------|----------|
 | ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
 | ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
 | Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |

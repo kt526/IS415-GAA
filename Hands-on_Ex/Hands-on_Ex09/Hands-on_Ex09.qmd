@@ -50,6 +50,7 @@ test_data <- testing(resale_split)
 ```
 
 ```{r}
+#| eval: false
 write_rds(train_data, "data/rds/train_data.rds")
 write_rds(test_data, "data/rds/test_data.rds")
 ```
@@ -57,7 +58,6 @@ write_rds(test_data, "data/rds/test_data.rds")
 # 4.0 Computing Correlation Matrix
 
 To examine if there are signs of multicollinearity, we can plot a correlation matrix
-
 ```{r}
 mdata_nogeo <- mdata %>%
   st_drop_geometry()
@@ -71,7 +71,6 @@ corrplot::corrplot(cor(mdata_nogeo[, 2:17]),
 ```
 
 # 5.0 Building a non-spatial multiple linear regression
-
 ```{r}
 train_data <- read_rds("data/rds/train_data.rds")
 test_data <- read_rds("data/rds/test_data.rds")
@@ -88,5 +87,14 @@ summary(price_mlr)
 ```
 
 ```{r}
+#| eval: false
 write_rds(price_mlr, "data/rds/price_mlr.rds" ) 
+```
+
+# 6.0 Building a GW Model
+
+We will learn how to calibrate a model to predict HDB resale price using the geographically weighted regression method.
+
+```{r}
+train_data_sp <- as_Spatial(train_data)
 ```
