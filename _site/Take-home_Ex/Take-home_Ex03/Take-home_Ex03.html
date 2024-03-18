@@ -229,31 +229,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link active" data-scroll-target="#loading-packages"><strong>1.0 Loading Packages</strong></a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview"><strong>Project Overview</strong></a></li>
+  <li><a href="#main-responsibilities" id="toc-main-responsibilities" class="nav-link" data-scroll-target="#main-responsibilities"><strong>Main Responsibilities</strong></a></li>
+  <li><a href="#technical-report" id="toc-technical-report" class="nav-link" data-scroll-target="#technical-report"><strong>Technical Report</strong></a>
+  <ul class="collapse">
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages"><strong>1.0 Loading Packages</strong></a></li>
   <li><a href="#importing-datasets-into-r-environment" id="toc-importing-datasets-into-r-environment" class="nav-link" data-scroll-target="#importing-datasets-into-r-environment"><strong>2.0 Importing Datasets into R Environment</strong></a>
   <ul class="collapse">
-  <li><a href="#importing-geospatial-data" id="toc-importing-geospatial-data" class="nav-link" data-scroll-target="#importing-geospatial-data"><strong>2.1 Importing Geospatial Data</strong></a></li>
   <li><a href="#importing-aspatial-data" id="toc-importing-aspatial-data" class="nav-link" data-scroll-target="#importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></a></li>
   </ul></li>
   <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><strong>3.0 Data Wrangling</strong></a>
   <ul class="collapse">
-  <li><a href="#preparing-a-study-area-layer-by-provinces" id="toc-preparing-a-study-area-layer-by-provinces" class="nav-link" data-scroll-target="#preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></a>
-  <ul class="collapse">
-  <li><a href="#extract-relevant-columns" id="toc-extract-relevant-columns" class="nav-link" data-scroll-target="#extract-relevant-columns"><strong>3.1.1 Extract relevant columns</strong></a></li>
-  <li><a href="#check-coordinate-system" id="toc-check-coordinate-system" class="nav-link" data-scroll-target="#check-coordinate-system"><strong>3.1.2 Check coordinate system</strong></a></li>
-  <li><a href="#transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" id="toc-transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" class="nav-link" data-scroll-target="#transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs"><strong>3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)</strong></a></li>
-  <li><a href="#create-owin-object" id="toc-create-owin-object" class="nav-link" data-scroll-target="#create-owin-object"><strong>3.1.4 Create OWIN object</strong></a></li>
-  <li><a href="#plot-owin-object" id="toc-plot-owin-object" class="nav-link" data-scroll-target="#plot-owin-object"><strong>3.1.5 Plot OWIN object</strong></a></li>
+  <li><a href="#preparing-a-study-area-layer" id="toc-preparing-a-study-area-layer" class="nav-link" data-scroll-target="#preparing-a-study-area-layer"><strong>3.1 Preparing a study area layer</strong></a></li>
+  <li><a href="#preparing-a-road-accident-layer" id="toc-preparing-a-road-accident-layer" class="nav-link" data-scroll-target="#preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></a></li>
+  <li><a href="#combine-point-events-with-owin-object" id="toc-combine-point-events-with-owin-object" class="nav-link" data-scroll-target="#combine-point-events-with-owin-object"><strong>3.3 Combine point events with OWIN object</strong></a></li>
   </ul></li>
-  <li><a href="#preparing-a-road-accident-layer" id="toc-preparing-a-road-accident-layer" class="nav-link" data-scroll-target="#preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></a>
+  <li><a href="#st-order-spatial-point-patterns-analysis" id="toc-st-order-spatial-point-patterns-analysis" class="nav-link" data-scroll-target="#st-order-spatial-point-patterns-analysis"><strong>4.0 1st Order Spatial Point Patterns Analysis</strong></a>
   <ul class="collapse">
-  <li><a href="#extract-relevant-columns-1" id="toc-extract-relevant-columns-1" class="nav-link" data-scroll-target="#extract-relevant-columns-1"><strong>3.2.1 Extract relevant columns</strong></a></li>
-  <li><a href="#converting-aspatial-data-into-geospatial-data" id="toc-converting-aspatial-data-into-geospatial-data" class="nav-link" data-scroll-target="#converting-aspatial-data-into-geospatial-data"><strong>3.2.2 Converting aspatial data into geospatial data</strong></a></li>
-  <li><a href="#check-coordinate-system-1" id="toc-check-coordinate-system-1" class="nav-link" data-scroll-target="#check-coordinate-system-1"><strong>3.2.3 Check coordinate system</strong></a></li>
-  <li><a href="#create-ppp-objects-using-sf-method" id="toc-create-ppp-objects-using-sf-method" class="nav-link" data-scroll-target="#create-ppp-objects-using-sf-method"><strong>3.2.4 Create ppp objects using sf method</strong></a></li>
-  <li><a href="#check-for-duplicated-point-events" id="toc-check-for-duplicated-point-events" class="nav-link" data-scroll-target="#check-for-duplicated-point-events"><strong>3.2.5 Check for duplicated point events</strong></a></li>
-  <li><a href="#removing-duplicated-point-events-using-jittering-approach" id="toc-removing-duplicated-point-events-using-jittering-approach" class="nav-link" data-scroll-target="#removing-duplicated-point-events-using-jittering-approach"><strong>3.2.6 Removing duplicated point events using jittering approach</strong></a></li>
+  <li><a href="#kernel-density-estimation-kde-maps" id="toc-kernel-density-estimation-kde-maps" class="nav-link" data-scroll-target="#kernel-density-estimation-kde-maps"><strong>4.1 Kernel Density Estimation (KDE) Maps</strong></a></li>
+  <li><a href="#nearest-neighbour-analysis-using-clark-evans-test" id="toc-nearest-neighbour-analysis-using-clark-evans-test" class="nav-link" data-scroll-target="#nearest-neighbour-analysis-using-clark-evans-test"><strong>4.2 Nearest Neighbour Analysis using Clark-Evans Test</strong></a></li>
   </ul></li>
+  <li><a href="#nd-order-spatial-point-patterns-analysis" id="toc-nd-order-spatial-point-patterns-analysis" class="nav-link" data-scroll-target="#nd-order-spatial-point-patterns-analysis"><strong>5.0 2nd Order Spatial Point Patterns Analysis</strong></a>
+  <ul class="collapse">
+  <li><a href="#complete-spatial-randomness-csr-test" id="toc-complete-spatial-randomness-csr-test" class="nav-link" data-scroll-target="#complete-spatial-randomness-csr-test"><strong>5.1 Complete Spatial Randomness (CSR) Test</strong></a></li>
+  </ul></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"><strong>6.0 Notes</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -284,20 +284,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="loading-packages" class="level1">
-<h1><strong>1.0 Loading Packages</strong></h1>
+<section id="project-overview" class="level1">
+<h1><strong>Project Overview</strong></h1>
+</section>
+<section id="main-responsibilities" class="level1">
+<h1><strong>Main Responsibilities</strong></h1>
+<ol type="1">
+<li>1st Order Spatial Point Patterns Analysis
+<ul>
+<li>Kernel Density Estimation (KDE) Maps</li>
+<li>Nearest Neighbor Analysis using Clark-Evans Test</li>
+</ul></li>
+<li>2nd Order Spatial Point Patterns Analysis
+<ul>
+<li>Complete Spatial Randomness (CSR) Test using G, F, K and L functions</li>
+</ul></li>
+</ol>
+</section>
+<section id="technical-report" class="level1">
+<h1><strong>Technical Report</strong></h1>
+<section id="loading-packages" class="level2">
+<h2 class="anchored" data-anchor-id="loading-packages"><strong>1.0 Loading Packages</strong></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(raster, sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="importing-datasets-into-r-environment" class="level1">
-<h1><strong>2.0 Importing Datasets into R Environment</strong></h1>
+<section id="importing-datasets-into-r-environment" class="level2">
+<h2 class="anchored" data-anchor-id="importing-datasets-into-r-environment"><strong>2.0 Importing Datasets into R Environment</strong></h2>
 <p>In this exercise, we will be using the following datasets:</p>
 <table class="table">
+<caption><strong>2.1 Importing Geospatial Data</strong></caption>
 <colgroup>
-<col style="width: 67%">
-<col style="width: 20%">
-<col style="width: 12%">
+<col style="width: 63%">
+<col style="width: 19%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -308,14 +328,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>➡️<strong>Thailand Road Accident [2019-2022]</strong></td>
-<td><strong>Aspatial</strong></td>
-<td><strong>.csv</strong></td>
+<td colspan="3">➡️<strong>Thailand Road Accident [2019-2022]</strong> | <strong>Aspatial</strong> | <strong>.csv</strong> |</td>
 </tr>
 <tr class="even">
-<td>➡️<strong>Thailand Subnational Administrative Boundaries</strong></td>
-<td><strong>Geospatial</strong></td>
-<td><strong>.shp</strong></td>
+<td colspan="3">➡️<strong>Thailand Subnational Administrative Boundaries</strong> | <strong>Geospatial</strong> | <strong>.shp</strong> |</td>
 </tr>
 <tr class="odd">
 <td>Geofabrik’s OpenStreetMap road data for Thailand</td>
@@ -324,8 +340,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<section id="importing-geospatial-data" class="level2">
-<h2 class="anchored" data-anchor-id="importing-geospatial-data"><strong>2.1 Importing Geospatial Data</strong></h2>
 <p>The&nbsp;<strong>Thailand Subnational Administrative Boundaries</strong>&nbsp;dataset is available in ESRI shapefile format. It comprises the administrative boundaries at various levels within Thailand.</p>
 <ul>
 <li><p>Level 0: country</p></li>
@@ -334,8 +348,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Level 3: sub-district or tambon</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>thailand_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm0_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>thailand_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">layer =</span> <span class="st">"tha_admbnda_adm0_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `tha_admbnda_adm0_rtsd_20220121' from data source 
   `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex03\data\geospatial' 
@@ -348,8 +362,7 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>thailand_province_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>, </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">layer =</span> <span class="st">"tha_admbnda_adm1_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>thailand_province_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"data/geospatial"</span>,                  <span class="at">layer =</span> <span class="st">"tha_admbnda_adm1_rtsd_20220121"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `tha_admbnda_adm1_rtsd_20220121' from data source 
   `C:\kt526\IS415-GAA\Take-home_Ex\Take-home_Ex03\data\geospatial' 
@@ -364,34 +377,32 @@ Geodetic CRS:  WGS 84</code></pre>
 <p>There are a total of 77 provinces in Thailand.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>thailand_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_sf) <span class="sc">+</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>thailand_province_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_province_sf) <span class="sc">+</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"ADM1_EN"</span>) <span class="sc">+</span> </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_legend</span>(<span class="at">show=</span><span class="cn">FALSE</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(thailand_map, thailand_province_map, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>thailand_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_sf) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>thailand_province_map <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(thailand_province_sf) <span class="sc">+</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"ADM1_EN"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_legend</span>(<span class="at">show=</span><span class="cn">FALSE</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(thailand_map, thailand_province_map, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
-<section id="importing-aspatial-data" class="level2">
-<h2 class="anchored" data-anchor-id="importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></h2>
+<section id="importing-aspatial-data" class="level3">
+<h3 class="anchored" data-anchor-id="importing-aspatial-data"><strong>2.2 Importing Aspatial Data</strong></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/aspatial/thai_road_accident_2019_2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="data-wrangling" class="level1">
-<h1><strong>3.0 Data Wrangling</strong></h1>
-<section id="preparing-a-study-area-layer-by-provinces" class="level2">
-<h2 class="anchored" data-anchor-id="preparing-a-study-area-layer-by-provinces"><strong>3.1 Preparing a study area layer by provinces</strong></h2>
-<section id="extract-relevant-columns" class="level3">
-<h3 class="anchored" data-anchor-id="extract-relevant-columns"><strong>3.1.1 Extract relevant columns</strong></h3>
+<section id="data-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="data-wrangling"><strong>3.0 Data Wrangling</strong></h2>
+<section id="preparing-a-study-area-layer" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-a-study-area-layer"><strong>3.1 Preparing a study area layer</strong></h3>
+<section id="extract-relevant-columns" class="level4">
+<h4 class="anchored" data-anchor-id="extract-relevant-columns">3.1.1 Extract relevant columns</h4>
 <p>Firstly, we use the colnames() to see all the column names present in <code>thailand_province_sf</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(thailand_province_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -409,31 +420,129 @@ Geodetic CRS:  WGS 84</code></pre>
 <li><p>geometry</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>thailand_sf_extracted <span class="ot">&lt;-</span> thailand_province_sf <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>thailand_province_sf_extracted <span class="ot">&lt;-</span> thailand_province_sf <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ADM1_EN,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         ADM1_PCODE,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>         geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="check-coordinate-system" class="level3">
-<h3 class="anchored" data-anchor-id="check-coordinate-system"><strong>3.1.2 Check coordinate system</strong></h3>
-</section>
-<section id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" class="level3">
-<h3 class="anchored" data-anchor-id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs"><strong>3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)</strong></h3>
-</section>
-<section id="create-owin-object" class="level3">
-<h3 class="anchored" data-anchor-id="create-owin-object"><strong>3.1.4 Create OWIN object</strong></h3>
-</section>
-<section id="plot-owin-object" class="level3">
-<h3 class="anchored" data-anchor-id="plot-owin-object"><strong>3.1.5 Plot OWIN object</strong></h3>
-</section>
-</section>
-<section id="preparing-a-road-accident-layer" class="level2">
-<h2 class="anchored" data-anchor-id="preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></h2>
-<section id="extract-relevant-columns-1" class="level3">
-<h3 class="anchored" data-anchor-id="extract-relevant-columns-1"><strong>3.2.1 Extract relevant columns</strong></h3>
+<section id="check-coordinate-system" class="level4">
+<h4 class="anchored" data-anchor-id="check-coordinate-system"><strong>3.1.2 Check coordinate system</strong></h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accidents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(thailand_province_sf_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: WGS 84 
+  wkt:
+GEOGCRS["WGS 84",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["latitude",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["longitude",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    ID["EPSG",4326]]</code></pre>
+</div>
+</div>
+</section>
+<section id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs" class="level4">
+<h4 class="anchored" data-anchor-id="transform-geographic-coordinate-system-gcs-and-a-projected-coordinate-system-pcs"><strong>3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>thailand_province_sf_extracted <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(thailand_province_sf_extracted,                                <span class="at">crs =</span> <span class="dv">32648</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(thailand_province_sf_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Geometry set for 77 features 
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -313055.3 ymin: 621843.5 xmax: 568269.6 ymax: 2271054
+Projected CRS: WGS 84 / UTM zone 48N
+First 5 geometries:</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(thailand_province_sf_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: EPSG:32648 
+  wkt:
+PROJCRS["WGS 84 / UTM zone 48N",
+    BASEGEOGCRS["WGS 84",
+        ENSEMBLE["World Geodetic System 1984 ensemble",
+            MEMBER["World Geodetic System 1984 (Transit)"],
+            MEMBER["World Geodetic System 1984 (G730)"],
+            MEMBER["World Geodetic System 1984 (G873)"],
+            MEMBER["World Geodetic System 1984 (G1150)"],
+            MEMBER["World Geodetic System 1984 (G1674)"],
+            MEMBER["World Geodetic System 1984 (G1762)"],
+            MEMBER["World Geodetic System 1984 (G2139)"],
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+                LENGTHUNIT["metre",1]],
+            ENSEMBLEACCURACY[2.0]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4326]],
+    CONVERSION["UTM zone 48N",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",105,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",0.9996,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",500000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Navigation and medium accuracy spatial referencing."],
+        AREA["Between 102°E and 108°E, northern hemisphere between equator and 84°N, onshore and offshore. Cambodia. China. Indonesia. Laos. Malaysia - West Malaysia. Mongolia. Russian Federation. Singapore. Thailand. Vietnam."],
+        BBOX[0,102,84,108]],
+    ID["EPSG",32648]]</code></pre>
+</div>
+</div>
+</section>
+<section id="create-owin-object" class="level4">
+<h4 class="anchored" data-anchor-id="create-owin-object"><strong>3.1.4 Create OWIN object</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>thailand_owin <span class="ot">&lt;-</span> <span class="fu">as.owin</span>(thailand_province_sf_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-owin-object" class="level4">
+<h4 class="anchored" data-anchor-id="plot-owin-object"><strong>3.1.5 Plot OWIN object</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(thailand_owin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="preparing-a-road-accident-layer" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-a-road-accident-layer"><strong>3.2 Preparing a road accident layer</strong></h3>
+<section id="extract-relevant-columns-1" class="level4">
+<h4 class="anchored" data-anchor-id="extract-relevant-columns-1">3.2.1 Extract relevant columns</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accidents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "acc_code"                    "incident_datetime"          
  [3] "report_datetime"             "province_th"                
@@ -458,18 +567,17 @@ Geodetic CRS:  WGS 84</code></pre>
 <li><p>number_of_injuries</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(latitude,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         longitude,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>         incident_datetime,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         province_en,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         presumed_cause,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         weather_condition,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         number_of_fatalities,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>         number_of_injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents <span class="sc">%&gt;%</span>   <span class="fu">select</span>(latitude,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                                              longitude,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                              incident_datetime,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                              province_en,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                                              presumed_cause,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                                              weather_condition,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                                              number_of_fatalities,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                                              number_of_injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [81,735 × 8] (S3: tbl_df/tbl/data.frame)
  $ latitude            : num [1:81735] 15 15.2 12.4 18.6 15.9 ...
@@ -483,7 +591,7 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            latitude            longitude    incident_datetime 
                  359                  359                    0 
@@ -494,10 +602,10 @@ number_of_fatalities   number_of_injuries
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(accidents_extracted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            latitude            longitude    incident_datetime 
                    0                    0                    0 
@@ -508,17 +616,17 @@ number_of_fatalities   number_of_injuries
 </div>
 </div>
 </section>
-<section id="converting-aspatial-data-into-geospatial-data" class="level3">
-<h3 class="anchored" data-anchor-id="converting-aspatial-data-into-geospatial-data"><strong>3.2.2 Converting aspatial data into geospatial data</strong></h3>
+<section id="converting-aspatial-data-into-geospatial-data" class="level4">
+<h4 class="anchored" data-anchor-id="converting-aspatial-data-into-geospatial-data"><strong>3.2.2 Converting aspatial data into geospatial data</strong></h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(accidents_extracted, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">32648</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(accidents_extracted,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">crs=</span><span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">32648</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Checking the number of unique provinces in <code>accidents_extracted</code></p>
+<p>Checking the number of unique provinces in <code>accidents_extracted</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(accidents_extracted<span class="sc">$</span>province_en)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(accidents_extracted<span class="sc">$</span>province_en)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Loburi"                   "Ubon Ratchathani"        
  [3] "Prachuap Khiri Khan"      "Chiang Mai"              
@@ -564,18 +672,72 @@ number_of_fatalities   number_of_injuries
 <p>There are a total of 78 provinces? An unknown province is present in the unique list.</p>
 <p>Remove unknown province.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents_extracted <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">!=</span> <span class="st">"unknown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted <span class="ot">&lt;-</span> accidents_extracted <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(province_en <span class="sc">!=</span> <span class="st">"unknown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="check-coordinate-system-1" class="level3">
-<h3 class="anchored" data-anchor-id="check-coordinate-system-1"><strong>3.2.3 Check coordinate system</strong></h3>
-</section>
-<section id="create-ppp-objects-using-sf-method" class="level3">
-<h3 class="anchored" data-anchor-id="create-ppp-objects-using-sf-method"><strong>3.2.4 Create ppp objects using sf method</strong></h3>
+<section id="check-coordinate-system-1" class="level4">
+<h4 class="anchored" data-anchor-id="check-coordinate-system-1"><strong>3.2.3 Check coordinate system</strong></h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(accidents_extracted)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(accidents_extracted_ppp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(accidents_extracted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: EPSG:32648 
+  wkt:
+PROJCRS["WGS 84 / UTM zone 48N",
+    BASEGEOGCRS["WGS 84",
+        ENSEMBLE["World Geodetic System 1984 ensemble",
+            MEMBER["World Geodetic System 1984 (Transit)"],
+            MEMBER["World Geodetic System 1984 (G730)"],
+            MEMBER["World Geodetic System 1984 (G873)"],
+            MEMBER["World Geodetic System 1984 (G1150)"],
+            MEMBER["World Geodetic System 1984 (G1674)"],
+            MEMBER["World Geodetic System 1984 (G1762)"],
+            MEMBER["World Geodetic System 1984 (G2139)"],
+            ELLIPSOID["WGS 84",6378137,298.257223563,
+                LENGTHUNIT["metre",1]],
+            ENSEMBLEACCURACY[2.0]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4326]],
+    CONVERSION["UTM zone 48N",
+        METHOD["Transverse Mercator",
+            ID["EPSG",9807]],
+        PARAMETER["Latitude of natural origin",0,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",105,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["Scale factor at natural origin",0.9996,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8805]],
+        PARAMETER["False easting",500000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",0,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Navigation and medium accuracy spatial referencing."],
+        AREA["Between 102°E and 108°E, northern hemisphere between equator and 84°N, onshore and offshore. Cambodia. China. Indonesia. Laos. Malaysia - West Malaysia. Mongolia. Russian Federation. Singapore. Thailand. Vietnam."],
+        BBOX[0,102,84,108]],
+    ID["EPSG",32648]]</code></pre>
+</div>
+</div>
+</section>
+<section id="create-ppp-objects-using-sf-method" class="level4">
+<h4 class="anchored" data-anchor-id="create-ppp-objects-using-sf-method"><strong>3.2.4 Create ppp objects using sf method</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>accidents_extracted_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(accidents_extracted)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(accidents_extracted_ppp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Marked planar point pattern:  81351 points
 Average intensity 6.160696e-08 points per square unit
@@ -600,27 +762,186 @@ Window area = 1.32048e+12 square units</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-duplicated-point-events" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-duplicated-point-events"><strong>3.2.5 Check for duplicated point events</strong></h3>
+<section id="check-for-duplicated-point-events" class="level4">
+<h4 class="anchored" data-anchor-id="check-for-duplicated-point-events"><strong>3.2.5 Check for duplicated point events</strong></h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(accidents_extracted_ppp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(accidents_extracted_ppp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">multiplicity</span>(accidents_extracted_ppp) <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">multiplicity</span>(accidents_extracted_ppp) <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
 </div>
 </div>
 <p>The output shows that there are 15 duplicated point events.</p>
 </section>
-<section id="removing-duplicated-point-events-using-jittering-approach" class="level3">
-<h3 class="anchored" data-anchor-id="removing-duplicated-point-events-using-jittering-approach"><strong>3.2.6 Removing duplicated point events using jittering approach</strong></h3>
-
-
+<section id="removing-duplicated-point-events-using-jittering-approach" class="level4">
+<h4 class="anchored" data-anchor-id="removing-duplicated-point-events-using-jittering-approach"><strong>3.2.6 Removing duplicated point events using jittering approach</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>accidents_ppp_jit <span class="ot">&lt;-</span> <span class="fu">rjitter</span>(accidents_extracted_ppp,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">retry=</span><span class="cn">TRUE</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">nsim=</span><span class="dv">1</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">drop=</span><span class="cn">TRUE</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(accidents_ppp_jit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
 </section>
+</section>
+<section id="combine-point-events-with-owin-object" class="level3">
+<h3 class="anchored" data-anchor-id="combine-point-events-with-owin-object"><strong>3.3 Combine point events with OWIN object</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>accidentsTHAI_ppp <span class="ot">=</span> accidents_extracted_ppp[thailand_owin]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="visualising-point-symbol-map" class="level4">
+<h4 class="anchored" data-anchor-id="visualising-point-symbol-map"><strong>3.3.1 Visualising Point Symbol Map</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(accidents_extracted) <span class="sc">+</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="st-order-spatial-point-patterns-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="st-order-spatial-point-patterns-analysis"><strong>4.0 1st Order Spatial Point Patterns Analysis</strong></h2>
+<section id="kernel-density-estimation-kde-maps" class="level3">
+<h3 class="anchored" data-anchor-id="kernel-density-estimation-kde-maps"><strong>4.1 Kernel Density Estimation (KDE) Maps</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>accidentsTHAI_ppp.km <span class="ot">&lt;-</span> <span class="fu">rescale</span>(accidentsTHAI_ppp, <span class="dv">1000</span>, <span class="st">"km"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>kde_accidentsTHAI_diggle <span class="ot">&lt;-</span> <span class="fu">density</span>(accidentsTHAI_ppp.km,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sigma=</span>bw.diggle,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">edge=</span><span class="cn">TRUE</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">kernel=</span><span class="st">"gaussian"</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kde_accidentsTHAI_diggle,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Automatic-Bandwidth KDE for Road Accident Points (Using bw_diggle)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plotting Interactive KDE Maps</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>raster_kde_auto_diggle <span class="ot">&lt;-</span> <span class="fu">raster</span>(kde_accidentsTHAI_diggle)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">projection</span>(raster_kde_auto_diggle) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">"+init=EPSG:32648 +units=km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">'view'</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>kde_adaptive_kernel <span class="ot">&lt;-</span> <span class="fu">tm_basemap</span>(<span class="at">server =</span> <span class="st">"OpenStreetMap.DE"</span>) <span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(raster_kde_auto_diggle) <span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="st">"layer"</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="dv">7</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"KDE_Adaptive_Kernel"</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">style =</span> <span class="st">"pretty"</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(thailand_province_sf_extracted) <span class="sc">+</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">alpha=</span><span class="fl">0.1</span>,<span class="at">id=</span><span class="st">"ADM1_EN"</span>) <span class="sc">+</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tmap_options</span>(<span class="at">check.and.fix =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="nearest-neighbour-analysis-using-clark-evans-test" class="level3">
+<h3 class="anchored" data-anchor-id="nearest-neighbour-analysis-using-clark-evans-test"><strong>4.2 Nearest Neighbour Analysis using Clark-Evans Test</strong></h3>
+<p>The test hypotheses are:</p>
+<ul>
+<li><p>H<sub>0</sub> = The spatial distribution of accident points are randomly distributed.</p></li>
+<li><p>H<sub>1</sub>= The spatial distribution of accident points are not randomly distributed.</p></li>
+</ul>
+<p>The 95% confidence interval will be used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clarkevans.test</span>(accidentsTHAI_ppp,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">correction=</span><span class="st">"none"</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">clipregion=</span><span class="st">"thailand_owin"</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative=</span><span class="fu">c</span>(<span class="st">"clustered"</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">nsim=</span><span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Clark-Evans test
+    No edge correction
+    Z-test
+
+data:  accidentsTHAI_ppp
+R = 0.24639, p-value &lt; 2.2e-16
+alternative hypothesis: clustered (R &lt; 1)</code></pre>
+</div>
+</div>
+<p><strong>Interpretations</strong></p>
+<ul>
+<li><p>R-value (0.29484) &lt; 1 indicates clustered distribution</p></li>
+<li><p>p-value (&lt; 2.2e-16) &lt; 0.05 (critical value)</p></li>
+<li><p>Reject the null hypothesis (H<sub>0</sub>) that the spatial distribution of accident points are randomly distributed, signs of clusterings observed</p></li>
+</ul>
+</section>
+</section>
+<section id="nd-order-spatial-point-patterns-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="nd-order-spatial-point-patterns-analysis"><strong>5.0 2nd Order Spatial Point Patterns Analysis</strong></h2>
+<section id="complete-spatial-randomness-csr-test" class="level3">
+<h3 class="anchored" data-anchor-id="complete-spatial-randomness-csr-test"><strong>5.1 Complete Spatial Randomness (CSR) Test</strong></h3>
+<ol type="1">
+<li><p>G function</p></li>
+<li><p>F function</p></li>
+<li><p>K function</p></li>
+<li><p>L function</p></li>
+</ol>
+</section>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes"><strong>6.0 Notes</strong></h2>
+<p><strong>Necessary R packages</strong>:</p>
+<table class="table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 31%">
+<col style="width: 24%">
+<col style="width: 14%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Analysis</strong></td>
+<td><strong>Parameters / Inputs</strong></td>
+<td><strong>Outputs</strong></td>
+<td><strong>Shiny UI components</strong></td>
+</tr>
+<tr class="even">
+<td>Kernel Density Estimation Maps</td>
+<td><ul>
+<li><p><strong>Bandwidths</strong>: Automatic, Fixed, Adaptive</p></li>
+<li><p><strong>Kernels</strong>: epanechnikov, quartic, quartic, disc</p></li>
+</ul></td>
+<td>Plot interactive KDE map(s) given inputs</td>
+<td><p>Parameters / Inputs</p>
+<ul>
+<li><p>selectInput()</p></li>
+<li><p>sliderInput()</p></li>
+</ul>
+<p>Outputs</p>
+<ul>
+<li>plotOutput()</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Nearest Neighbour Analysis using Clark-Evans Test</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Complete Spatial Randomness (CSR) Test</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
 </section>
 </section>
 

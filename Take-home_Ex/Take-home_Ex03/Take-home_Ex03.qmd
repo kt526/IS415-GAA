@@ -12,23 +12,39 @@ toc-depth: 3
 code-annotations: hover
 ---
 
-# **1.0 Loading Packages**
+# **Project Overview**
+
+# **Main Responsibilities**
+
+1.  1st Order Spatial Point Patterns Analysis
+    -   Kernel Density Estimation (KDE) Maps
+    -   Nearest Neighbor Analysis using Clark-Evans Test
+2.  2nd Order Spatial Point Patterns Analysis
+    -   Complete Spatial Randomness (CSR) Test using G, F, K and L functions
+
+# **Technical Report**
+
+## **1.0 Loading Packages**
 
 ```{r}
-pacman::p_load(sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
+pacman::p_load(raster, sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 ```
 
-# **2.0 Importing Datasets into R Environment**
+## **2.0 Importing Datasets into R Environment**
 
 In this exercise, we will be using the following datasets:
 
-| Data                                                 | Type           | Format   |
-|------------------------------------------------------|----------------|----------|
-| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
-| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
-| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |
++------------------------------------------------------+----------------+-------------+
+| Data                                                 | Type           | Format      |
++======================================================+================+=============+
+| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv**    |
++------------------------------------------------------+----------------+-------------+
+| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp**    |
++------------------------------------------------------+----------------+-------------+
+| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp        |
++------------------------------------------------------+----------------+-------------+
 
-## **2.1 Importing Geospatial Data**
+: **2.1 Importing Geospatial Data**
 
 The **Thailand Subnational Administrative Boundaries** dataset is available in ESRI shapefile format. It comprises the administrative boundaries at various levels within Thailand.
 
@@ -41,42 +57,40 @@ The **Thailand Subnational Administrative Boundaries** dataset is available in
 -   Level 3: sub-district or tambon
 
 ```{r}
-thailand_sf <- st_read(dsn = "data/geospatial", 
-                layer = "tha_admbnda_adm0_rtsd_20220121")
+thailand_sf <- st_read(dsn = "data/geospatial",
+                        layer = "tha_admbnda_adm0_rtsd_20220121")
 ```
 
 ```{r}
-thailand_province_sf <- st_read(dsn = "data/geospatial", 
-                layer = "tha_admbnda_adm1_rtsd_20220121")
+thailand_province_sf <- st_read(dsn = "data/geospatial",                  layer = "tha_admbnda_adm1_rtsd_20220121")
 ```
 
 There are a total of 77 provinces in Thailand.
 
 ```{r}
 tmap_mode("plot")
-
-thailand_map <- tm_shape(thailand_sf) + 
+thailand_map <- tm_shape(thailand_sf) +
   tm_borders(alpha = 0.8)
 
 thailand_province_map <- tm_shape(thailand_province_sf) + 
-  tm_polygons("ADM1_EN") + 
-  tm_borders(alpha = 0.8) +
+  tm_polygons("ADM1_EN") +
+  tm_borders(alpha = 0.8) + 
   tm_legend(show=FALSE)
 
 tmap_arrange(thailand_map, thailand_province_map, ncol = 2)
 ```
 
-## **2.2 Importing Aspatial Data**
+### **2.2 Importing Aspatial Data**
 
 ```{r}
 accidents <- read_csv("data/aspatial/thai_road_accident_2019_2022.csv")
 ```
 
-# **3.0 Data Wrangling**
+## **3.0 Data Wrangling**
 
-## **3.1 Preparing a study area layer by provinces**
+### **3.1 Preparing a study area layer**
 
-### **3.1.1 Extract relevant columns**
+#### 3.1.1 Extract relevant columns
 
 Firstly, we use the colnames() to see all the column names present in `thailand_province_sf`.
 
@@ -93,23 +107,45 @@ Next, from `thailand_province_sf`, we will select the following relevant columns
 -   geometry
 
 ```{r}
-thailand_sf_extracted <- thailand_province_sf %>%
+thailand_province_sf_extracted <- thailand_province_sf %>%
   select(ADM1_EN,
          ADM1_PCODE,
          geometry)
 ```
 
-### **3.1.2 Check coordinate system**
+#### **3.1.2 Check coordinate system**
 
-### **3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)**
+```{r}
+st_crs(thailand_province_sf_extracted)
+```
 
-### **3.1.4 Create OWIN object**
+#### **3.1.3 Transform geographic coordinate system (GCS) and a projected coordinate system (PCS)**
 
-### **3.1.5 Plot OWIN object**
+```{r}
+thailand_province_sf_extracted <- st_transform(thailand_province_sf_extracted,                                crs = 32648)
 
-## **3.2 Preparing a road accident layer**
+st_geometry(thailand_province_sf_extracted)
+```
 
-### **3.2.1 Extract relevant columns**
+```{r}
+st_crs(thailand_province_sf_extracted)
+```
+
+#### **3.1.4 Create OWIN object**
+
+```{r}
+thailand_owin <- as.owin(thailand_province_sf_extracted)
+```
+
+#### **3.1.5 Plot OWIN object**
+
+```{r}
+plot(thailand_owin)
+```
+
+### **3.2 Preparing a road accident layer**
+
+#### 3.2.1 Extract relevant columns
 
 ```{r}
 colnames(accidents)
@@ -134,15 +170,14 @@ Similar to `thailand_province_sf`, we will select the following relevant columns
 -   number_of_injuries
 
 ```{r}
-accidents_extracted <- accidents %>%
-  select(latitude,
-         longitude,
-         incident_datetime,
-         province_en,
-         presumed_cause,
-         weather_condition,
-         number_of_fatalities,
-         number_of_injuries)
+accidents_extracted <- accidents %>%   select(latitude,
+                                              longitude,
+                                              incident_datetime,
+                                              province_en,
+                                              presumed_cause,
+                                              weather_condition,
+                                              number_of_fatalities,
+                                              number_of_injuries)
 ```
 
 ```{r}
@@ -161,16 +196,16 @@ accidents_extracted <- na.omit(accidents_extracted)
 colSums(is.na(accidents_extracted))
 ```
 
-### **3.2.2 Converting aspatial data into geospatial data**
+#### **3.2.2 Converting aspatial data into geospatial data**
 
 ```{r}
-accidents_extracted <- st_as_sf(accidents_extracted, 
-                       coords = c("longitude", "latitude"),
-                       crs=4326) %>%
+accidents_extracted <- st_as_sf(accidents_extracted,
+                                coords = c("longitude", "latitude"),
+                                crs=4326) %>%
   st_transform(crs = 32648)
 ```
 
-Checking the number of unique provinces in `accidents_extracted`
+Checking the number of unique provinces in `accidents_extracted`.
 
 ```{r}
 unique(accidents_extracted$province_en)
@@ -181,24 +216,24 @@ There are a total of 78 provinces? An unknown province is present in the unique 
 Remove unknown province.
 
 ```{r}
-accidents_extracted <- accidents_extracted %>% 
+accidents_extracted <- accidents_extracted %>%
   filter(province_en != "unknown")
 ```
 
-### **3.2.3 Check coordinate system**
+#### **3.2.3 Check coordinate system**
 
 ```{r}
-
+st_crs(accidents_extracted)
 ```
 
-### **3.2.4 Create ppp objects using sf method**
+#### **3.2.4 Create ppp objects using sf method**
 
 ```{r}
 accidents_extracted_ppp <- as.ppp(accidents_extracted)
 summary(accidents_extracted_ppp)
 ```
 
-### **3.2.5 Check for duplicated point events**
+#### **3.2.5 Check for duplicated point events**
 
 ```{r}
 any(duplicated(accidents_extracted_ppp))
@@ -210,7 +245,123 @@ sum(multiplicity(accidents_extracted_ppp) > 1)
 
 The output shows that there are 15 duplicated point events.
 
-### **3.2.6 Removing duplicated point events using jittering approach**
+#### **3.2.6 Removing duplicated point events using jittering approach**
 
 ```{r}
+accidents_ppp_jit <- rjitter(accidents_extracted_ppp,
+                             retry=TRUE,
+                             nsim=1,
+                             drop=TRUE)
+
+any(duplicated(accidents_ppp_jit))
 ```
+
+### **3.3 Combine point events with OWIN object**
+
+```{r}
+accidentsTHAI_ppp = accidents_extracted_ppp[thailand_owin]
+```
+
+#### **3.3.1 Visualising Point Symbol Map**
+
+```{r}
+tmap_mode("plot")
+tm_shape(accidents_extracted) +
+  tm_dots()
+```
+
+## **4.0 1st Order Spatial Point Patterns Analysis**
+
+### **4.1 Kernel Density Estimation (KDE) Maps**
+
+```{r}
+accidentsTHAI_ppp.km <- rescale(accidentsTHAI_ppp, 1000, "km")
+
+kde_accidentsTHAI_diggle <- density(accidentsTHAI_ppp.km,
+                                sigma=bw.diggle,
+                                edge=TRUE,
+                                kernel="gaussian")
+plot(kde_accidentsTHAI_diggle,
+     main = "Automatic-Bandwidth KDE for Road Accident Points (Using bw_diggle)")
+```
+
+Plotting Interactive KDE Maps
+
+```{r}
+raster_kde_auto_diggle <- raster(kde_accidentsTHAI_diggle)
+projection(raster_kde_auto_diggle) <- CRS("+init=EPSG:32648 +units=km")
+```
+
+```{r}
+tmap_mode('view')
+kde_adaptive_kernel <- tm_basemap(server = "OpenStreetMap.DE") +
+  tm_shape(raster_kde_auto_diggle) +
+  tm_raster("layer",
+            n = 7,
+            title = "KDE_Adaptive_Kernel",
+            style = "pretty",
+            alpha = 0.6) +
+  tm_shape(thailand_province_sf_extracted) +
+  tm_polygons(alpha=0.1,id="ADM1_EN") +
+  tmap_options(check.and.fix = TRUE)
+```
+
+### **4.2 Nearest Neighbour Analysis using Clark-Evans Test**
+
+The test hypotheses are:
+
+-   H~0~ = The spatial distribution of accident points are randomly distributed.
+
+-   H~1~= The spatial distribution of accident points are not randomly distributed.
+
+The 95% confidence interval will be used.
+
+```{r}
+clarkevans.test(accidentsTHAI_ppp,
+                correction="none",
+                clipregion="thailand_owin",
+                alternative=c("clustered"),
+                nsim=99)
+```
+
+**Interpretations**
+
+-   R-value (0.29484) \< 1 indicates clustered distribution
+
+-   p-value (\< 2.2e-16) \< 0.05 (critical value)
+
+-   Reject the null hypothesis (H~0~) that the spatial distribution of accident points are randomly distributed, signs of clusterings observed
+
+## **5.0 2nd Order Spatial Point Patterns Analysis**
+
+### **5.1 Complete Spatial Randomness (CSR) Test**
+
+1.  G function
+
+2.  F function
+
+3.  K function
+
+4.  L function
+
+## **6.0 Notes**
+
+**Necessary R packages**:
+
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
+| **Analysis**                                      | **Parameters / Inputs**                               | **Outputs**                              | **Shiny UI components** |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
+| Kernel Density Estimation Maps                    | -   **Bandwidths**: Automatic, Fixed, Adaptive        | Plot interactive KDE map(s) given inputs | Parameters / Inputs     |
+|                                                   |                                                       |                                          |                         |
+|                                                   | -   **Kernels**: epanechnikov, quartic, quartic, disc |                                          | -   selectInput()       |
+|                                                   |                                                       |                                          |                         |
+|                                                   |                                                       |                                          | -   sliderInput()       |
+|                                                   |                                                       |                                          |                         |
+|                                                   |                                                       |                                          | Outputs                 |
+|                                                   |                                                       |                                          |                         |
+|                                                   |                                                       |                                          | -   plotOutput()        |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
+| Nearest Neighbour Analysis using Clark-Evans Test |                                                       |                                          |                         |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
+| Complete Spatial Randomness (CSR) Test            |                                                       |                                          |                         |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
