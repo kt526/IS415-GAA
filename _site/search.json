@@ -1412,5 +1412,131 @@
     "title": "Take-home Exercise 3: Prototyping Modules for Geospatial Analytics Shiny Application",
     "section": "6.0 Notes",
     "text": "6.0 Notes\nNecessary R packages:\n\n\n\n\n\n\n\n\n\nAnalysis\nParameters / Inputs\nOutputs\nShiny UI components\n\n\nKernel Density Estimation Maps\n\nBandwidths: Automatic, Fixed, Adaptive\nKernels: epanechnikov, quartic, quartic, disc\n\nPlot interactive KDE map(s) given inputs\nParameters / Inputs\n\nselectInput()\nsliderInput()\n\nOutputs\n\nplotOutput()\n\n\n\nNearest Neighbour Analysis using Clark-Evans Test\n\n\n\n\n\nComplete Spatial Randomness (CSR) Test"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to build predictive model by using geographical random forest method.\n\n\n\nPredictive modelling uses statistical learning or machine learning techniques to predict outcomes. By and large, the event one wants to predict is in the future. However, a set of known outcome and predictors (also known as variables) will be used to calibrate the predictive models.\nGeospatial predictive modelling is conceptually rooted in the principle that the occurrences of events being modeled are limited in distribution. When geographically referenced data are used, occurrences of events are neither uniform nor random in distribution over space. There are geospatial factors (infrastructure, sociocultural, topographic, etc.) that constrain and influence where the locations of events occur. Geospatial predictive modeling attempts to describe those constraints and influences by spatially correlating occurrences of historical geospatial locations with environmental factors that represent those constraints and influences.\n\n\n\n\npacman::p_load(sf, spdep, GWmodel, SpatialML, \n               tmap, tidymodels, tidyverse, gtsummary,\n               rpart, rpart.plot, ggstatplot, performance)\n\nNote: Tidymodel is a collection of machine learning libraries."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#getting-started",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#getting-started",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to build predictive model by using geographical random forest method."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#overview",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#overview",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "",
+    "text": "Predictive modelling uses statistical learning or machine learning techniques to predict outcomes. By and large, the event one wants to predict is in the future. However, a set of known outcome and predictors (also known as variables) will be used to calibrate the predictive models.\nGeospatial predictive modelling is conceptually rooted in the principle that the occurrences of events being modeled are limited in distribution. When geographically referenced data are used, occurrences of events are neither uniform nor random in distribution over space. There are geospatial factors (infrastructure, sociocultural, topographic, etc.) that constrain and influence where the locations of events occur. Geospatial predictive modeling attempts to describe those constraints and influences by spatially correlating occurrences of historical geospatial locations with environmental factors that represent those constraints and influences."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#installing-and-loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#installing-and-loading-r-packages",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "",
+    "text": "pacman::p_load(sf, spdep, GWmodel, SpatialML, \n               tmap, tidymodels, tidyverse, gtsummary,\n               rpart, rpart.plot, ggstatplot, performance)\n\nNote: Tidymodel is a collection of machine learning libraries."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#reading-data-file-to-rds",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#reading-data-file-to-rds",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "3.1 Reading data file to rds",
+    "text": "3.1 Reading data file to rds\n\nrs_sf &lt;- read_rds(\"data/rds/HDB_resale.rds\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#data-sampling",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#data-sampling",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "3.2 Data Sampling",
+    "text": "3.2 Data Sampling\n\nset.seed(1234)\nresale_split &lt;- initial_split(rs_sf, \n                              prop = 6.5/10,)\ntrain_data &lt;- training(resale_split)\ntest_data &lt;- testing(resale_split)\n\n\nwrite_rds(train_data, \"data/rds/train_data.rds\")\nwrite_rds(test_data, \"data/rds/test_data.rds\")\n\nNote: After observing out dataset, we tend to split the data. THe resale data is splitted into 50%-50%.\n\nset.seed(1234)\nresale_split &lt;- initial_split(\n  rs_sf,\n  prop = 5/10,\n)\ntrain_sf &lt;- training(resale_split)\ntest_sf &lt;- testing(resale_split)\n\nNote: If we want to stop the splitting, we can set #| eval: false. However, we need to write and read the rds so that the training and testing object an be used for subsequent analysis.\n\nwrite_rds(train_sf, \"data/rds/train_sf.rds\")\nwrite_rds(test_sf, \"data/rds/test_sf.rds\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Retriving the stored data",
+    "text": "Retriving the stored data\n\ntrain_sf &lt;- read_rds(\"data/rds/train_sf.rds\")\ntest_sf &lt;- read_rds(\"data/rds/test_sf.rds\")\n\n\ntrain_df &lt;- train_sf %&gt;%\n  st_drop_geometry() %&gt;% \n  as.data.frame()\n\ntest_df &lt;- test_sf %&gt;%\n  st_drop_geometry() %&gt;%\n  as.data.frame()\n\nNote: There is a difference between tibble data frame (from tidyverse) and data frame (from base R).\nWhy do we convert sf into df? If we refer to the documentation for spatialML, the input requires df.\n\nclass(train_sf)\n\n[1] \"sf\"         \"tbl_df\"     \"tbl\"        \"data.frame\"\n\n\n\nclass(train_df)\n\n[1] \"data.frame\""
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-the-output",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-the-output",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Saving the output",
+    "text": "Saving the output\n\nwrite_rds(train_df, \"data/rds/train_df.rds\")\nwrite_rds(test_df, \"data/rds/test_df.rds\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-1",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-1",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Retriving the stored data",
+    "text": "Retriving the stored data\n\ntrain_df &lt;- read_rds(\"data/rds/train_df.rds\")\ntest_df &lt;- read_rds(\"data/rds/test_df.rds\")\n\nNote: If we are looking machine learning techniques, correlation matrix is not that important."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#revising-mlr-model",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#revising-mlr-model",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Revising mlr model",
+    "text": "Revising mlr model\n\ntrain_df &lt;- train_df %&gt;%\n  select(-c(PROX_CHAS))\n\ntrain_sf &lt;- train_sf %&gt;%\n  select(-c(PROX_CHAS))\n\ntest_df &lt;- test_df %&gt;%\n  select(-c(PROX_CHAS))\n\ntest_sf &lt;- test_sf %&gt;%\n  select(-c(PROX_CHAS))\n\nThe code chunk below extract x and y coordinates of the full, training and test data sets.\n\ncoords &lt;- st_coordinates(rs_sf)\ncoords_train &lt;- st_coordinates(train_sf)\ncoords_test &lt;- st_coordinates(test_sf)\n\n\nwrite_rds(coords_train, \"data/rds/coords_train.rds\")\nwrite_rds(coords_test, \"data/rds/coords_test.rds\")\n\n\nset.seed(1234)\nrs_rp &lt;- rpart(formula = RESALE_PRICE ~ FLOOR_AREA_SQM +\n               STOREY_ORDER +\n               REMAINING_LEASE_MTHS +\n               PROX_CBD +\n               PROX_ELDERLYCARE +\n               PROX_HAWKER +\n               PROX_MRT  +\n               PROX_PARK +\n               PROX_GOOD_PRISCH +\n               PROX_MALL +\n               PROX_SUPERMARKET + \n               WITHIN_350M_KINDERGARTEN +\n               WITHIN_350M_CHILDCARE +\n               WITHIN_350M_BUS +\n               WITHIN_1KM_PRISCH,\n               data = train_df)\n\n\nrpart.plot(rs_rp)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#calibrating-random-forest-model",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#calibrating-random-forest-model",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Calibrating Random Forest Model",
+    "text": "Calibrating Random Forest Model\nhttps://cran.r-project.org/web/packages/SpatialML/SpatialML.pdf\n\nset.seed(1234)\nrs_rf &lt;- ranger(formula = RESALE_PRICE ~ FLOOR_AREA_SQM +\n               STOREY_ORDER +\n               REMAINING_LEASE_MTHS +\n               PROX_CBD +\n               PROX_ELDERLYCARE +\n               PROX_HAWKER +\n               PROX_MRT  +\n               PROX_PARK +\n               PROX_GOOD_PRISCH +\n               PROX_MALL +\n               PROX_SUPERMARKET + \n               WITHIN_350M_KINDERGARTEN +\n               WITHIN_350M_CHILDCARE +\n               WITHIN_350M_BUS +\n               WITHIN_1KM_PRISCH,\n               data = train_df,\n               importance = \"impurity\")\n\n\nwrite_rds(rs_rf, \"data/models/rs_rf.rds\")\n\n\nrs_rf &lt;- read_rds(\"data/models/rs_rf.rds\")\n\n\nvi &lt;- as.data.frame(rs_rf$variable.importance)\nvi$variables &lt;- rownames(vi)\nvi &lt;- vi %&gt;%\n  rename(vi = \"rs_rf$variable.importance\")\n\n\nggplot(data = vi,\n       aes(x = vi,\n           y = reorder(variables, vi))) +\n  geom_bar(stat = \"identity\")\n\n\n\n\nNote: vi denotes variable importance value\nInterpretations - PROX_CBD, REMAINING_LEASE_MTHS and STOREY_ORDER are the top 3 importance variables - Explains the relative importance of variables - Helps you to tell if your model is performing - If the bar chart shows drastic differences, it means that the model has some issues due to data (complete separation / quasi complete separation issues) https://www.bookdown.org/rwnahhas/RMPH/blr-separation.html"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-2",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-2",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Retriving the stored data",
+    "text": "Retriving the stored data\n\nrs_grf &lt;- read_rds(\"data/models/rs_grf.rds\")\n\n\ngrf_pred &lt;- predict.grf(rs_grf,\n                        test_data,\n                        x.var.name=\"X\",\n                        y.var.name=\"Y\",\n                        local.w=1,\n                        global.w=0)\n\n\nwrite_rds(grf_pred, \"data/models/grf_pred.rds\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-3",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#retriving-the-stored-data-3",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Retriving the stored data",
+    "text": "Retriving the stored data\n\ngrf_pred &lt;- read_rds(\"data/models/grf_pred.rds\")\ngrf_pred_df &lt;- as.data.frame(grf_pred)\n\nThe cbind() is used to append the predicted values onto the test_df\n\ntest_pred &lt;- test_df %&gt;%\n  select(RESALE_PRICE) %&gt;%\n  cbind(grf_pred)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-predicted-output-of-random-forest-and-preparing-final-data-table",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-predicted-output-of-random-forest-and-preparing-final-data-table",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Saving predicted output of random forest and preparing final data table",
+    "text": "Saving predicted output of random forest and preparing final data table\n\nrf_pred &lt;- predict(rs_rf, test_df)\nrf_pred_df &lt;- as.data.frame(rf_pred$predictions) %&gt;%\n  rename(rfpred = \"rf_pred$predictions\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-predicted-output-of-mulitple-linear-regression-and-preparing-final-data-table",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#saving-predicted-output-of-mulitple-linear-regression-and-preparing-final-data-table",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Saving predicted output of mulitple linear regression and preparing final data table",
+    "text": "Saving predicted output of mulitple linear regression and preparing final data table"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#model-comparison",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#model-comparison",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Model Comparison",
+    "text": "Model Comparison\nTHe root mean square error\n\nyardstick::rmse(test_pred,\n                RESALE_PRICE,\n                grf_pred)\n\n# A tibble: 1 × 3\n  .metric .estimator .estimate\n  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;\n1 rmse    standard      28745.\n\n\nPivoting\n\n#mc &lt;- test_pred %&gt;%\n#  pivot_longer(cols = c(2,4),\n#               names_to = \"models\",\n#               values_to = \"predicted\")\n\nNote: Table output will be in a long table format."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#comparison-matrix",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#comparison-matrix",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Comparison matrix",
+    "text": "Comparison matrix\n.estimate measures the error, grf_pred model perform better"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#visualising-the-predicted-values",
+    "href": "In-class_Ex/In-class_Ex09/In-class_Ex09.html#visualising-the-predicted-values",
+    "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
+    "section": "Visualising the predicted values",
+    "text": "Visualising the predicted values\nUsing scatterplot (the ml model assumes the relationship to be linear, which result in high errors as compared to grf model) ML model has higher variation (~2 sub markets identified) compared to gfr model"
   }
 ]
