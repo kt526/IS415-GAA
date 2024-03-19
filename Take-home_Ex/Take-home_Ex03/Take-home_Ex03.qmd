@@ -34,17 +34,13 @@ pacman::p_load(raster, sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 
 In this exercise, we will be using the following datasets:
 
-+------------------------------------------------------+----------------+-------------+
-| Data                                                 | Type           | Format      |
-+======================================================+================+=============+
-| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv**    |
-+------------------------------------------------------+----------------+-------------+
-| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp**    |
-+------------------------------------------------------+----------------+-------------+
-| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp        |
-+------------------------------------------------------+----------------+-------------+
+| Data                                                 | Type            | Format   |
+|------------------------------------------------------|-----------------|----------|
+| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**    | **.csv** |
+| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial**  | **.shp** |
+| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial      | .shp     |
 
-: **2.1 Importing Geospatial Data**
+### **2.1 Importing Geospatial Data**
 
 The **Thailand Subnational Administrative Boundaries** dataset is available in ESRI shapefile format. It comprises the administrative boundaries at various levels within Thailand.
 
@@ -304,6 +300,10 @@ kde_adaptive_kernel <- tm_basemap(server = "OpenStreetMap.DE") +
   tm_shape(thailand_province_sf_extracted) +
   tm_polygons(alpha=0.1,id="ADM1_EN") +
   tmap_options(check.and.fix = TRUE)
+
+kde_adaptive_kernel
+
+tmap_mode('plot')
 ```
 
 ### **4.2 Nearest Neighbour Analysis using Clark-Evans Test**
@@ -348,20 +348,35 @@ clarkevans.test(accidentsTHAI_ppp,
 
 **Necessary R packages**:
 
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
-| **Analysis**                                      | **Parameters / Inputs**                               | **Outputs**                              | **Shiny UI components** |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
-| Kernel Density Estimation Maps                    | -   **Bandwidths**: Automatic, Fixed, Adaptive        | Plot interactive KDE map(s) given inputs | Parameters / Inputs     |
-|                                                   |                                                       |                                          |                         |
-|                                                   | -   **Kernels**: epanechnikov, quartic, quartic, disc |                                          | -   selectInput()       |
-|                                                   |                                                       |                                          |                         |
-|                                                   |                                                       |                                          | -   sliderInput()       |
-|                                                   |                                                       |                                          |                         |
-|                                                   |                                                       |                                          | Outputs                 |
-|                                                   |                                                       |                                          |                         |
-|                                                   |                                                       |                                          | -   plotOutput()        |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
-| Nearest Neighbour Analysis using Clark-Evans Test |                                                       |                                          |                         |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
-| Complete Spatial Randomness (CSR) Test            |                                                       |                                          |                         |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-------------------------+
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
+| **Analysis**                                      | **Parameters / Inputs**                               | **Outputs**                              | **Shiny UI components**     |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
+| Kernel Density Estimation Maps                    | -   **Bandwidths**: Automatic, Fixed, Adaptive        | Plot interactive KDE map(s) given inputs | Parameters / Inputs         |
+|                                                   |                                                       |                                          |                             |
+|                                                   | -   **Kernels**: epanechnikov, quartic, quartic, disc |                                          | -   selectInput()           |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   sliderInput()           |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | Outputs                     |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   plotOutput()            |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
+| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim:** 100 to 1000                             | Statistics results                       | Parameters / Inputs         |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   sliderInput()           |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | Outputs                     |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   text for interpretation |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
+| Complete Spatial Randomness (CSR) Test            | -   **nsim:** 100 to 1000                             | Plot interactive chart given inputs      | Parameters / Inputs         |
+|                                                   |                                                       |                                          |                             |
+|                                                   | -   Type of test: G, F, K, L                          |                                          | -   selectInput()           |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   sliderInput() for nsim  |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | Outputs                     |
+|                                                   |                                                       |                                          |                             |
+|                                                   |                                                       |                                          | -   plotOutput()            |
+|                                                   |                                                       |                                          | -   text for interpretation |
++---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
