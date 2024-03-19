@@ -306,6 +306,14 @@ kde_adaptive_kernel
 tmap_mode('plot')
 ```
 
+Write data to rds
+
+```{r}
+#| eval: false
+write_rds(thailand_province_sf_extracted, "data/rds/thailand_province_sf_extracted.rds")
+write_rds(raster_kde_auto_diggle, "data/rds/raster_kde_auto_diggle.rds")
+```
+
 ### **4.2 Nearest Neighbour Analysis using Clark-Evans Test**
 
 The test hypotheses are:
@@ -361,7 +369,7 @@ clarkevans.test(accidentsTHAI_ppp,
 |                                                   |                                                       |                                          |                             |
 |                                                   |                                                       |                                          | -   plotOutput()            |
 +---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim:** 100 to 1000                             | Statistics results                       | Parameters / Inputs         |
+| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim**: 99 to 999                               | Statistics results                       | Parameters / Inputs         |
 |                                                   |                                                       |                                          |                             |
 |                                                   |                                                       |                                          | -   sliderInput()           |
 |                                                   |                                                       |                                          |                             |
@@ -369,9 +377,9 @@ clarkevans.test(accidentsTHAI_ppp,
 |                                                   |                                                       |                                          |                             |
 |                                                   |                                                       |                                          | -   text for interpretation |
 +---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| Complete Spatial Randomness (CSR) Test            | -   **nsim:** 100 to 1000                             | Plot interactive chart given inputs      | Parameters / Inputs         |
+| Complete Spatial Randomness (CSR) Test            | -   **nsim**: 99 to 999                               | Plot interactive chart given inputs      | Parameters / Inputs         |
 |                                                   |                                                       |                                          |                             |
-|                                                   | -   Type of test: G, F, K, L                          |                                          | -   selectInput()           |
+|                                                   | -   **Type of test**: G, F, K, L                      |                                          | -   selectInput()           |
 |                                                   |                                                       |                                          |                             |
 |                                                   |                                                       |                                          | -   sliderInput() for nsim  |
 |                                                   |                                                       |                                          |                             |
