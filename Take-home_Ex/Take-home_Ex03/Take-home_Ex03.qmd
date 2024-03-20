@@ -34,11 +34,11 @@ pacman::p_load(raster, sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
 
 In this exercise, we will be using the following datasets:
 
-| Data                                                 | Type            | Format   |
-|------------------------------------------------------|-----------------|----------|
-| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**    | **.csv** |
-| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial**  | **.shp** |
-| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial      | .shp     |
+| Data                                                                                  | Type       | Format |
+|---------------------------------------------------------------------------------------|------------|--------|
+| ➡️**Thailand Road Accident \[2019-2022\]** \| **Aspatial** \| **.csv** \|             |            |        |
+| ➡️**Thailand Subnational Administrative Boundaries** \| **Geospatial** \| **.shp** \| |            |        |
+| Geofabrik's OpenStreetMap road data for Thailand                                      | Geospatial | .shp   |
 
 ### **2.1 Importing Geospatial Data**
 
@@ -271,9 +271,9 @@ tm_shape(accidents_extracted) +
 ### **4.1 Kernel Density Estimation (KDE) Maps**
 
 ```{r}
-accidentsTHAI_ppp.km <- rescale(accidentsTHAI_ppp, 1000, "km")
+accidentsTHAI_ppp_km <- rescale(accidentsTHAI_ppp, 1000, "km")
 
-kde_accidentsTHAI_diggle <- density(accidentsTHAI_ppp.km,
+kde_accidentsTHAI_diggle <- density(accidentsTHAI_ppp_km,
                                 sigma=bw.diggle,
                                 edge=TRUE,
                                 kernel="gaussian")
@@ -312,6 +312,7 @@ Write data to rds
 #| eval: false
 write_rds(thailand_province_sf_extracted, "data/rds/thailand_province_sf_extracted.rds")
 write_rds(raster_kde_auto_diggle, "data/rds/raster_kde_auto_diggle.rds")
+write_rds(accidentsTHAI_ppp_km, "data/rds/accidentsTHAI_ppp_km.rds")
 ```
 
 ### **4.2 Nearest Neighbour Analysis using Clark-Evans Test**
@@ -356,35 +357,35 @@ clarkevans.test(accidentsTHAI_ppp,
 
 **Necessary R packages**:
 
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| **Analysis**                                      | **Parameters / Inputs**                               | **Outputs**                              | **Shiny UI components**     |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| Kernel Density Estimation Maps                    | -   **Bandwidths**: Automatic, Fixed, Adaptive        | Plot interactive KDE map(s) given inputs | Parameters / Inputs         |
-|                                                   |                                                       |                                          |                             |
-|                                                   | -   **Kernels**: epanechnikov, quartic, quartic, disc |                                          | -   selectInput()           |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   sliderInput()           |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | Outputs                     |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   plotOutput()            |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim**: 99 to 999                               | Statistics results                       | Parameters / Inputs         |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   sliderInput()           |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | Outputs                     |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   text for interpretation |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
-| Complete Spatial Randomness (CSR) Test            | -   **nsim**: 99 to 999                               | Plot interactive chart given inputs      | Parameters / Inputs         |
-|                                                   |                                                       |                                          |                             |
-|                                                   | -   **Type of test**: G, F, K, L                      |                                          | -   selectInput()           |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   sliderInput() for nsim  |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | Outputs                     |
-|                                                   |                                                       |                                          |                             |
-|                                                   |                                                       |                                          | -   plotOutput()            |
-|                                                   |                                                       |                                          | -   text for interpretation |
-+---------------------------------------------------+-------------------------------------------------------+------------------------------------------+-----------------------------+
++---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
+| **Analysis**                                      | **Parameters / Inputs**                                  | **Outputs**                              | **Shiny UI components**     |
++---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
+| Kernel Density Estimation Maps                    | -   **Bandwidths**: Automatic, Fixed, Adaptive           | Plot interactive KDE map(s) given inputs | Parameters / Inputs         |
+|                                                   |                                                          |                                          |                             |
+|                                                   | -   **Kernels**: gaussian*, e*panechnikov, quartic, disc |                                          | -   selectInput()           |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   sliderInput()           |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | Outputs                     |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   plotOutput()            |
++---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
+| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim**: 99 to 999                                  | Statistics results                       | Parameters / Inputs         |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   sliderInput()           |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | Outputs                     |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   text for interpretation |
++---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
+| Complete Spatial Randomness (CSR) Test            | -   **nsim**: 99 to 999                                  | Plot interactive chart given inputs      | Parameters / Inputs         |
+|                                                   |                                                          |                                          |                             |
+|                                                   | -   **Type of test**: G, F, K, L                         |                                          | -   selectInput()           |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   sliderInput() for nsim  |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | Outputs                     |
+|                                                   |                                                          |                                          |                             |
+|                                                   |                                                          |                                          | -   plotOutput()            |
+|                                                   |                                                          |                                          | -   text for interpretation |
++---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+

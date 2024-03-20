@@ -11,21 +11,25 @@ toc-depth: 3
 ---
 
 # 1.0 Introduction
+
 ## 1.1 Getting Started
 
 In this hands-on exercise, we will learn how to **build predictive model by using geographical random forest method**.
 
 ## 1.2 Overview
+
 Predictive modelling uses statistical learning or machine learning techniques to predict outcomes. By and large, the event one wants to predict is in the future. However, a set of known outcome and predictors (also known as variables) will be used to calibrate the predictive models.
 
 Geospatial predictive modelling is conceptually rooted in the principle that the occurrences of events being modeled are limited in distribution. When geographically referenced data are used, occurrences of events are neither uniform nor random in distribution over space. There are geospatial factors (infrastructure, sociocultural, topographic, etc.) that constrain and influence where the locations of events occur. Geospatial predictive modeling attempts to describe those constraints and influences by spatially correlating occurrences of historical geospatial locations with environmental factors that represent those constraints and influences.
 
 ## 1.3 Installing and loading R packages
+
 ```{r}
 pacman::p_load(sf, spdep, GWmodel, SpatialML, 
                tmap, tidymodels, tidyverse, gtsummary,
                rpart, rpart.plot, ggstatplot, performance)
 ```
+
 Note: Tidymodel is a collection of machine learning libraries.
 
 # 2.0 Data Acquisition
@@ -33,11 +37,13 @@ Note: Tidymodel is a collection of machine learning libraries.
 # 3.0 Preparing Data
 
 ## 3.1 Reading data file to rds
+
 ```{r}
 rs_sf <- read_rds("data/rds/HDB_resale.rds")
 ```
 
 ## 3.2 Data Sampling
+
 ```{r}
 #| eval: false
 set.seed(1234)
@@ -66,7 +72,7 @@ train_sf <- training(resale_split)
 test_sf <- testing(resale_split)
 ```
 
-Note: If we want to stop the splitting, we can set #| eval: false. However, we need to write and read the rds so that the training and testing object an be used for subsequent analysis.
+Note: If we want to stop the splitting, we can set #\| eval: false. However, we need to write and read the rds so that the training and testing object an be used for subsequent analysis.
 
 ```{r}
 #| eval: false
@@ -75,6 +81,7 @@ write_rds(test_sf, "data/rds/test_sf.rds")
 ```
 
 ## Retriving the stored data
+
 ```{r}
 train_sf <- read_rds("data/rds/train_sf.rds")
 test_sf <- read_rds("data/rds/test_sf.rds")
@@ -90,10 +97,9 @@ test_df <- test_sf %>%
   as.data.frame()
 ```
 
-Note: There is a difference between tibble data frame (from tidyverse) and data frame (from base R). 
+Note: There is a difference between tibble data frame (from tidyverse) and data frame (from base R).
 
-Why do we convert sf into df?
-If we refer to the documentation for spatialML, the input requires df.
+Why do we convert sf into df? If we refer to the documentation for spatialML, the input requires df.
 
 ```{r}
 class(train_sf)
@@ -102,7 +108,9 @@ class(train_sf)
 ```{r}
 class(train_df)
 ```
+
 ## Saving the output
+
 ```{r}
 #| eval: false
 write_rds(train_df, "data/rds/train_df.rds")
@@ -110,6 +118,7 @@ write_rds(test_df, "data/rds/test_df.rds")
 ```
 
 ## Retriving the stored data
+
 ```{r}
 train_df <- read_rds("data/rds/train_df.rds")
 test_df <- read_rds("data/rds/test_df.rds")
@@ -118,6 +127,7 @@ test_df <- read_rds("data/rds/test_df.rds")
 Note: If we are looking machine learning techniques, correlation matrix is not that important.
 
 # 5.0 Multiple Linear Regression Method
+
 ```{r}
 rs_mlr <- lm(formula = RESALE_PRICE ~ FLOOR_AREA_SQM +
                STOREY_ORDER +
@@ -142,6 +152,7 @@ rs_mlr <- lm(formula = RESALE_PRICE ~ FLOOR_AREA_SQM +
 Note: We have to choose the meaningful variables
 
 ## Revising mlr model
+
 ```{r}
 train_df <- train_df %>%
   select(-c(PROX_CHAS))
@@ -158,6 +169,7 @@ test_sf <- test_sf %>%
 ```
 
 The code chunk below extract x and y coordinates of the full, training and test data sets.
+
 ```{r}
 coords <- st_coordinates(rs_sf)
 coords_train <- st_coordinates(train_sf)
@@ -195,6 +207,7 @@ rpart.plot(rs_rp)
 ```
 
 ## Calibrating Random Forest Model
+
 https://cran.r-project.org/web/packages/SpatialML/SpatialML.pdf
 
 ```{r}
@@ -224,7 +237,6 @@ rs_rf <- ranger(formula = RESALE_PRICE ~ FLOOR_AREA_SQM +
 write_rds(rs_rf, "data/models/rs_rf.rds")
 ```
 
-
 ```{r}
 rs_rf <- read_rds("data/models/rs_rf.rds")
 ```
@@ -242,16 +254,13 @@ ggplot(data = vi,
            y = reorder(variables, vi))) +
   geom_bar(stat = "identity")
 ```
-Note: vi denotes variable importance value
 
-Interpretations
-- PROX_CBD, REMAINING_LEASE_MTHS and STOREY_ORDER are the top 3 importance variables
-- Explains the relative importance of variables
-- Helps you to tell if your model is performing
-- If the bar chart shows drastic differences, it means that the model has some issues due to data (complete separation / quasi complete separation issues)
-https://www.bookdown.org/rwnahhas/RMPH/blr-separation.html
+**Note: vi denotes variable importance value**
+
+Interpretations - PROX_CBD, REMAINING_LEASE_MTHS and STOREY_ORDER are the top 3 importance variables - Explains the relative importance of variables - Helps you to tell if your model is performing - If the bar chart shows drastic differences, it means that the model has some issues due to data (complete separation / quasi complete separation issues) https://www.bookdown.org/rwnahhas/RMPH/blr-separation.html
 
 ## Retriving the stored data
+
 ```{r}
 rs_grf <- read_rds("data/models/rs_grf.rds")
 ```
@@ -272,12 +281,14 @@ write_rds(grf_pred, "data/models/grf_pred.rds")
 ```
 
 ## Retriving the stored data
+
 ```{r}
 grf_pred <- read_rds("data/models/grf_pred.rds")
 grf_pred_df <- as.data.frame(grf_pred)
 ```
 
 The cbind() is used to append the predicted values onto the test_df
+
 ```{r}
 test_pred <- test_df %>%
   select(RESALE_PRICE) %>%
@@ -285,6 +296,7 @@ test_pred <- test_df %>%
 ```
 
 ## Saving predicted output of random forest and preparing final data table
+
 ```{r}
 rf_pred <- predict(rs_rf, test_df)
 rf_pred_df <- as.data.frame(rf_pred$predictions) %>%
@@ -293,9 +305,9 @@ rf_pred_df <- as.data.frame(rf_pred$predictions) %>%
 
 ## Saving predicted output of mulitple linear regression and preparing final data table
 
-
 ## Model Comparison
-THe root mean square error
+
+The root mean square error
 
 ```{r}
 yardstick::rmse(test_pred,
@@ -304,27 +316,24 @@ yardstick::rmse(test_pred,
 ```
 
 Pivoting
+
 ```{r}
 #mc <- test_pred %>%
 #  pivot_longer(cols = c(2,4),
 #               names_to = "models",
 #               values_to = "predicted")
 ```
+
 Note: Table output will be in a long table format.
 
 ## Comparison matrix
+
 ```{r}
 
 ```
 
 .estimate measures the error, grf_pred model perform better
 
-
 ## Visualising the predicted values
-Using scatterplot (the ml model assumes the relationship to be linear, which result in high errors as compared to grf model)
-ML model has higher variation (~2 sub markets identified) compared to gfr model
 
-
-
-
-
+Using scatterplot (the ml model assumes the relationship to be linear, which result in high errors as compared to grf model) ML model has higher variation (\~2 sub markets identified) compared to gfr model
