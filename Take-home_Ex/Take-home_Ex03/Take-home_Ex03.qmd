@@ -12,9 +12,7 @@ toc-depth: 3
 code-annotations: hover
 ---
 
-# **Project Overview**
-
-# **Main Responsibilities**
+# **Objectives**
 
 1.  1st Order Spatial Point Patterns Analysis
     -   Kernel Density Estimation (KDE) Maps
@@ -27,18 +25,22 @@ code-annotations: hover
 ## **1.0 Loading Packages**
 
 ```{r}
-pacman::p_load(raster, sf, st, lubridate, tidyverse, tmap, ggplot2, spatstat)
+pacman::p_load(raster, sf, st, lubridate, tidyverse, tmap, spatstat)
 ```
 
 ## **2.0 Importing Datasets into R Environment**
 
 In this exercise, we will be using the following datasets:
 
-| Data                                                                                  | Type       | Format |
-|---------------------------------------------------------------------------------------|------------|--------|
-| ➡️**Thailand Road Accident \[2019-2022\]** \| **Aspatial** \| **.csv** \|             |            |        |
-| ➡️**Thailand Subnational Administrative Boundaries** \| **Geospatial** \| **.shp** \| |            |        |
-| Geofabrik's OpenStreetMap road data for Thailand                                      | Geospatial | .shp   |
++------------------------------------------------------+-----------------+----------+
+| Data                                                 | Type            | Format   |
++======================================================+=================+==========+
+| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**    | **.csv** |
++------------------------------------------------------+-----------------+----------+
+| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial**  | **.shp** |
++------------------------------------------------------+-----------------+----------+
+| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial      | .shp     |
++------------------------------------------------------+-----------------+----------+
 
 ### **2.1 Importing Geospatial Data**
 
@@ -58,7 +60,8 @@ thailand_sf <- st_read(dsn = "data/geospatial",
 ```
 
 ```{r}
-thailand_province_sf <- st_read(dsn = "data/geospatial",                  layer = "tha_admbnda_adm1_rtsd_20220121")
+thailand_province_sf <- st_read(dsn = "data/geospatial",
+                                layer = "tha_admbnda_adm1_rtsd_20220121")
 ```
 
 There are a total of 77 provinces in Thailand.
@@ -355,7 +358,7 @@ clarkevans.test(accidentsTHAI_ppp,
 
 ## **6.0 Notes**
 
-**Necessary R packages**:
+**Necessary R packages**: raster, sf, st, lubridate, tidyverse, tmap, spatstat
 
 +---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
 | **Analysis**                                      | **Parameters / Inputs**                                  | **Outputs**                              | **Shiny UI components**     |
