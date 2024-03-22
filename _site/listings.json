@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html",
       "/Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
       "/Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
       "/Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03A.html",
@@ -11,7 +12,9 @@
       "/Hands-on_Ex/Hands-on_Ex05/Hands-on_Ex05B.html",
       "/Hands-on_Ex/Hands-on_Ex06/Hands-on_Ex06.html",
       "/Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08.html",
-      "/Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html"
+      "/Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html",
+      "/Hands-on_Ex/Hands-on_Ex10/data/geospatial/ELDERCARE.html",
+      "/Hands-on_Ex/Hands-on_Ex10/data/geospatial/hexagons.html"
     ]
   }
 ]

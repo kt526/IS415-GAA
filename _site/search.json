@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Preface",
     "section": "",
-    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 8: Geograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n18 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 9: Geographically Weighted Predictive Models\n\n\n\n\n\n\n\n\n\n3 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 10: Modelling Geographic of Accessibility\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 8: Geograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n18 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 9: Geographically Weighted Predictive Models\n\n\n\n\n\n\n\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03_KDE.html",
@@ -1538,5 +1538,47 @@
     "title": "In-class Exercise 9: Geographically Weighted Predictive Models",
     "section": "Visualising the predicted values",
     "text": "Visualising the predicted values\nUsing scatterplot (the ml model assumes the relationship to be linear, which result in high errors as compared to grf model) ML model has higher variation (~2 sub markets identified) compared to gfr model"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to model geographically accessibility.\n\n\n\n\n\n\n\npacman::p_load(tmap, SpatialAcc, sf, \n               ggstatsplot, reshape2,\n               tidyverse)\n\npackage 'SpatialAcc' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\user\\AppData\\Local\\Temp\\RtmpQTUW4h\\downloaded_packages"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#getting-started",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to model geographically accessibility."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#installing-and-loading-r-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#installing-and-loading-r-packages",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "",
+    "text": "pacman::p_load(tmap, SpatialAcc, sf, \n               ggstatsplot, reshape2,\n               tidyverse)\n\npackage 'SpatialAcc' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\user\\AppData\\Local\\Temp\\RtmpQTUW4h\\downloaded_packages"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#importing-geospatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#importing-geospatial-data",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "3.1 Importing Geospatial Data",
+    "text": "3.1 Importing Geospatial Data\nWe will import this data into the R environment using the st_read() function of sf.\n\nmpsz &lt;- st_read(dsn = \"data/geospatial\",\n                layer = \"MP14_SUBZONE_NO_SEA_PL\")\n\nReading layer `MP14_SUBZONE_NO_SEA_PL' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex10\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\n\nhexagons &lt;- st_read(dsn = \"data/geospatial\",\n                    layer = \"hexagons\") \n\nReading layer `hexagons' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex10\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 3125 features and 6 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 21506.33 xmax: 50010.26 ymax: 50256.33\nProjected CRS: SVY21 / Singapore TM\n\n\n\neldercare &lt;- st_read(dsn = \"data/geospatial\",\n                     layer = \"ELDERCARE\") \n\nReading layer `ELDERCARE' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex10\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 120 features and 19 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 14481.92 ymin: 28218.43 xmax: 41665.14 ymax: 46804.9\nProjected CRS: SVY21 / Singapore TM"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#importing-aspatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#importing-aspatial-data",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "3.2 Importing Aspatial Data",
+    "text": "3.2 Importing Aspatial Data\nThe OD_Matrix.csv file is in .csv format. We will be import it using read_csv function of readr package.\n\nODMatrix &lt;- read_csv(\"data/aspatial/OD_Matrix.csv\", skip = 0)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#data-preparation",
+    "href": "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html#data-preparation",
+    "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
+    "section": "3.3 Data Preparation",
+    "text": "3.3 Data Preparation"
   }
 ]
