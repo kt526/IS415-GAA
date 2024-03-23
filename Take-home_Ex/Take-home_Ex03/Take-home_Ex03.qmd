@@ -398,6 +398,14 @@ clarkevans.test(bangkok_accidents_ppp,
 
 4.  L function
 
+G function
+
+```{r}
+G_CK = Gest(bangkok_accidents_ppp, correction = "border")
+G_CK.csr <- envelope(bangkok_accidents_ppp, Gest, nsim = 99)
+plot(G_CK.csr)
+```
+
 ## **6.0 Notes**
 
 **Necessary R packages**: raster, sf, st, lubridate, tidyverse, tmap, spatstat
@@ -415,22 +423,27 @@ clarkevans.test(bangkok_accidents_ppp,
 |                                                   |                                                          |                                          |                             |
 |                                                   |                                                          |                                          | -   plotOutput()            |
 +---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
-| Nearest Neighbour Analysis using Clark-Evans Test | -   **nsim**: 99 to 999                                  | Statistics results                       | Parameters / Inputs         |
-|                                                   |                                                          |                                          |                             |
+| Nearest Neighbour Analysis using Clark-Evans Test | -   **Confidence level**: 90%, 95%, 99%                  | Statistics results                       | Parameters / Inputs         |
+|                                                   | -   **nsim**: 99 to 999                                  |                                          |                             |
+|                                                   |                                                          |                                          | -   selectInput()           |
 |                                                   |                                                          |                                          | -   sliderInput()           |
 |                                                   |                                                          |                                          |                             |
 |                                                   |                                                          |                                          | Outputs                     |
 |                                                   |                                                          |                                          |                             |
 |                                                   |                                                          |                                          | -   text for interpretation |
 +---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
-| Complete Spatial Randomness (CSR) Test            | -   **nsim**: 99 to 999                                  | Plot interactive chart given inputs      | Parameters / Inputs         |
+| Complete Spatial Randomness (CSR) Test            | -   **Type of test**: G, F, K, L                         | Plot interactive chart given inputs      | Parameters / Inputs         |
 |                                                   |                                                          |                                          |                             |
-|                                                   | -   **Type of test**: G, F, K, L                         |                                          | -   selectInput()           |
+|                                                   | -   **Confidence level**: 90%, 95%, 99%                  |                                          | -   selectInput()           |
 |                                                   |                                                          |                                          |                             |
-|                                                   |                                                          |                                          | -   sliderInput() for nsim  |
+|                                                   | -   **nsim**: 99 to 999                                  |                                          | -   sliderInput() for nsim  |
 |                                                   |                                                          |                                          |                             |
 |                                                   |                                                          |                                          | Outputs                     |
 |                                                   |                                                          |                                          |                             |
 |                                                   |                                                          |                                          | -   plotOutput()            |
 |                                                   |                                                          |                                          | -   text for interpretation |
 +---------------------------------------------------+----------------------------------------------------------+------------------------------------------+-----------------------------+
+
+# **UI Prototype Design**
+
+![Figure 1. Proposed KDE layout for Shiny Web Application](imgs/Prototype1.png){fig-align="center"}
