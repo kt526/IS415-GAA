@@ -250,27 +250,39 @@ layout(xaxis = list(categoryorder = "total descending"))
 ```
 
 ```{r}
-accidents_by_top10_provinces <- accidents_extracted %>%
+accidents_by_top10_provinces_sf <- accidents_extracted %>%
   filter(province_en %in% unique(accidents_by_top10_province$province_en))
 
-write_rds(accidents_by_top10_provinces, "data/rds/accidents_by_top10_provinces.rds")
+write_rds(accidents_by_top10_provinces_sf, "data/rds/accidents_by_top10_provinces.rds")
+```
+
+Extracting 'Bangkok'
+
+```{r}
+bangkok_accidents_sf <- accidents_by_top10_provinces_sf %>%
+  filter(province_en == "Bangkok")
+
+bangkok_sf <- thailand_province_sf_extracted %>%
+  filter(ADM1_EN == "Bangkok")
+
+bangkok_owin <- as.owin(bangkok_sf)
 ```
 
 #### **3.2.5 Create ppp objects using sf method**
 
 ```{r}
-accidents_extracted_ppp <- as.ppp(accidents_extracted)
-summary(accidents_extracted_ppp)
+bangkok_ppp <- as.ppp(bangkok_accidents_sf)
+summary(bangkok_ppp)
 ```
 
 #### **3.2.6 Check for duplicated point events**
 
 ```{r}
-any(duplicated(accidents_extracted_ppp))
+any(duplicated(bangkok_ppp))
 ```
 
 ```{r}
-sum(multiplicity(accidents_extracted_ppp) > 1)
+sum(multiplicity(bangkok_ppp) > 1)
 ```
 
 The output shows that there are 15 duplicated point events.
@@ -278,25 +290,25 @@ The output shows that there are 15 duplicated point events.
 #### **3.2.7 Removing duplicated point events using jittering approach**
 
 ```{r}
-accidents_ppp_jit <- rjitter(accidents_extracted_ppp,
-                             retry=TRUE,
-                             nsim=1,
+bangkok_ppp_jit <- rjitter(bangkok_ppp, 
+                             retry=TRUE, 
+                             nsim=1, 
                              drop=TRUE)
 
-any(duplicated(accidents_ppp_jit))
+any(duplicated(bangkok_ppp_jit))
 ```
 
 ### **3.3 Combine point events with OWIN object**
 
 ```{r}
-accidentsTHAI_ppp = accidents_extracted_ppp[thailand_owin]
+bangkok_accidents_ppp <- bangkok_ppp_jit[bangkok_owin]
 ```
 
 #### **3.3.1 Visualising Point Symbol Map**
 
 ```{r}
 tmap_mode("plot")
-tm_shape(accidents_extracted) +
+tm_shape(bangkok_accidents_sf) +
   tm_dots()
 ```
 
@@ -305,34 +317,34 @@ tm_shape(accidents_extracted) +
 ### **4.1 Kernel Density Estimation (KDE) Maps**
 
 ```{r}
-accidentsTHAI_ppp_km <- rescale(accidentsTHAI_ppp, 1000, "km")
+bangkok_accidents_ppp_km <- rescale(bangkok_accidents_ppp, 1000, "km")
 
-kde_accidentsTHAI_diggle <- density(accidentsTHAI_ppp_km,
+kde_bangkok_diggle <- density(bangkok_accidents_ppp_km,
                                 sigma=bw.diggle,
                                 edge=TRUE,
                                 kernel="gaussian")
-plot(kde_accidentsTHAI_diggle,
+plot(kde_bangkok_diggle,
      main = "Automatic-Bandwidth KDE for Road Accident Points (Using bw_diggle)")
 ```
 
 Plotting Interactive KDE Maps
 
 ```{r}
-raster_kde_auto_diggle <- raster(kde_accidentsTHAI_diggle)
+raster_kde_auto_diggle <- raster(kde_bangkok_diggle)
 projection(raster_kde_auto_diggle) <- CRS("+init=EPSG:32648 +units=km")
 ```
 
 ```{r}
 tmap_mode('view')
-kde_adaptive_kernel <- tm_basemap(server = "OpenStreetMap.DE") +
+kde_adaptive_kernel <- 
   tm_shape(raster_kde_auto_diggle) +
   tm_raster("layer",
             n = 7,
-            title = "KDE_Adaptive_Kernel",
+            title = "v",
             style = "pretty",
             alpha = 0.6) +
-  tm_shape(thailand_province_sf_extracted) +
-  tm_polygons(alpha=0.1,id="ADM1_EN") +
+  tm_shape(bangkok_sf)+
+  tm_polygons(alpha=0.1,id="ADM1_EN")+
   tmap_options(check.and.fix = TRUE)
 
 kde_adaptive_kernel
@@ -353,27 +365,27 @@ write_rds(accidentsTHAI_ppp_km, "data/rds/accidentsTHAI_ppp_km.rds")
 
 The test hypotheses are:
 
--   H~0~ = The spatial distribution of accident points are randomly distributed.
+-   H~0~ = The spatial distribution of accident points in Bangkok are randomly distributed.
 
--   H~1~= The spatial distribution of accident points are not randomly distributed.
+-   H~1~= The spatial distribution of accident points in Bangkok are not randomly distributed.
 
 The 95% confidence interval will be used.
 
 ```{r}
-clarkevans.test(accidentsTHAI_ppp,
+clarkevans.test(bangkok_accidents_ppp,
                 correction="none",
-                clipregion="thailand_owin",
+                clipregion="bangkok_owin",
                 alternative=c("clustered"),
                 nsim=99)
 ```
 
 **Interpretations**
 
--   R-value (0.29484) \< 1 indicates clustered distribution
+-   R-value \< 1 indicates clustered distribution
 
 -   p-value (\< 2.2e-16) \< 0.05 (critical value)
 
--   Reject the null hypothesis (H~0~) that the spatial distribution of accident points are randomly distributed, signs of clusterings observed
+-   Reject the null hypothesis (H~0~) that the spatial distribution of accident points in Bangkok are randomly distributed, signs of clusterings observed
 
 ## **5.0 2nd Order Spatial Point Patterns Analysis**
 
