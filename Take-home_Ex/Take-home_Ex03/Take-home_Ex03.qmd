@@ -16,7 +16,6 @@ code-annotations: hover
 
 1.  1st Order Spatial Point Patterns Analysis
     -   Kernel Density Estimation (KDE) Maps
-    -   Nearest Neighbor Analysis using Clark-Evans Test
 2.  2nd Order Spatial Point Patterns Analysis
     -   Complete Spatial Randomness (CSR) Test using G, F, K and L functions
 
