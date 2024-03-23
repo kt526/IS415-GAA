@@ -401,9 +401,9 @@ clarkevans.test(bangkok_accidents_ppp,
 G function
 
 ```{r}
-G_CK = Gest(bangkok_accidents_ppp, correction = "border")
-G_CK.csr <- envelope(bangkok_accidents_ppp, Gest, nsim = 99)
-plot(G_CK.csr)
+G_bangkok = Gest(bangkok_accidents_ppp, correction = "border")
+G_bangkok.csr <- envelope(bangkok_accidents_ppp, Gest, nsim = 99)
+plot(G_bangkok.csr)
 ```
 
 ## **6.0 Notes**
