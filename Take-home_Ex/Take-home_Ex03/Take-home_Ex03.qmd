@@ -31,11 +31,15 @@ pacman::p_load(raster, sf, st, lubridate, plotly, tidyverse, tmap, spatstat)
 
 In this exercise, we will be using the following datasets:
 
-| Data                                                 | Type           | Format   |
-|------------------------------------------------------|----------------|----------|
-| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv** |
-| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp** |
-| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp     |
++------------------------------------------------------+----------------+------------+
+| Data                                                 | Type           | Format     |
++======================================================+================+============+
+| ➡️**Thailand Road Accident \[2019-2022\]**           | **Aspatial**   | **.csv**   |
++------------------------------------------------------+----------------+------------+
+| ➡️**Thailand Subnational Administrative Boundaries** | **Geospatial** | **.shp**   |
++------------------------------------------------------+----------------+------------+
+| Geofabrik's OpenStreetMap road data for Thailand     | Geospatial     | .shp       |
++------------------------------------------------------+----------------+------------+
 
 ### **2.1 Importing Geospatial Data**
 
