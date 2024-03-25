@@ -67,7 +67,7 @@
     "href": "index.html",
     "title": "Preface",
     "section": "",
-    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 10: Modelling Geographic of Accessibility\n\n\n\n\n\n\n\n\n\n9 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 8: Geograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n18 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 9: Geographically Weighted Predictive Models\n\n\n\n\n\n\n\n\n\n3 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to Geospatial Data Science and Analytics with R. This book aims to share with you the theory, the methods and the R tools specially designed to meet the challenges of analysing geographic problems and data.\n\nLesson Plan\n\n\n\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 10: Modelling Geographic of Accessibility\n\n\n\n\n\n\n\n\n\n9 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 11: Calibrating Spatial Interaction Models with R\n\n\n\n\n\n\n\n\n\n1 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 1: Geospatial Data Handling and Wrangling with R\n\n\n\n\n\n\n\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 2: Thematic Mapping and GeoVisualisation with R\n\n\n\n\n\n\n\n\n\n15 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3A: 1st Order Spatial Point Patterns Analysis Methods\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 3B: Network Constrained Spatial Point Patterns Analysis\n\n\n\n\n\n\n\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 4: Spatial Weights and Applications\n\n\n\n\n\n\n\n\n\n12 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5A: Global Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n8 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 5B: Local Measures of Spatial Autocorrelation\n\n\n\n\n\n\n\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 6: Geographical Segmentation with Spatially Constrained Clustering Techniques\n\n\n\n\n\n\n\n\n\n19 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 8: Geograpgically Weighted Regression\n\n\n\n\n\n\n\n\n\n18 min\n\n\n\n\n\n\n  \n\n\n\n\nHands-on Exercise 9: Geographically Weighted Predictive Models\n\n\n\n\n\n\n\n\n\n3 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03_KDE.html",
@@ -1636,5 +1636,54 @@
     "title": "Hands-on Exercise 10: Modelling Geographic of Accessibility",
     "section": "6.2 Visualising SAM accessibility",
     "text": "6.2 Visualising SAM accessibility\n\n6.2.1 High cartographic quality accessibility map\n\ntmap_mode(\"plot\")\ntm_shape(hexagon_SAM,\n         bbox = mapex) + \n  tm_fill(col = \"accSAM\",\n          n = 10,\n          style = \"quantile\",\n          border.col = \"black\",\n          border.lwd = 1) +\ntm_shape(eldercare) +\n  tm_symbols(size = 0.1) +\n  tm_layout(main.title = \"Accessibility to eldercare: SAM method\",\n            main.title.position = \"center\",\n            main.title.size = 2,\n            legend.outside = FALSE,\n            legend.height = 0.45, \n            legend.width = 3.0,\n            legend.format = list(digits = 3),\n            legend.position = c(\"right\", \"top\"),\n            frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scale_bar(width = 0.15) +\n  tm_grid(lwd = 0.1, alpha = 0.5)\n\n\n\n\n\n\n6.2.2 Statistical graphical visualisation\n\nhexagon_SAM &lt;- st_join(hexagon_SAM, mpsz, \n                       join = st_intersects)\n\nggplot(data=hexagon_SAM, \n       aes(y = accSAM, \n           x= REGION_N)) +\n  geom_boxplot() +\n  geom_point(stat=\"summary\", \n             fun.y=\"mean\", \n             colour =\"red\", \n             size=2)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore.\n\n\n\nSpatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained\n\n\n\n\n\npacman::p_load(tmap, SpatialAcc, sf, ggstatsplot, reshape2, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#getting-started",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#overview",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#overview",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "",
+    "text": "Spatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#installing-and-loading-r-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#installing-and-loading-r-packages",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "",
+    "text": "pacman::p_load(tmap, SpatialAcc, sf, ggstatsplot, reshape2, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#importing-geospatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#importing-geospatial-data",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "3.1 Importing Geospatial Data",
+    "text": "3.1 Importing Geospatial Data\n\nmpsz &lt;- st_read(\"data/geospatial\",\n                layer = \"MPSZ-2019\")\n\nReading layer `MPSZ-2019' from data source \n  `C:\\kt526\\IS415-GAA\\Hands-on_Ex\\Hands-on_Ex11\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 332 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 103.6057 ymin: 1.158699 xmax: 104.0885 ymax: 1.470775\nGeodetic CRS:  WGS 84"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#importing-aspatial-data",
+    "href": "Hands-on_Ex/Hands-on_Ex11/Hands-on_Ex11.html#importing-aspatial-data",
+    "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
+    "section": "3.2 Importing Aspatial Data",
+    "text": "3.2 Importing Aspatial Data\n\npopulation &lt;- read.csv(\"data/aspatial/pop.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex11/data/geospatial/MPSZ-2019.html",
+    "href": "Hands-on_Ex/Hands-on_Ex11/data/geospatial/MPSZ-2019.html",
+    "title": "IS415 Geospatial Analytics and Applications",
+    "section": "",
+    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n        0 0     false"
   }
 ]

@@ -1,0 +1,62 @@
+---
+title: "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R"
+format: html
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 03/25/2024
+code-annotations: hover
+toc-depth: 3
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this hands-on exercise, we will learn how to **calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore**.
+
+## 1.2 Overview
+
+Spatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.
+
+There are four main types of traditional SIMs:
+
+-   Unconstrained
+
+-   Production-constrained
+
+-   Attraction-constrained
+
+-   Doubly-constrained
+
+## 1.3 Installing and loading R packages
+
+```{r}
+pacman::p_load(tmap, SpatialAcc, sf, ggstatsplot, reshape2, tidyverse)
+```
+
+# 2.0 Data Acquisition
+
+We will be using 2 datasets in this exercise:
+
+-   Weekday morning peak passenger flows at planning subzone level (i.e. od_data.rds)
+
+-   URA Master Plan 2019 Planning Subzone boundary in simple feature tibble data frame format (i.e. mpsz.rds)
+
+# 3.0 Geospatial and Aspatial Data Handling
+
+We will be using the *st_read()* from **sf** package to import the data into RStudio.
+
+## 3.1 Importing Geospatial Data
+
+```{r}
+mpsz <- st_read("data/geospatial",
+                layer = "MPSZ-2019")
+```
+
+## 3.2 Importing Aspatial Data
+
+```{r}
+population <- read.csv("data/aspatial/pop.csv")
+```
