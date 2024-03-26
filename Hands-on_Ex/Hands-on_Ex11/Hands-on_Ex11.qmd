@@ -40,9 +40,9 @@ pacman::p_load(tmap, SpatialAcc, sf, ggstatsplot, reshape2, tidyverse)
 
 We will be using 2 datasets in this exercise:
 
--   Weekday morning peak passenger flows at planning subzone level (i.e. od_data.rds)
+-   Weekday morning peak passenger flows at planning subzone level (i.e. `od_data.rds`)
 
--   URA Master Plan 2019 Planning Subzone boundary in simple feature tibble data frame format (i.e. mpsz.rds)
+-   URA Master Plan 2019 Planning Subzone boundary in simple feature tibble data frame format (i.e. `mpsz.rds`)
 
 # 3.0 Geospatial and Aspatial Data Handling
 
