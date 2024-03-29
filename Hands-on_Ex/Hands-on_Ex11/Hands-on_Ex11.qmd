@@ -35,7 +35,8 @@ There are four main types of traditional SIMs:
 ```{r}
 pacman::p_load(tmap, sf, sp,
                performance, reshape2,
-               ggpubr, tidyverse)
+               ggpubr, tidyverse,
+               DT, stplanr)
 ```
 
 # 2.0 Data Acquisition
@@ -78,4 +79,104 @@ rownames(dist) <- paste0(sz_names)
 
 ```{r}
 population <- read.csv("data/aspatial/pop.csv")
+```
+
+# 4.0 Preparing Flow Data
+
+## 4.1 Importing the Origin Destination data
+
+```{r}
+odbus <- read_csv("data/aspatial/origin_destination_bus_202210.csv")
+
+odbus$ORIGIN_PT_CODE <- as.factor(odbus$ORIGIN_PT_CODE)
+odbus$DESTINATION_PT_CODE <- as.factor(odbus$DESTINATION_PT_CODE) 
+```
+
+### 4.1.1 Extracting the study data
+
+```{r}
+odbus6_9 <- odbus %>%
+  filter(DAY_TYPE == "WEEKDAY") %>%
+  filter(TIME_PER_HOUR >= 6 &
+           TIME_PER_HOUR <= 9) %>%
+  group_by(ORIGIN_PT_CODE,
+           DESTINATION_PT_CODE) %>%
+  summarise(TRIPS = sum(TOTAL_TRIPS))
+
+datatable(odbus6_9)
+```
+
+Writing to rds
+
+```{r}
+write_rds(odbus6_9, "data/rds/odbus6_9.rds")
+```
+
+## 4.2 Importing bus stop data
+
+```{r}
+busstop <- st_read(dsn = "data/geospatial",
+                   layer = "BusStop") %>%
+  st_transform(crs = 3414)
+```
+
+## 4.3 Importing MPSZ-2019
+
+```{r}
+mpsz <- st_read(dsn = "data/geospatial",
+                   layer = "MPSZ-2019") %>%
+  st_transform(crs = 3414)
+```
+
+Write data to rds
+
+```{r}
+mpsz <- write_rds(mpsz, "data/rds/mpsz.rds")
+```
+
+## 4.4 Combing bus stop and mpsz
+
+```{r}
+busstop_mpsz <- st_intersection(busstop, mpsz) %>%
+  select(BUS_STOP_N, SUBZONE_C) %>%
+  st_drop_geometry()
+
+datatable(busstop_mpsz)
+```
+
+Write data to rds
+
+```{r}
+write_rds(busstop_mpsz, "data/rds/busstop_mpsz.rds")  
+```
+
+```{r}
+od_data <- left_join(odbus6_9 , busstop_mpsz,
+            by = c("ORIGIN_PT_CODE" = "BUS_STOP_N")) %>%
+  rename(ORIGIN_BS = ORIGIN_PT_CODE,
+         ORIGIN_SZ = SUBZONE_C,
+         DESTIN_BS = DESTINATION_PT_CODE)
+```
+
+To check for duplicates
+
+```{r}
+duplicate <- od_data %>%
+  group_by_all() %>%
+  filter(n()>1) %>%
+  ungroup()
+
+od_data <- unique(od_data)
+
+od_data <- left_join(od_data , busstop_mpsz,
+            by = c("DESTIN_BS" = "BUS_STOP_N")) 
+```
+
+```{r}
+duplicate <- od_data %>%
+  group_by_all() %>%
+  filter(n()>1) %>%
+  ungroup()
+
+od_data <- unique(od_data)
 ```
