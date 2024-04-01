@@ -1796,7 +1796,7 @@
     "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html",
     "title": "In-class Exercise 11: Spatial Interaction Models",
     "section": "",
-    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore. (Modelling commuter public bus flow)\n\n\n\nSpatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained\n\n\n\n\n\npacman::p_load(tmap, sf, tidyverse, DT, stplanr)"
+    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore. (Modelling commuter public bus flow)\n\n\n\nSpatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained\n\n\n\n\n\npacman::p_load(DT, ggpubr, sf, stplanr, tidyverse, tmap)"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#getting-started",
@@ -1817,6 +1817,13 @@
     "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#installing-and-loading-r-packages",
     "title": "In-class Exercise 11: Spatial Interaction Models",
     "section": "",
-    "text": "pacman::p_load(tmap, sf, tidyverse, DT, stplanr)"
+    "text": "pacman::p_load(DT, ggpubr, sf, stplanr, tidyverse, tmap)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#visualising-the-flow-data",
+    "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#visualising-the-flow-data",
+    "title": "In-class Exercise 11: Spatial Interaction Models",
+    "section": "3.1 Visualising the flow data",
+    "text": "3.1 Visualising the flow data\n\ntmap_arrange(map1, map2, asp=1, ncol=2)"
   }
 ]
