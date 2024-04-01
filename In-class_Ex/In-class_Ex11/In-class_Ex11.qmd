@@ -1,0 +1,89 @@
+---
+title: "In-class Exercise 11: Spatial Interaction Models"
+format: html
+execute:
+  eval: true
+  echo: true
+  warning: false
+date: 04/01/2024
+code-annotations: hover
+toc-depth: 3
+---
+
+# 1.0 Introduction
+
+## 1.1 Getting Started
+
+In this hands-on exercise, we will learn how to **calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore**. (Modelling commuter public bus flow)
+
+## 1.2 Overview
+
+Spatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.
+
+There are four main types of traditional SIMs:
+
+-   Unconstrained
+
+-   Production-constrained
+
+-   Attraction-constrained
+
+-   Doubly-constrained
+
+## 1.3 Installing and loading R packages
+
+```{r}
+pacman::p_load(tmap, sf, tidyverse, DT, stplanr)
+```
+
+# 2.0 Data Acquisition
+
+The data is sourced from LTA Data Mall.
+
+-   Origin and destination data (without x and y coordinates)
+
+-   Bus stop locations
+
+-   MPSZ-2019
+
+# 3.0 Reading data from rds
+
+```{r}
+od_data_fii <- read_rds("data/rds/od_data_fii.rds")
+od_data_fij <- read_rds("data/rds/od_data_fij.rds")
+mpsz <- read_rds("data/rds/mpsz.rds")
+mpsz_flow <- read_rds("data/rds/mpsz_flow.rds")
+```
+
+st_intersection: point + adminstrative boundaries
+
+```{r}
+flowLine <- od2line(flow = od_data_fij,
+                    zones = mpsz,
+                    zone_code = "SUBZONE_C")
+```
+
+```{r}
+tm_shape(mpsz) + 
+  tm_polygons() + 
+  flowLine %>%
+  tm_shape() + 
+  tm_lines(lwd = "MORNING_PEAK",
+           style = "quantile",
+           scale = c(0.1, 1, 3, 5, 7, 10),
+           n = 6,
+           alpha = 0.3)
+```
+
+```{r}
+tm_shape(mpsz) + 
+  tm_polygons() + 
+  flowLine %>%
+  filter(MORNING_PEAK >= 5000) %>%
+  tm_shape() + 
+  tm_lines(lwd = "MORNING_PEAK",
+           style = "quantile",
+           scale = c(0.1, 1, 3, 5, 7, 10),
+           n = 6,
+           alpha = 0.3)
+```

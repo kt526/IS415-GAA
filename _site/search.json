@@ -1790,5 +1790,33 @@
     "title": "Hands-on Exercise 11: Calibrating Spatial Interaction Models with R",
     "section": "6.7 Visualising fitted values",
     "text": "6.7 Visualising fitted values\n\ndf &lt;- as.data.frame(uncSIM$fitted.values) %&gt;%\n  round(digits = 0)\n\nSIM_data &lt;- SIM_data %&gt;%\n  cbind(df) %&gt;%\n  rename(uncTRIPS = \"uncSIM$fitted.values\")\n\ndf &lt;- as.data.frame(orcSIM$fitted.values) %&gt;%\n  round(digits = 0)\n\nSIM_data &lt;- SIM_data %&gt;%\n  cbind(df) %&gt;%\n  rename(orcTRIPS = \"orcSIM$fitted.values\")\n\ndf &lt;- as.data.frame(decSIM$fitted.values) %&gt;%\n  round(digits = 0)\n\nSIM_data &lt;- SIM_data %&gt;%\n  cbind(df) %&gt;%\n  rename(decTRIPS = \"decSIM$fitted.values\")\n\ndf &lt;- as.data.frame(dbcSIM$fitted.values) %&gt;%\n  round(digits = 0)\n\nSIM_data &lt;- SIM_data %&gt;%\n  cbind(df) %&gt;%\n  rename(dbcTRIPS = \"dbcSIM$fitted.values\")\n\n\nunc_p &lt;- ggplot(data = SIM_data,\n                aes(x = uncTRIPS,\n                    y = TRIPS)) +\n  geom_point() +\n  geom_smooth(method = lm)\n\norc_p &lt;- ggplot(data = SIM_data,\n                aes(x = orcTRIPS,\n                    y = TRIPS)) +\n  geom_point() +\n  geom_smooth(method = lm)\n\ndec_p &lt;- ggplot(data = SIM_data,\n                aes(x = decTRIPS,\n                    y = TRIPS)) +\n  geom_point() +\n  geom_smooth(method = lm)\n\ndbc_p &lt;- ggplot(data = SIM_data,\n                aes(x = dbcTRIPS,\n                    y = TRIPS)) +\n  geom_point() +\n  geom_smooth(method = lm)\n\nggarrange(unc_p, orc_p, dec_p, dbc_p,\n          ncol = 2,\n          nrow = 2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html",
+    "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html",
+    "title": "In-class Exercise 11: Spatial Interaction Models",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore. (Modelling commuter public bus flow)\n\n\n\nSpatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained\n\n\n\n\n\npacman::p_load(tmap, sf, tidyverse, DT, stplanr)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#getting-started",
+    "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#getting-started",
+    "title": "In-class Exercise 11: Spatial Interaction Models",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to calibrate SIM to determine factors affecting the public bus passenger flows during the morning peak in Singapore. (Modelling commuter public bus flow)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#overview",
+    "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#overview",
+    "title": "In-class Exercise 11: Spatial Interaction Models",
+    "section": "",
+    "text": "Spatial Interaction Models (SIMs) are mathematical models for estimating flows between spatial entities developed by Alan Wilson in the late 1960s and early 1970, with considerable uptake and refinement for transport modelling.\nThere are four main types of traditional SIMs:\n\nUnconstrained\nProduction-constrained\nAttraction-constrained\nDoubly-constrained"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#installing-and-loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex11/In-class_Ex11.html#installing-and-loading-r-packages",
+    "title": "In-class Exercise 11: Spatial Interaction Models",
+    "section": "",
+    "text": "pacman::p_load(tmap, sf, tidyverse, DT, stplanr)"
   }
 ]
