@@ -83,6 +83,12 @@ distPair <- melt(dist) %>%
 head(distPair, 10)
 ```
 
+::: callout-note
+## Note
+
+The value has to be lesser than the minimum value to get the intra-zonal distances
+:::
+
 ```{r}
 distPair$dist <- ifelse(distPair$dist == 0,
                         50, distPair$dist)
@@ -320,6 +326,12 @@ Checking for variables with zero values
 summary(SIM_data)
 ```
 
+::: callout-note
+## Note
+
+We are going to perform log transformation for poisson distribution. Log 0 will give us infinite. This is why we are replacing destinations with 0 into 0.99 (or any random number that is \< 1)
+:::
+
 ```{r}
 SIM_data$DESTIN_AGE7_12 <- ifelse(
   SIM_data$DESTIN_AGE7_12 == 0,
@@ -377,6 +389,8 @@ r2_mcfadden(uncSIM)
 ```
 
 ## 6.3 Origin (Production) constrained SIM
+
+glm denotes generalized linear model
 
 ```{r}
 orcSIM <- glm(formula = TRIPS ~ 
